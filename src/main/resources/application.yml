@@ -1,1 +1,5 @@
-spring.application.name=StudySet
+spring:
+  application:
+    name: StudySet
+  profiles:
+    active: local
