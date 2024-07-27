@@ -2,4 +2,4 @@ spring:
   application:
     name: StudySet
   profiles:
-    active: local
+    active: local #기본 프로필
