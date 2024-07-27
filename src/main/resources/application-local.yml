@@ -1,0 +1,26 @@
+spring:
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+  datasource:
+    url: ${dataSource}
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  mvc:
+    view: # JSP views
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+  thymeleaf: # Thymeleaf views
+    cache: false
+    view-names: thyme/*
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        default_batch_fetch_size: 1000
+    show-sql: true
