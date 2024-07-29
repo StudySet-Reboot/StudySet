@@ -1,8 +1,10 @@
 package com.studyset.domain;
 
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
 public class UserJoinGroup extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,4 +18,9 @@ public class UserJoinGroup extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
+
+    public UserJoinGroup(User user, Group group) {
+        this.user = user;
+        this.group = group;
+    }
 }

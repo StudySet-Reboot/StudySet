@@ -1,6 +1,7 @@
 package com.studyset.domain;
 
 import com.studyset.domain.enumerate.GroupCategory;
+import com.studyset.dto.group.GroupDto;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,5 +30,12 @@ public class Group extends BaseEntity{
         this.category = category;
         this.description = description;
         this.code = code;
+    }
+    public GroupDto toDto(){
+        return GroupDto.builder()
+                .groupName(groupName)
+                .category(category)
+                .description(description)
+                .build();
     }
 }
