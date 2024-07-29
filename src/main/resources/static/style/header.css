@@ -1,0 +1,84 @@
+/* 헤더 메뉴 글꼴 */
+@font-face {
+    font-family: 'TheJamsil5Bold';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+.headerMenu nav ul li a {
+    font-family: 'TheJamsil5Bold', sans-serif;
+    font-size: 18.5px;
+}
+
+.header {
+    display: flex;
+    justify-content: center; /* 수평 가운데 정렬 */
+    width: 100%;
+    max-width: 100%; /* 너비가 부모 요소를 초과하지 않도록 설정 */
+}
+
+.frame1 {
+    position: relative; /* .menu의 위치를 상대적으로 설정하기 위해 필요 */
+    width: 75%;
+    margin: 10px auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.headerMenu {
+    padding: 10px 0;
+    flex-grow: 1;
+}
+
+.logo {
+    margin-left: 20px; /* 로고 이미지 오른쪽 이동 */
+}
+
+.logo img {
+    max-height: 100px;
+    width: auto;
+}
+
+.headerMenu nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 10px 0; /* 메뉴 높이 조정 */
+    display: flex;
+    justify-content: space-around;
+    flex-grow: 1;
+}
+
+.headerMenu nav ul li {
+    display: inline;
+    padding: 0 10px; /* Add horizontal padding to increase the clickable area */
+}
+
+.headerMenu nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.headerMenu nav ul li a:hover {
+    color: #ff848b; /* 클릭 시 색상 변경 */
+}
+
+.headerMenu nav ul li.icon-item {
+    margin-left: 20px; /* Adjust this value to move the icon to the right */
+}
+
+.icon-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+}
+
+.icon i {
+    margin-right: 5px;
+}
