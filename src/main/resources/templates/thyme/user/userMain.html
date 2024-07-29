@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main.html</title>
+    <link rel="stylesheet" th:href="@{/style/header.css}">
+    <link rel="stylesheet" th:href="@{/style/user/userMain.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css}"/>
+</head>
+<body>
+    <!-- header 삽입 -->
+    <div th:replace="thyme/frameHeader :: header"></div>
+
+    <!-- 유저이름과 그룹 생성/가입 frame -->
+    <div class="frame1">
+        <div class="nickname">OOO님의 스터디</div>
+        <!-- <div class="nickname" th:text="${user.nickname} + '님의 스터디'"></div> -->
+
+        <div class="btn">
+            <a id="joinStudyBtn">스터디 가입</a>
+            <a id="createStudyBtn">스터디 생성</a>
+        </div>
+    </div>
+
+    <!-- 그룹 리스트 frame -->
+    <div class="container">
+        <div class="frame2">
+            <!-- 그룹 검색 -->
+            <form id="search" th:action="@{/search}" method="GET">
+                <input type="search" name="searchValue" placeholder="스터디그룹 검색"/>
+                <input type="hidden" th:name="pageNum" th:value="1" />
+                <button type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+
+            <!-- 그룹 조회 -->
+            <div class="list">
+                <div class="list-item">스터디 1</div>
+                <div class="list-item">스터디 2</div>
+                <div class="list-item">스터디 3</div>
+                <div class="list-item">스터디 4</div>
+                <div class="list-item">스터디 5</div>
+                <!-- 추가 그룹 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 스터디 가입 모달 -->
+    <div id="joinModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <form id="joinModalForm">
+                <h2>스터디 가입</h2>
+                <input type="text" placeholder="가입할 그룹 이름" required>
+                <input type="text" placeholder="그룹 코드" required>
+                <button type="submit">가입</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 스터디 생성 모달-->
+    <div id="createModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <form id="createModalForm">
+                <h2>스터디 생성</h2>
+                <input type="text" placeholder="생성할 그룹명" required>
+                <!-- 카테고리 드롭다운 -->
+                <label for="category">카테고리:</label>
+                <select id="category" name="category" required>
+                    <option value="PROGRAMMING">프로그래밍</option>
+                    <option value="LANGUAGE">어학</option>
+                    <option value="DESIGN">디자인</option>
+                    <option value="BUSINESS">경영</option>
+                    <option value="JOBHUNTING">취업</option>
+                    <option value="ETC">기타</option>
+                </select>
+                <input type="text" placeholder="스터디 소개" required>
+                <button type="submit">생성</button>
+            </form>
+        </div>
+    </div>
+
+    <script th:src="@{/js/user/userMain.js}"></script>
+</body>
+</html>
