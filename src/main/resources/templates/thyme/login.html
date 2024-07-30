@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <link rel="stylesheet" th:href="@{/style/login.css}">
+</head>
+<body>
+<div>
+    <div class="frame1">
+        <div class="logo">
+            <a th:href="@{/secondhand/list/ALL(pageNum=0)}">
+                <img th:src="@{/images/logo.png}" alt="로고"/>
+            </a>
+        </div>
+        <!-- 구글 로그인 -->
+        <div class="social-login-box">
+            <div class="social-login">
+                <a href="#" class="google-login">
+                    <img src="https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png" alt="Google Login"/>
+                </a>
+            </div>
+        </div>
+        <!-- +a 소셜 로그인 -->
+    </div>
+</div>
+</body>
+</html>
