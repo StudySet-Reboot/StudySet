@@ -23,14 +23,12 @@ public class GroupController {
     private final GroupService groupService;
 
     //그룹 생성
-    @PostMapping
+    @PostMapping("/create")
     public String createGroup(@Valid @ModelAttribute("groupCreateForm") GroupCreateForm groupCreateForm, BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()) {
-            model.addAttribute("createGroupModalOpen", true);
-            return "pagename";
+            return "thyme/user/userMain";
         }
         groupService.createGroup(groupCreateForm);
-        return "redirect:/groups";
+        return "redirect:/users/main";
     }
-
 }
