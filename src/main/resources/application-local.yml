@@ -20,3 +20,18 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
         default_batch_fetch_size: 1000
     show-sql: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: *****
+            client-secret: ***** 
+            scope: profile, email
+            redirect-uri: "{baseUrl}/login/oauth2/code/google"
+            client-name: Google
+
+google:
+  people-api:
+    secret-key: *****
