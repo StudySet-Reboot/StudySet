@@ -2,8 +2,10 @@ package com.studyset.service;
 
 import com.studyset.domain.Group;
 import com.studyset.domain.User;
+import com.studyset.domain.UserJoinGroup;
 import com.studyset.domain.enumerate.GroupCategory;
 import com.studyset.dto.group.GroupDto;
+import com.studyset.exception.GroupNotExist;
 import com.studyset.repository.GroupRepository;
 import com.studyset.repository.UserJoinGroupRepository;
 import com.studyset.repository.UserRepository;
@@ -21,6 +23,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,12 +45,24 @@ class GroupServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
+
     private User createUser() {
         return User.builder()
                 .name("Test User")
                 .email("test@test.com")
                 .phone("010-1111-1111")
                 .build();
+    }
+
+    private List<Group> createGroup(int size) {
+        return IntStream.range(0, size)
+                .mapToObj(i -> Group.builder()
+                        .groupName("그룹" + i)
+                        .category(GroupCategory.PROGRAMMING)
+                        .description(i + "번째 그룹입니다")
+                        .code(i + "2311" + i)
+                        .build())
+                .toList();
     }
 
     @Test
@@ -71,15 +87,10 @@ class GroupServiceTest {
     }
 
     @Test
+    @DisplayName("User의 전체 그룹 가져오기")
     void testUserGroupList() {
         // Given
-        List<Group> groupList = IntStream.range(0, 10)
-                .mapToObj(i -> Group.builder()
-                        .groupName("그룹" + i)
-                        .category(GroupCategory.PROGRAMMING)
-                        .description(i + "번째 그룹입니다")
-                        .build())
-                .collect(Collectors.toList());
+        List<Group> groupList = createGroup(10);
 
         User user = createUser();
         when(userJoinGroupRepository.findGroupsByUserId(user.getId(), PageRequest.of(0, 10)))
@@ -97,15 +108,9 @@ class GroupServiceTest {
 
     @Test
     @DisplayName("User가 가입한 그룹 내에서 검색")
-    void searchUserGroup() {
+    void testSearchUserGroup() {
         // Given
-        List<Group> groupList = IntStream.range(0, 5)
-                .mapToObj(i -> Group.builder()
-                        .groupName("그룹" + i)
-                        .category(GroupCategory.PROGRAMMING)
-                        .description(i + "번째 그룹입니다")
-                        .build())
-                .collect(Collectors.toList());
+        List<Group> groupList = createGroup(5);
         Pageable pageable = PageRequest.of(0, 10);
         PageImpl<Group> groups = new PageImpl<>(groupList, pageable, groupList.size());
         User user = createUser();
@@ -122,27 +127,39 @@ class GroupServiceTest {
     }
 
     @Test
-    @DisplayName("가입을 위해 전체 그룹 내에서 검색")
-    void searchGroup() {
+    @DisplayName("그룹 가입은 그룹명과 코드가 일치하는 그룹이 있어야 함")
+    void testUserJoinGroup() {
+        User user = createUser();
+        userRepository.save(user);
+        List<Group> groupList = createGroup(5);
+        when(groupRepository.findByGroupNameAndCode("그룹0", "023110"))
+                .thenReturn(Optional.of(groupList.get(0)));
+        ArgumentCaptor<UserJoinGroup> joinGroupArgumentCaptor = ArgumentCaptor.forClass(UserJoinGroup.class);
+
+        //when
+        groupService.joinGroup(user, "그룹0", "023110");
+
+        //then
+        verify(userJoinGroupRepository, times(1)).save(joinGroupArgumentCaptor.capture());
+    }
+
+    @Test
+    @DisplayName("그룹명과 그룹 코드가 일치하는 그룹이 없으면 에러")
+    void testFailUserJoinGroup() {
         // Given
-        List<Group> groupList = IntStream.range(0, 5)
-                .mapToObj(i -> Group.builder()
-                        .groupName("그룹" + i)
-                        .category(GroupCategory.PROGRAMMING)
-                        .description(i + "번째 그룹입니다")
-                        .build())
-                .collect(Collectors.toList());
-        Pageable pageable = PageRequest.of(0, 10);
-        PageImpl<Group> groups = new PageImpl<>(groupList, pageable, groupList.size());
-        when(groupRepository.findGroupsByGroupNameIsContaining("그룹", pageable))
-                .thenReturn(groups);
+        User user = createUser();
+        String groupName = "testGroup";
+        String code = "1234";
 
         // When
-        Page<GroupDto> result = groupService.searchGroup("그룹", pageable);
+        when(groupRepository.findByGroupNameAndCode(groupName, code)).thenReturn(Optional.empty());
 
         // Then
-        assertEquals(5, result.getTotalElements());
-        assertEquals(1, result.getTotalPages());
-        assertEquals("그룹0", result.getContent().get(0).getGroupName());
+        assertThrows(GroupNotExist.class, () -> {
+            groupService.joinGroup(user, groupName, code);
+        });
+
+        verify(groupRepository, times(1)).findByGroupNameAndCode(groupName, code);
+        verifyNoMoreInteractions(userJoinGroupRepository);
     }
 }
