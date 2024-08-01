@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인</title>
     <link rel="stylesheet" th:href="@{/style/login.css}">
+    <script th:inline="javascript">
+        // 페이지 로드 후 오류 파라미터 확인 및 alert 띄우기
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('error')) {
+                alert('로그인에 실패하였습니다! 다시 시도해주세요.');
+            }
+        };
+    </script>
 </head>
 <body>
 <div>
@@ -17,7 +26,7 @@
         <!-- 구글 로그인 -->
         <div class="social-login-box">
             <div class="social-login">
-                <a href="#" class="google-login">
+                <a th:href="@{/oauth2/authorization/google}" class="google-login">
                     <img src="https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png" alt="Google Login"/>
                 </a>
             </div>
