@@ -40,7 +40,7 @@ public class SecurityConfig {
                 )
                 // 상태 비저장 세션 관리 정책 설정
                 .sessionManagement(sessionManagement ->
-                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 )
                 // 요청 인가 처리 설정
                 .authorizeHttpRequests(authorizeRequests ->
@@ -48,11 +48,6 @@ public class SecurityConfig {
                                 .requestMatchers("/login").permitAll() // 로그인 페이지는 공용으로 설정
                                 .requestMatchers("/", "/h2-console/**", "/style/**", "/js/**", "/images/**").permitAll() // 정적 자원에 대한 접근 허용
                                 .anyRequest().authenticated() // 나머지 요청은 인증 필요
-                )
-                // 세션 관리 설정
-                .sessionManagement(sessionManagement ->
-                        sessionManagement
-                                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // 필요 시에만 세션 생성
                 )
                 // OAuth2 로그인 설정
                 .oauth2Login(oauth2Login ->
@@ -62,6 +57,14 @@ public class SecurityConfig {
                                 .userInfoEndpoint(userInfoEndpoint ->
                                         userInfoEndpoint.userService(oAuthService)
                                 )
+                )
+                // 로그아웃 설정
+                .logout(logout ->
+                        logout
+                                .logoutUrl("/logout") // 로그아웃 요청 URL
+                                .logoutSuccessUrl("/login") // 로그아웃 성공 후 리디렉션 URL
+                                .invalidateHttpSession(true) // 세션 무효화
+                                .deleteCookies("JSESSIONID") // 쿠키 삭제
                 );
         return http.build();
     }
