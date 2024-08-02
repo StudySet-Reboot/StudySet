@@ -13,6 +13,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Controller
 public class OAuthController {
+
     // 최초 접속 화면
     @GetMapping("/login")
     public String login() {

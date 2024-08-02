@@ -46,7 +46,7 @@ body {
     padding: 10px 0;
     background-color: rgba(255, 132, 139, 0.07);
     border-radius: 15px;
-    height: 480px;
+    height: 500px;
     display: flex;
     flex-direction: column; /* 내부 요소들을 세로로 배치 */
     align-items: center; /* 내부 요소 수평 가운데 정렬 */
@@ -89,16 +89,27 @@ body {
     text-align: center;
 }
 
+.empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100px; /* 높이 조정 필요시 */
+    font-size: 1.2em;
+    color: #333;
+}
+
 .list-item {
     background-color: rgba(255, 132, 139, 0.13);
     padding: 15px;
-    margin-left: 40px;
+    margin: 0 auto; /* 수정: 중앙 정렬 */
     width: 80%;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
     cursor: pointer;
 }
+
 
 /* 모달 스타일 */
 .modal {
@@ -179,3 +190,43 @@ select:focus {
     border-color: rgba(255, 132, 139, 0.66);
     box-shadow: 0 0 5px rgba(255, 132, 139, 0.5);
 }
+
+/* 페이징 네비게이션 스타일 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 340px;
+}
+
+.pagination ul {
+    list-style: none;
+    padding: 0;
+    margin: 0; /* 추가: 여백 초기화 */
+    display: flex; /* 추가: 플렉스 컨테이너로 설정 */
+    justify-content: center; /* 중앙 정렬 */
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination a {
+    text-decoration: none;
+    color: rgba(255, 132, 139, 0.66);
+    padding: 8px 16px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #f46e73;
+    color: #fff;
+}
+
+.pagination .active a {
+    background-color: #f46e73;
+    color: #fff;
+    cursor: default;
+}
+

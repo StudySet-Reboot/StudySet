@@ -10,11 +10,13 @@ public class GroupDto {
     private String groupName;
     private GroupCategory category;
     private String description;
+    private String code;
 
     @Builder
-    public GroupDto(String groupName, GroupCategory category, String description) {
+    public GroupDto(String groupName, GroupCategory category, String description, String code) {
         this.groupName = groupName;
         this.category = category;
         this.description = description;
+        this.code = code;
     }
 }
