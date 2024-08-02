@@ -1,31 +1,46 @@
 package com.studyset.controller;
 
 import com.studyset.domain.User;
-import com.studyset.repository.UserRepository;
-import com.studyset.web.form.GroupCreateForm;
+import com.studyset.dto.group.GroupDto;
+import com.studyset.service.GroupService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/users")
+@RequiredArgsConstructor
+@Slf4j
 public class UserController {
+    private final GroupService groupService;
 
+    // 유저 메인 페이지 및 그룹 조회
     @GetMapping("/main")
-    public ModelAndView userMain(HttpServletRequest request) {
+    public String userMain(HttpServletRequest request, @RequestParam(defaultValue = "0") int pageNum, Model model) {
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
-            return new ModelAndView("redirect:/login");
+            return "redirect:/login";
         }
-        ModelAndView mav = new ModelAndView("/thyme/user/userMain");
-        mav.addObject("user", user);
-        return mav;
+
+        // 유저 정보 추가
+        model.addAttribute("user", user);
+
+        // 그룹 정보 조회 및 추가
+        PageRequest pageRequest = PageRequest.of(pageNum, 8);
+        Page<GroupDto> groups = groupService.getUserGroupList(user, pageRequest);
+        model.addAttribute("groups", groups.getContent());
+        model.addAttribute("currentPage", groups.getNumber());
+        model.addAttribute("totalPages", groups.getTotalPages());
+        model.addAttribute("totalItems", groups.getTotalElements());
+
+        return "/thyme/user/userMain";
     }
+
 }

@@ -28,20 +28,61 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // 폼 제출 이벤트 처리
-    document.getElementById("joinModalForm").onsubmit = function(event) {
+    // 스터디 가입 폼 제출
+    var joinModalForm = document.getElementById("joinModalForm");
+    joinModalForm.addEventListener("submit", function (event) {
         event.preventDefault();
-        // 폼 데이터 처리 로직을 여기에 추가합니다.
 
-        alert("스터디 가입이 완료되었습니다!");
-        joinModal.style.display = "none";
-    }
+        var formData = new FormData(joinModalForm);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", joinModalForm.action, true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-    document.getElementById("createModalForm").onsubmit = function(event) {
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                alert("성공적으로 그룹에 가입했습니다!");
+                window.location.href = "/users/main";
+            } else if (xhr.readyState == 4 && xhr.status != 200) {
+                alert("문제가 발생했습니다. 다시 시도해 주세요.");
+            }
+        };
+
+        var urlEncodedData = "";
+        var urlEncodedDataPairs = [];
+        formData.forEach(function (value, key) {
+            urlEncodedDataPairs.push(encodeURIComponent(key) + "=" + encodeURIComponent(value));
+        });
+        urlEncodedData = urlEncodedDataPairs.join("&").replace(/%20/g, "+");
+
+        xhr.send(urlEncodedData);
+    });
+
+    // 스터디 생성 폼 제출
+    var createModalForm = document.getElementById("createModalForm");
+    createModalForm.addEventListener("submit", function (event) {
         event.preventDefault();
-        // 폼 데이터 처리 로직을 여기에 추가합니다.
 
-        alert("스터디가 성공적으로 생성되었습니다!");
-        createModal.style.display = "none";
-    }
+        var formData = new FormData(createModalForm);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", createModalForm.action, true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                alert("스터디 그룹이 성공적으로 생성되었습니다!");
+                window.location.href = "/users/main";
+            } else if (xhr.readyState == 4 && xhr.status != 200) {
+                alert("문제가 발생했습니다. 다시 시도해 주세요.");
+            }
+        };
+
+        var urlEncodedData = "";
+        var urlEncodedDataPairs = [];
+        formData.forEach(function (value, key) {
+            urlEncodedDataPairs.push(encodeURIComponent(key) + "=" + encodeURIComponent(value));
+        });
+        urlEncodedData = urlEncodedDataPairs.join("&").replace(/%20/g, "+");
+
+        xhr.send(urlEncodedData);
+    });
 });
