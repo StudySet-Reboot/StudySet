@@ -10,7 +10,7 @@ import lombok.Value;
 import org.hibernate.annotations.processing.Pattern;
 
 @Entity
-@Table(name = "study_group")
+@Table(name = "study_group", uniqueConstraints = @UniqueConstraint(name = "name_code_unique", columnNames = {"groupName", "code"}))
 @NoArgsConstructor
 @Getter
 public class Group extends BaseEntity{
