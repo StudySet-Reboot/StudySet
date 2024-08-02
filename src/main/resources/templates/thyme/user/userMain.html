@@ -14,7 +14,6 @@
     <!-- 유저이름과 그룹 생성/가입 frame -->
     <div class="frame1">
         <div class="nickname" th:text="${user.name} + '님의 스터디'"></div>
-
         <div class="btn">
             <a id="joinStudyBtn">스터디 가입</a>
             <a id="createStudyBtn">스터디 생성</a>
@@ -34,13 +33,26 @@
             </form>
 
             <!-- 그룹 조회 -->
-            <div class="list">
-                <div class="list-item">스터디 1</div>
-                <div class="list-item">스터디 2</div>
-                <div class="list-item">스터디 3</div>
-                <div class="list-item">스터디 4</div>
-                <div class="list-item">스터디 5</div>
-                <!-- 추가 그룹 -->
+            <div th:if="${#lists.isEmpty(groups)}">
+                <div class="empty">가입한 스터디 그룹이 없습니다. 그룹을 생성해보세요!</div>
+            </div>
+            <div th:if="${not #lists.isEmpty(groups)}" class="list">
+                <div th:each="group : ${groups}" class="list-item" th:text="${group.groupName}">group name</div>
+            </div>
+
+            <!-- 페이징 처리 -->
+            <div class="pagination" th:if="${totalPages > 0}">
+                <ul>
+                    <li th:if="${currentPage > 0}">
+                        <a th:href="@{/main(pageNum=${currentPage - 1})}">&laquo; 이전</a>
+                    </li>
+                    <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                        <a th:href="@{/main(pageNum=${i})}" th:text="${i + 1}" th:classappend="${i == currentPage} ? 'active' : ''"></a>
+                    </li>
+                    <li th:if="${currentPage < totalPages - 1}">
+                        <a th:href="@{/main(pageNum=${currentPage + 1})}">다음 &raquo;</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -49,10 +61,10 @@
     <div id="joinModal" class="modal">
         <div class="modal-content">
             <span class="close-btn">&times;</span>
-            <form id="joinModalForm">
+            <form id="joinModalForm" th:action="@{/groups/join}" method="post">
                 <h2>스터디 가입</h2>
-                <input type="text" placeholder="가입할 그룹 이름" required>
-                <input type="text" placeholder="그룹 코드" required>
+                <input type="text" name="groupName" placeholder="가입할 그룹 이름" required>
+                <input type="text" name="code" placeholder="그룹 코드" required>
                 <button type="submit">가입</button>
             </form>
         </div>
@@ -62,9 +74,9 @@
     <div id="createModal" class="modal">
         <div class="modal-content">
             <span class="close-btn">&times;</span>
-            <form id="createModalForm">
+            <form id="createModalForm" th:action="@{/groups/create}" method="post">
                 <h2>스터디 생성</h2>
-                <input type="text" placeholder="생성할 그룹명" required>
+                <input type="text" name="groupName" placeholder="생성할 그룹명" required>
                 <!-- 카테고리 드롭다운 -->
                 <label for="category">카테고리:</label>
                 <select id="category" name="category" required>
@@ -75,7 +87,8 @@
                     <option value="JOBHUNTING">취업</option>
                     <option value="ETC">기타</option>
                 </select>
-                <input type="text" placeholder="스터디 소개" required>
+                <input type="text" name="description" placeholder="스터디 소개" required>
+                <input type="text" name="code" placeholder="6자리 숫자의 그룹 코드" required>
                 <button type="submit">생성</button>
             </form>
         </div>

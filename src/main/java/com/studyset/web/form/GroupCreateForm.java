@@ -11,12 +11,14 @@ public class GroupCreateForm {
     private String groupName;
     private GroupCategory category;
     private String description;
+    private String code;
 
     public Group toEntity(){
         return Group.builder()
                 .groupName(groupName)
                 .category(category)
                 .description(description)
+                .code(code)
                 .build();
     }
 }
