@@ -1,14 +1,11 @@
 package com.studyset.controller;
 
-import com.studyset.domain.Group;
 import com.studyset.domain.User;
-import com.studyset.exception.GroupNotExist;
 import com.studyset.service.GroupService;
 import com.studyset.web.form.GroupCreateForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.engine.jdbc.mutation.spi.BindingGroup;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,14 +28,10 @@ public class GroupController {
         return "redirect:/users/main";
     }
 
+    //그룹 가입
     @PostMapping("/join")
-    public String joinGroup(@SessionAttribute("user") User user, @RequestParam String groupName, @RequestParam String code, Model model){
-        try {
-            groupService.joinGroup(user, groupName, code);
-        }catch (GroupNotExist e){
-            model.addAttribute("error", e.getMessage());
-            return "thyme/user/userMain";
-        }
-        return "redirect:/users/main";
+    @ResponseBody
+    public void joinGroup(@SessionAttribute("user") User user, @RequestParam String groupName, @RequestParam String code, Model model){
+        groupService.joinGroup(user, groupName, code);
     }
 }

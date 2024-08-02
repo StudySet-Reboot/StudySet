@@ -61,10 +61,10 @@
     <div id="joinModal" class="modal">
         <div class="modal-content">
             <span class="close-btn">&times;</span>
-            <form id="joinModalForm" th:action="@{/groups/join}" method="post">
+            <form id="joinModalForm" action="/groups/join" method="post">
                 <h2>스터디 가입</h2>
                 <input type="text" name="groupName" placeholder="가입할 그룹 이름" required>
-                <input type="text" name="code" placeholder="그룹 코드" required>
+                <input type="text" maxlength="6" name="code" placeholder="그룹 코드" required>
                 <button type="submit">가입</button>
             </form>
         </div>
@@ -79,13 +79,12 @@
                 <input type="text" name="groupName" placeholder="생성할 그룹명" required>
                 <!-- 카테고리 드롭다운 -->
                 <label for="category">카테고리:</label>
-                <select id="category" name="category" required>
-                    <option value="PROGRAMMING">프로그래밍</option>
-                    <option value="LANGUAGE">어학</option>
-                    <option value="DESIGN">디자인</option>
-                    <option value="BUSINESS">경영</option>
-                    <option value="JOBHUNTING">취업</option>
-                    <option value="ETC">기타</option>
+                <!-- 카테고리 드롭다운 -->
+                <label for="category">카테고리:</label>
+                <select id="category">
+                    <option value="">==선택==</option>
+                    <option th:each="category : ${T(com.studyset.domain.enumerate.GroupCategory).values()}" th:value="${category}"
+                            th:text="${category.name()}"/>
                 </select>
                 <input type="text" name="description" placeholder="스터디 소개" required>
                 <input type="text" name="code" placeholder="6자리 숫자의 그룹 코드" required>
