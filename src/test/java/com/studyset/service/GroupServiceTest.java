@@ -1,11 +1,12 @@
 package com.studyset.service;
 
+import com.studyset.api.exception.AlreadyJoin;
 import com.studyset.domain.Group;
 import com.studyset.domain.User;
 import com.studyset.domain.UserJoinGroup;
 import com.studyset.domain.enumerate.GroupCategory;
 import com.studyset.dto.group.GroupDto;
-import com.studyset.exception.GroupNotExist;
+import com.studyset.api.exception.GroupNotExist;
 import com.studyset.repository.GroupRepository;
 import com.studyset.repository.UserJoinGroupRepository;
 import com.studyset.repository.UserRepository;
@@ -24,8 +25,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -161,5 +160,24 @@ class GroupServiceTest {
 
         verify(groupRepository, times(1)).findByGroupNameAndCode(groupName, code);
         verifyNoMoreInteractions(userJoinGroupRepository);
+    }
+
+    @Test
+    @DisplayName("이미 가입한 그룹이면 에러")
+    void testAlreadyJoin() {
+        // Given
+        User user = createUser();
+        String groupName = "그룹0";
+        String code = "023110";
+        Group group = createGroup(1).get(0);
+        // When
+        when(groupRepository.findByGroupNameAndCode(groupName, code)).thenReturn(Optional.of(group));
+        when(userJoinGroupRepository.countUserJoinGroupByUserAndGroup(user, group)).thenReturn(1);
+
+        // Then
+        assertThrows(AlreadyJoin.class, () -> {
+            groupService.joinGroup(user, groupName, code);
+        });
+        verify(userJoinGroupRepository, times(1)).countUserJoinGroupByUserAndGroup(user, group);
     }
 }
