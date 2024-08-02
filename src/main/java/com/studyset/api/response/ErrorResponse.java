@@ -1,4 +1,4 @@
-package com.studyset.exception;
+package com.studyset.api.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
