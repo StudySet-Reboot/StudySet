@@ -36,6 +36,7 @@ public class Group extends BaseEntity{
                 .groupName(groupName)
                 .category(category)
                 .description(description)
+                .code(code)
                 .build();
     }
 }

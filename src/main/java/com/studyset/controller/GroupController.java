@@ -32,7 +32,7 @@ public class GroupController {
     }
 
     @PostMapping("/join")
-    public String joinGroup(User user, @RequestParam String groupName, @RequestParam String code, Model model){
+    public String joinGroup(@SessionAttribute("user") User user, @RequestParam String groupName, @RequestParam String code, Model model){
         try {
             groupService.joinGroup(user, groupName, code);
         }catch (GroupNotExist e){
