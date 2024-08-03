@@ -4,7 +4,8 @@ import com.studyset.domain.Group;
 import com.studyset.domain.User;
 import com.studyset.domain.UserJoinGroup;
 import com.studyset.dto.group.GroupDto;
-import com.studyset.exception.GroupNotExist;
+import com.studyset.api.exception.AlreadyJoin;
+import com.studyset.api.exception.GroupNotExist;
 import com.studyset.repository.GroupRepository;
 import com.studyset.repository.UserJoinGroupRepository;
 import com.studyset.web.form.GroupCreateForm;
@@ -15,8 +16,6 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,6 +51,10 @@ public class GroupService {
     public void joinGroup(User user, String groupName, String code){
         Group group = groupRepository.findByGroupNameAndCode(groupName, code)
                 .orElseThrow(GroupNotExist::new);
+        //이미 가입한 그룹 방지
+        if(joinGroupRepository.countUserJoinGroupByUserAndGroup(user, group)>0){
+            throw new AlreadyJoin();
+        }
         UserJoinGroup userJoinGroup = new UserJoinGroup(user, group);
         joinGroupRepository.save(userJoinGroup);
     }
