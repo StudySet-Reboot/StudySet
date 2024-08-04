@@ -1,6 +1,7 @@
 package com.studyset.controller;
 
 import com.studyset.api.exception.AlreadyJoin;
+import com.studyset.api.exception.DuplicateGroup;
 import com.studyset.api.exception.GroupNotExist;
 import com.studyset.api.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,7 @@ public class ExceptionController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> invalidRequestHandler(MethodArgumentNotValidException e) {
-        log.error("ERROR!!!!!!" + e.getMessage());
+        log.error(e.getMessage());
         ErrorResponse response = ErrorResponse.builder()
                 .code("400")
                 .message("잘못된 요청입니다.")
@@ -52,6 +53,22 @@ public class ExceptionController {
     @ExceptionHandler(AlreadyJoin.class)
     public ResponseEntity<ErrorResponse> AlreadyJoinGroup(AlreadyJoin e){
         log.error("error!!!" + e.getMessage());
+        int statusCode = e.statusCode();
+        ErrorResponse body = ErrorResponse.builder()
+                .code(String.valueOf(statusCode))
+                .message(e.getMessage())
+                .validation(e.getValidation())
+                .build();
+
+        return ResponseEntity.status(statusCode)
+                .body(body);
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(DuplicateGroup.class)
+    public ResponseEntity<ErrorResponse> AlreadyExistGroup(DuplicateGroup e){
+        log.error(e.getMessage());
         int statusCode = e.statusCode();
         ErrorResponse body = ErrorResponse.builder()
                 .code(String.valueOf(statusCode))
