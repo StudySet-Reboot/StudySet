@@ -52,6 +52,7 @@ public class GroupService {
     }
 
     //유저가 가입한 그룹 검색
+    @Transactional(readOnly = true)
     public Page<GroupDto> searchUserGroup(User user, String keyword, Pageable pageable){
         Page<Group> groupPage = joinGroupRepository.findUserGroupBySearch(user.getId(), keyword, pageable);
         List<GroupDto> dtoList = mapToDto(groupPage);

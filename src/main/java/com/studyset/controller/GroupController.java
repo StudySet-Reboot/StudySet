@@ -1,11 +1,17 @@
 package com.studyset.controller;
 
 import com.studyset.domain.User;
+import com.studyset.dto.group.GroupDto;
 import com.studyset.service.GroupService;
 import com.studyset.web.form.GroupCreateForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,5 +36,18 @@ public class GroupController {
     @ResponseBody
     public void joinGroup(@SessionAttribute("user") User user, @RequestParam String groupName, @RequestParam String code, Model model){
         groupService.joinGroup(user, groupName, code);
+    }
+
+    //그룹 검색
+    @GetMapping("/search")
+    public String searchList(@SessionAttribute("user") User user, @RequestParam String keyword, @PageableDefault(size = 10, page = 0) Pageable pageable, Model model) {
+        Page<GroupDto> searchResults = groupService.searchUserGroup(user, keyword, pageable);
+        model.addAttribute("groups", searchResults);
+        model.addAttribute("groups", searchResults.getContent());
+        model.addAttribute("totalPages", searchResults.getTotalPages());
+        model.addAttribute("currentPage", pageable.getPageNumber());
+        model.addAttribute("keyword", keyword);
+
+        return "/thyme/user/userMain";
     }
 }
