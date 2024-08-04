@@ -11,4 +11,6 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     Page<Group> findGroupsByGroupNameIsContaining(String keyword, Pageable pageable);
 
     Optional<Group> findByGroupNameAndCode(String groupName, String code);
+
+    Optional<Group> findGroupById(Long id);
 }

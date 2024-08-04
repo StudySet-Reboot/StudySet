@@ -40,7 +40,9 @@
                 <div th:if="${#lists.size(groups) == 0}">
                     <div class="empty">검색 결과가 없습니다</div>
                 </div>
-                <div th:each="group : ${groups}" class="list-item" th:text="${group.groupName}">group name</div>
+                <div th:each="group : ${groups}" class="list-item">
+                    <a th:href="@{/users/group/{id}(id=${group.id})}" th:text="${group.groupName}" class="no-link-style"></a>
+                </div>
             </div>
 
             <!-- 페이징 처리 -->

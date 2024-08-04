@@ -10,9 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/users")
@@ -40,7 +38,15 @@ public class UserController {
         model.addAttribute("totalPages", groups.getTotalPages());
         model.addAttribute("totalItems", groups.getTotalElements());
 
-        return "/thyme/user/userMain";
+        return "thyme/user/userMain";
     }
 
+    // 그룹 메인 이동
+    @GetMapping("/group/{groupId}")
+    public String groupMain(@SessionAttribute("user") User user, @PathVariable Long groupId, Model model) {
+        model.addAttribute("user", user);
+        GroupDto group = groupService.getGroupById(groupId);
+        model.addAttribute("group", group);
+        return "/thyme/group/groupMain";
+    }
 }

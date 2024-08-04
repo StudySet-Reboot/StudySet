@@ -33,6 +33,7 @@ public class Group extends BaseEntity{
     }
     public GroupDto toDto(){
         return GroupDto.builder()
+                .id(id)
                 .groupName(groupName)
                 .category(category)
                 .description(description)

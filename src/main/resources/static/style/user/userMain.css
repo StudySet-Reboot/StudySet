@@ -110,6 +110,11 @@ body {
     cursor: pointer;
 }
 
+.no-link-style {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
 
 /* 모달 스타일 */
 .modal {
