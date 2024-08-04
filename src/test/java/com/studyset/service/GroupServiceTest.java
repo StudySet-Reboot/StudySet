@@ -1,6 +1,7 @@
 package com.studyset.service;
 
 import com.studyset.api.exception.AlreadyJoin;
+import com.studyset.api.exception.DuplicateGroup;
 import com.studyset.domain.Group;
 import com.studyset.domain.User;
 import com.studyset.domain.UserJoinGroup;
@@ -65,24 +66,46 @@ class GroupServiceTest {
     }
 
     @Test
-    void testCreateGroup() {
+    @DisplayName("그룹 생성 성공")
+    void testCreateGroupSuccess() {
         // Given
         GroupCreateForm form = new GroupCreateForm();
         form.setGroupName("Test Group");
         form.setCategory(GroupCategory.PROGRAMMING);
         form.setDescription("A group for science enthusiasts");
+        form.setCode("111111");
+        User user = createUser();
 
         // When
-        groupService.createGroup(form);
+        groupService.createGroup(user, form);
 
         // Then
         ArgumentCaptor<Group> groupCaptor = ArgumentCaptor.forClass(Group.class);
+        ArgumentCaptor<UserJoinGroup> joinCaptor = ArgumentCaptor.forClass(UserJoinGroup.class);
         verify(groupRepository, times(1)).save(groupCaptor.capture());
+        verify(userJoinGroupRepository, times(1)).save(joinCaptor.capture());
         Group savedGroup = groupCaptor.getValue();
-
         assertEquals("Test Group", savedGroup.getGroupName());
         assertEquals(GroupCategory.PROGRAMMING, savedGroup.getCategory());
         assertEquals("A group for science enthusiasts", savedGroup.getDescription());
+    }
+
+    @Test
+    @DisplayName("존재하는 그룹 생성 실패")
+    void testCreateDuplicateGroup() {
+        // Given
+        GroupCreateForm form = new GroupCreateForm();
+        form.setGroupName("Test Group");
+        form.setCategory(GroupCategory.PROGRAMMING);
+        form.setDescription("A group for science enthusiasts");
+        form.setCode("111111");
+        User user = createUser();
+        when(groupRepository.findByGroupNameAndCode(form.getGroupName(), form.getCode()))
+                .thenReturn(Optional.of(form.toEntity()));
+        // Expected
+        assertThrows(DuplicateGroup.class, () -> {
+            groupService.createGroup(user, form);
+        });
     }
 
     @Test
@@ -90,7 +113,6 @@ class GroupServiceTest {
     void testUserGroupList() {
         // Given
         List<Group> groupList = createGroup(10);
-
         User user = createUser();
         when(userJoinGroupRepository.findGroupsByUserId(user.getId(), PageRequest.of(0, 10)))
                 .thenReturn(new PageImpl<>(groupList, PageRequest.of(0, 10), groupList.size()));
@@ -179,5 +201,20 @@ class GroupServiceTest {
             groupService.joinGroup(user, groupName, code);
         });
         verify(userJoinGroupRepository, times(1)).countUserJoinGroupByUserAndGroup(user, group);
+    }
+
+    @Test
+    @DisplayName("검색 테스트")
+    void testSearchGroups(){
+        User user = createUser();
+        List<Group> group = createGroup(3);
+        Pageable pageable = PageRequest.of(0, 10);
+        PageImpl<Group> groups = new PageImpl<>(group, pageable, 3);
+
+        when(groupRepository.findGroupsByGroupNameIsContaining("그룹", pageable)).thenReturn(groups);
+        Page<GroupDto> result = groupService.searchGroup("그룹", pageable);
+
+        assertEquals("그룹0", result.getContent().get(0).getGroupName());
+        assertEquals(3, result.getTotalElements());
     }
 }
