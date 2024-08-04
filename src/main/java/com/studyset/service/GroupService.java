@@ -44,11 +44,18 @@ public class GroupService {
         joinGroupRepository.save(userJoinGroup);
     }
 
-    //user가 가입한 그룹 잔체 리스트
+    //user가 가입한 그룹 전체 리스트
     public Page<GroupDto> getUserGroupList(User user, Pageable pageable){
         Page<Group> groupPage = joinGroupRepository.findGroupsByUserId(user.getId(), pageable);
         List<GroupDto> dtoList = mapToDto(groupPage);
         return new PageImpl<>(dtoList, groupPage.getPageable(), groupPage.getTotalElements());
+    }
+
+    // 그룹ID로 그룹 조회
+    public GroupDto getGroupById(Long id){
+        Optional<Group> optionalGroup = groupRepository.findGroupById(id);
+        Group group = optionalGroup.orElseThrow(() -> new GroupNotExist());
+        return group.toDto();
     }
 
     //유저가 가입한 그룹 검색
