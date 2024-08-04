@@ -1,0 +1,132 @@
+@font-face {
+    font-family: 'TheJamsil5Bold';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+}
+
+body {
+    font-family: 'TheJamsil5Bold', sans-serif;
+}
+
+.outer-frame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75%;
+    margin-top: 25px;
+    margin-bottom: 8px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.frame {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+    border-left: 4px solid rgba(0, 0, 0, 0.36);
+    padding: 0px 0px 10px 5px;
+}
+
+.groupName {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.category {
+    font-size: 14px;
+    color: rgba(102, 102, 102, 0.34);
+    margin-top: 6px;
+}
+
+.description {
+    font-size: 14px;
+    color: #666;
+    margin-top: 6px;
+}
+
+.btn {
+    display: flex;
+    gap: 25px;
+    justify-content: flex-end;
+    width: 100%;
+    margin-bottom: -30px;
+}
+
+.btn a {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: rgba(255, 117, 123, 0.66);
+    color: white;
+    text-decoration: none;
+    border-radius: 18px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.btn a:hover {
+    background-color: #f46e73;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.frame2 {
+    width: 75%;
+    padding: 10px 0;
+    background-color: rgba(255, 132, 139, 0.07);
+    border-radius: 15px;
+    height: 500px;
+    display: flex;
+    flex-direction: column; /* 내부 요소들을 세로로 배치 */
+    align-items: center; /* 내부 요소 수평 가운데 정렬 */
+}
+
+/* 토스트 메시지 */
+.toast {
+    visibility: hidden; /* 기본적으로 숨김 */
+    max-width: 50%; /* 최대 너비 설정 */
+    margin: auto;
+    background-color: #f46e73;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    top: 30px; /* 화면 하단에 위치 */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1; /* 가장 위에 표시 */
+}
+
+/* 토스트 표시 스타일 */
+.toast.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s; /* 애니메이션 효과 */
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
+
+@keyframes fadein {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeout {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
