@@ -1,5 +1,6 @@
 package com.studyset.service;
 
+import com.studyset.api.exception.DuplicateGroup;
 import com.studyset.domain.Group;
 import com.studyset.domain.User;
 import com.studyset.domain.UserJoinGroup;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,11 +27,21 @@ import java.util.stream.Collectors;
 public class GroupService {
     private final GroupRepository groupRepository;
     private final UserJoinGroupRepository joinGroupRepository;
+
     //그룹 생성
     @Transactional
-    public void createGroup(GroupCreateForm createForm){
+    public void createGroup(User user, GroupCreateForm createForm){
+        //그룹 중복 체크
+        if(checkExist(createForm.getGroupName(), createForm.getCode())){
+            throw new DuplicateGroup();
+        }
         Group group = createForm.toEntity();
         groupRepository.save(group);
+        UserJoinGroup userJoinGroup = UserJoinGroup.builder()
+                .user(user)
+                .group(group)
+                .build();
+        joinGroupRepository.save(userJoinGroup);
     }
 
     //user가 가입한 그룹 잔체 리스트
@@ -55,7 +67,11 @@ public class GroupService {
         if(joinGroupRepository.countUserJoinGroupByUserAndGroup(user, group)>0){
             throw new AlreadyJoin();
         }
-        UserJoinGroup userJoinGroup = new UserJoinGroup(user, group);
+        UserJoinGroup userJoinGroup = UserJoinGroup
+                .builder()
+                .user(user)
+                .group(group)
+                .build();
         joinGroupRepository.save(userJoinGroup);
     }
 
@@ -72,5 +88,11 @@ public class GroupService {
                 .map(group -> group.toDto())
                 .collect(Collectors.toList());
         return dtoList;
+    }
+
+    //그룹 중복 체크 함수
+    public boolean checkExist(String groupName, String code){
+        Optional<Group> group = groupRepository.findByGroupNameAndCode(groupName, code);
+        return group.isPresent();
     }
 }

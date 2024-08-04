@@ -7,10 +7,11 @@ import lombok.Data;
 
 @Data
 public class GroupCreateForm {
-    @NotEmpty(message = "그룹명은 비어둘 수 없습니다")
+    @NotEmpty(message = "그룹명을 입력해주세요")
     private String groupName;
     private GroupCategory category;
     private String description;
+    @NotEmpty(message = "코드를 입력해주세요")
     private String code;
 
     public Group toEntity(){
