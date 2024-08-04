@@ -65,34 +65,46 @@ document.addEventListener("DOMContentLoaded", function() {
             });
     });
 
-
-
     // 스터디 생성 폼 제출
     var createModalForm = document.getElementById("createModalForm");
     createModalForm.addEventListener("submit", function (event) {
         event.preventDefault();
 
         var formData = new FormData(createModalForm);
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", createModalForm.action, true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        var urlEncodedData = new URLSearchParams(formData).toString();
 
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                alert("스터디 그룹이 성공적으로 생성되었습니다!");
-                window.location.href = "/users/main";
-            } else if (xhr.readyState == 4 && xhr.status != 200) {
-                alert("문제가 발생했습니다. 다시 시도해 주세요.");
-            }
-        };
-
-        var urlEncodedData = "";
-        var urlEncodedDataPairs = [];
-        formData.forEach(function (value, key) {
-            urlEncodedDataPairs.push(encodeURIComponent(key) + "=" + encodeURIComponent(value));
-        });
-        urlEncodedData = urlEncodedDataPairs.join("&").replace(/%20/g, "+");
-
-        xhr.send(urlEncodedData);
+        fetch(createModalForm.action, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: urlEncodedData
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert("스터디 그룹이 성공적으로 생성되었습니다!");
+                    window.location.href = "/users/main";
+                } else {
+                    alert('문제가 발생했습니다. 다시 시도해 주세요.');
+                }
+            })
+            .catch(error => {
+                alert(error.message);
+            });
     });
+
+    /* 모달창 code 작성 시 숫자 6자리 제한
+    document.addEventListener('DOMContentLoaded', () => {
+        const inputElements = document.querySelectorAll('input[name="code"]');
+
+        inputElements.forEach(input => {
+            input.addEventListener('input', (event) => {
+                const input = event.target;
+                input.value = input.value.replace(/[^0-9]/g, ''); // 숫자만 허용
+                if (input.value.length > 6) {
+                    input.value = input.value.slice(0, 6); // 6자리로 제한
+                }
+            });
+        });
+    }); */
 });
