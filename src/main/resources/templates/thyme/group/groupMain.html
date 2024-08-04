@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main.html</title>
+    <link rel="stylesheet" th:href="@{/style/header.css}">
+    <link rel="stylesheet" th:href="@{/style/group/groupMain.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css}"/>
+</head>
+<body>
+    <!-- header 삽입 -->
+    <div th:replace="thyme/frameHeader :: header"></div>
+
+    <!-- 그룹 정보 frame -->
+    <div class="outer-frame">
+        <div class="frame">
+            <div class="groupName" th:text="${group.groupName}"></div>
+            <div class="category" th:text="${group.category}"></div>
+            <div class="description" th:text="${group.description}"></div>
+        </div>
+        <div class="btn">
+            <a id="groupCodeBtn">그룹 코드 확인</a>
+            <a id="searchMemberBtn">그룹원 검색</a>
+        </div>
+        <!-- 데이터 속성을 사용하여 그룹 코드 전달 -->
+        <div id="groupCodeDisplay" class="code-display" th:data-group-code="${group.code}"></div>
+        <!-- 토스트 메시지 -->
+        <div id="toast" class="toast">그룹 코드: <span id="groupCodeDisplayText">여기에 그룹 코드가 표시됩니다.</span></div>
+    </div>
+
+    <!-- 일정 & 진행상황 frame -->
+    <div class="container">
+        <div class="frame2">
+            <div class="schedule">
+
+            </div>
+            <div class="memo">
+
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/group/groupMain.js}"></script>
+</body>
+</html>

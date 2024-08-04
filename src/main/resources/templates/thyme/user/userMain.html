@@ -13,7 +13,7 @@
 
     <!-- 유저이름과 그룹 생성/가입 frame -->
     <div class="frame1">
-        <div class="nickname" th:text="${user.name} + '님의 스터디'"></div>
+        <div class="nickname" th:text="${session.user.name} + '님의 스터디'"></div>
         <div class="btn">
             <a id="joinStudyBtn">스터디 가입</a>
             <a id="createStudyBtn">스터디 생성</a>
@@ -24,8 +24,8 @@
     <div class="container">
         <div class="frame2">
             <!-- 그룹 검색 -->
-            <form id="search" th:action="@{/search}" method="GET">
-                <input type="search" name="searchValue" placeholder="스터디그룹 검색"/>
+            <form id="search" action="/groups/search" method="GET">
+                <input type="search" name="keyword" placeholder="스터디그룹 검색"/>
                 <input type="hidden" th:name="pageNum" th:value="1" />
                 <button type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -37,7 +37,12 @@
                 <div class="empty">가입한 스터디 그룹이 없습니다. 그룹을 생성해보세요!</div>
             </div>
             <div th:if="${not #lists.isEmpty(groups)}" class="list">
-                <div th:each="group : ${groups}" class="list-item" th:text="${group.groupName}">group name</div>
+                <div th:if="${#lists.size(groups) == 0}">
+                    <div class="empty">검색 결과가 없습니다</div>
+                </div>
+                <div th:each="group : ${groups}" class="list-item">
+                    <a th:href="@{/users/group/{id}(id=${group.id})}" th:text="${group.groupName}" class="no-link-style"></a>
+                </div>
             </div>
 
             <!-- 페이징 처리 -->
