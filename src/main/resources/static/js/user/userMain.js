@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(response => {
                 if (response.ok) {
                     if (response.status === 200) {
-                        // 성공 응답 (본문 없음)
+                        // 성공 응답
                         alert("성공적으로 그룹에 가입했습니다!");
                         window.location.href = "/users/main";
                     } else {
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 } else {
                     // 에러 응답 (본문 있음)
                     return response.json().then(err => {
-                        throw new Error(err.message || "문제가 발생했습니다.");
+                        throw new Error(err.message);
                     });
                 }
             })
@@ -82,14 +82,20 @@ document.addEventListener("DOMContentLoaded", function() {
         })
             .then(response => {
                 if (response.ok) {
-                    alert("스터디 그룹이 성공적으로 생성되었습니다!");
-                    window.location.href = "/users/main";
+                    if (response.status === 200) {
+                        alert("그룹이 생성되었습니다!");
+                        window.location.href = "/users/main";
+                    } else {
+                        alert("알 수 없는 응답 상태 코드: " + response.status);
+                    }
                 } else {
-                    alert('문제가 발생했습니다. 다시 시도해 주세요.');
+                    return response.json().then(err => {
+                        throw new Error(err.message);
+                    });
                 }
             })
             .catch(error => {
-                alert(error.message);
+                alert(`${error.message}`);
             });
     });
 

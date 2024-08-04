@@ -1,6 +1,7 @@
 package com.studyset.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.studyset.api.exception.DuplicateGroup;
 import com.studyset.api.exception.GroupNotExist;
 import com.studyset.domain.User;
 import com.studyset.service.GroupService;
@@ -41,8 +42,13 @@ class GroupControllerTest {
     }
 
     @Test
+    @DisplayName("그룹 생성 성공하면 생성자도 가입 처리")
     public void testCreateGroupSuccess() throws Exception {
         //given
+        User user = createUser();
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("user", user);
+
         //when
         mockMvc.perform(post("/groups/create")
                         .param("groupName", "Test Group")
@@ -51,14 +57,39 @@ class GroupControllerTest {
         //then
                 .andExpect(status().is3xxRedirection())
                 .andDo(print());
-        verify(groupService, times(1)).createGroup(any(GroupCreateForm.class));
+        verify(groupService, times(1)).createGroup(user, any(GroupCreateForm.class));
     }
 
+    @Test
+    @DisplayName("이미 존재하는 그룹 생성하면 에러 처리")
+    public void testCreateDuplicateGroup() throws Exception {
+        //given
+        GroupCreateForm groupCreateForm = new GroupCreateForm();
+        groupCreateForm.setGroupName("Test Group");
+        groupCreateForm.setDescription("This is a test group");
+        groupCreateForm.setCode("111111");
+        User user = createUser();
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("user", user);
+        doThrow(new DuplicateGroup())
+                .when(groupService).createGroup(user, groupCreateForm);
+
+        //when
+        mockMvc.perform(post("/groups/create")
+                        .session(session)
+                        .param("groupName", groupCreateForm.getGroupName())
+                        .param("description", groupCreateForm.getDescription())
+                        .param("code", groupCreateForm.getCode()))
+
+        //then
+                .andExpect(status().isConflict())
+                .andDo(print());
+    }
 
     @Test
     @DisplayName("그룹에 가입에 성공하면 성공 응답이 내려옴")
     void testJoinGroupSuccess() throws Exception {
-        User user = createUser();  // User 객체를 적절히 초기화하세요
+        User user = createUser();
         MockHttpSession session = new MockHttpSession();
         session.setAttribute("user", user);
 
