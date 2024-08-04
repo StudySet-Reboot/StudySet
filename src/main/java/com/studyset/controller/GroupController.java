@@ -20,12 +20,9 @@ public class GroupController {
 
     //그룹 생성
     @PostMapping("/create")
-    public String createGroup(@Valid @ModelAttribute("groupCreateForm") GroupCreateForm groupCreateForm, BindingResult bindingResult, Model model){
-        if (bindingResult.hasErrors()) {
-            return "thyme/user/userMain";
-        }
-        groupService.createGroup(groupCreateForm);
-        return "redirect:/users/main";
+    @ResponseBody
+    public void createGroup(@SessionAttribute("user") User user, @Valid @ModelAttribute("groupCreateForm") GroupCreateForm groupCreateForm, BindingResult bindingResult, Model model){
+        groupService.createGroup(user, groupCreateForm);
     }
 
     //그룹 가입
