@@ -212,7 +212,9 @@ class GroupServiceTest {
         PageImpl<Group> groups = new PageImpl<>(group, pageable, 3);
 
         when(groupRepository.findGroupsByGroupNameIsContaining("그룹", pageable)).thenReturn(groups);
+        Page<GroupDto> result = groupService.searchGroup("그룹", pageable);
 
-        assertEquals("그룹0", groupService.searchGroup("그룹", pageable).getContent().get(0).getGroupName());
+        assertEquals("그룹0", result.getContent().get(0).getGroupName());
+        assertEquals(3, result.getTotalElements());
     }
 }
