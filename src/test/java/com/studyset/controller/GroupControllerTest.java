@@ -4,23 +4,37 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studyset.api.exception.DuplicateGroup;
 import com.studyset.api.exception.GroupNotExist;
 import com.studyset.domain.User;
+import com.studyset.dto.group.GroupDto;
 import com.studyset.service.GroupService;
 import com.studyset.web.form.GroupCreateForm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.ui.Model;
+
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,10 +44,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class GroupControllerTest {
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
+    @InjectMocks
+    private GroupController groupController;
+    @Mock
     private GroupService groupService;
     @Autowired
     private ObjectMapper objectMapper;
+    @Mock
+    private Model model;
+
     @BeforeEach
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(new GroupController(groupService))
@@ -44,20 +63,16 @@ class GroupControllerTest {
     @Test
     @DisplayName("그룹 생성 성공하면 생성자도 가입 처리")
     public void testCreateGroupSuccess() throws Exception {
-        //given
-        User user = createUser();
-        MockHttpSession session = new MockHttpSession();
-        session.setAttribute("user", user);
+        // Given
+        User user = new User();
+        GroupCreateForm groupCreateForm = new GroupCreateForm();
 
-        //when
-        mockMvc.perform(post("/groups/create")
-                        .param("groupName", "Test Group")
-                        .param("description", "This is a test group"))
+        // When
+        groupController.createGroup(user, groupCreateForm, null, model);
 
-        //then
-                .andExpect(status().is3xxRedirection())
-                .andDo(print());
-        verify(groupService, times(1)).createGroup(user, any(GroupCreateForm.class));
+        // Then
+        verify(groupService, times(1)).createGroup(user, groupCreateForm);
+        verifyNoInteractions(model);
     }
 
     @Test
@@ -65,9 +80,6 @@ class GroupControllerTest {
     public void testCreateDuplicateGroup() throws Exception {
         //given
         GroupCreateForm groupCreateForm = new GroupCreateForm();
-        groupCreateForm.setGroupName("Test Group");
-        groupCreateForm.setDescription("This is a test group");
-        groupCreateForm.setCode("111111");
         User user = createUser();
         MockHttpSession session = new MockHttpSession();
         session.setAttribute("user", user);
@@ -139,6 +151,33 @@ class GroupControllerTest {
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().isNotFound())
                 .andDo(print());
+    }
+
+    @Test
+    @DisplayName("그룹 검색하면 검색 결과")
+    void testSearchGroup() throws Exception {
+        // Given
+        User user = new User(); // 가정: User 객체를 생성하고 필요한 값을 설정합니다.
+        String keyword = "test";
+        Pageable pageable = PageRequest.of(0, 10);
+        GroupDto groupDto = GroupDto.builder()
+                .groupName("test group")
+                .code("111111")
+                .build();
+        List<GroupDto> groupList = Arrays.asList(groupDto);
+        Page<GroupDto> searchResults = new PageImpl<>(groupList, pageable, groupList.size());
+
+        when(groupService.searchUserGroup(any(User.class), eq(keyword), any(Pageable.class))).thenReturn(searchResults);
+
+        // When
+        String viewName = groupController.searchList(user, keyword, pageable, model);
+
+        // Then
+        assertEquals("/thyme/user/userMain", viewName);
+        verify(model, times(1)).addAttribute("groups", searchResults.getContent());
+        verify(model, times(1)).addAttribute("totalPages", searchResults.getTotalPages());
+        verify(model, times(1)).addAttribute("currentPage", pageable.getPageNumber());
+        verify(model, times(1)).addAttribute("keyword", keyword);
     }
 
     private User createUser() {

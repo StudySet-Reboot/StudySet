@@ -202,4 +202,17 @@ class GroupServiceTest {
         });
         verify(userJoinGroupRepository, times(1)).countUserJoinGroupByUserAndGroup(user, group);
     }
+
+    @Test
+    @DisplayName("검색 테스트")
+    void testSearchGroups(){
+        User user = createUser();
+        List<Group> group = createGroup(3);
+        Pageable pageable = PageRequest.of(0, 10);
+        PageImpl<Group> groups = new PageImpl<>(group, pageable, 3);
+
+        when(groupRepository.findGroupsByGroupNameIsContaining("그룹", pageable)).thenReturn(groups);
+
+        assertEquals("그룹0", groupService.searchGroup("그룹", pageable).getContent().get(0).getGroupName());
+    }
 }
