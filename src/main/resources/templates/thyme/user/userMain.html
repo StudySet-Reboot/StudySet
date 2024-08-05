@@ -46,13 +46,13 @@
             <div class="pagination" th:if="${totalPages > 0}">
                 <ul>
                     <li th:if="${currentPage > 0}">
-                        <a th:href="@{/main(pageNum=${currentPage - 1})}">&laquo; 이전</a>
+                        <a th:href="@{/users/main(page=${currentPage - 1})}">&laquo; 이전</a>
                     </li>
                     <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
-                        <a th:href="@{/main(pageNum=${i})}" th:text="${i + 1}" th:classappend="${i == currentPage} ? 'active' : ''"></a>
+                        <a th:href="@{/users/main(page=${i})}" th:text="${i + 1}" th:classappend="${i == currentPage} ? 'active' : ''"></a>
                     </li>
                     <li th:if="${currentPage < totalPages - 1}">
-                        <a th:href="@{/main(pageNum=${currentPage + 1})}">다음 &raquo;</a>
+                        <a th:href="@{/users/main(page=${currentPage + 1})}">다음 &raquo;</a>
                     </li>
                 </ul>
             </div>
