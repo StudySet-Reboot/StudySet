@@ -1,12 +1,14 @@
 package com.studyset.service;
 
 import com.studyset.api.exception.DuplicateGroup;
+import com.studyset.api.exception.UserNotExist;
 import com.studyset.domain.Group;
 import com.studyset.domain.User;
 import com.studyset.domain.UserJoinGroup;
 import com.studyset.dto.group.GroupDto;
 import com.studyset.api.exception.AlreadyJoin;
 import com.studyset.api.exception.GroupNotExist;
+import com.studyset.dto.user.UserDto;
 import com.studyset.repository.GroupRepository;
 import com.studyset.repository.UserJoinGroupRepository;
 import com.studyset.web.form.GroupCreateForm;
@@ -30,9 +32,9 @@ public class GroupService {
 
     //그룹 생성
     @Transactional
-    public void createGroup(User user, GroupCreateForm createForm){
+    public void createGroup(User user, GroupCreateForm createForm) {
         //그룹 중복 체크
-        if(checkExist(createForm.getGroupName(), createForm.getCode())){
+        if (checkExist(createForm.getGroupName(), createForm.getCode())) {
             throw new DuplicateGroup();
         }
         Group group = createForm.toEntity();
@@ -45,14 +47,14 @@ public class GroupService {
     }
 
     //user가 가입한 그룹 전체 리스트
-    public Page<GroupDto> getUserGroupList(User user, Pageable pageable){
+    public Page<GroupDto> getUserGroupList(User user, Pageable pageable) {
         Page<Group> groupPage = joinGroupRepository.findGroupsByUserId(user.getId(), pageable);
         List<GroupDto> dtoList = mapToDto(groupPage);
         return new PageImpl<>(dtoList, groupPage.getPageable(), groupPage.getTotalElements());
     }
 
     // 그룹ID로 그룹 조회
-    public GroupDto getGroupById(Long id){
+    public GroupDto getGroupById(Long id) {
         Optional<Group> optionalGroup = groupRepository.findGroupById(id);
         Group group = optionalGroup.orElseThrow(() -> new GroupNotExist());
         return group.toDto();
@@ -60,7 +62,7 @@ public class GroupService {
 
     //유저가 가입한 그룹 검색
     @Transactional(readOnly = true)
-    public Page<GroupDto> searchUserGroup(User user, String keyword, Pageable pageable){
+    public Page<GroupDto> searchUserGroup(User user, String keyword, Pageable pageable) {
         Page<Group> groupPage = joinGroupRepository.findUserGroupBySearch(user.getId(), keyword, pageable);
         List<GroupDto> dtoList = mapToDto(groupPage);
         return new PageImpl<>(dtoList, groupPage.getPageable(), groupPage.getTotalElements());
@@ -68,11 +70,11 @@ public class GroupService {
 
     //그룹 가입
     @Transactional
-    public void joinGroup(User user, String groupName, String code){
+    public void joinGroup(User user, String groupName, String code) {
         Group group = groupRepository.findByGroupNameAndCode(groupName, code)
                 .orElseThrow(GroupNotExist::new);
         //이미 가입한 그룹 방지
-        if(joinGroupRepository.countUserJoinGroupByUserAndGroup(user, group)>0){
+        if (joinGroupRepository.countUserJoinGroupByUserAndGroup(user, group) > 0) {
             throw new AlreadyJoin();
         }
         UserJoinGroup userJoinGroup = UserJoinGroup
@@ -85,13 +87,13 @@ public class GroupService {
 
     //그룹 검색
     @Transactional(readOnly = true)
-    public Page<GroupDto> searchGroup(String keyword, Pageable pageable){
+    public Page<GroupDto> searchGroup(String keyword, Pageable pageable) {
         Page<Group> groupPage = groupRepository.findGroupsByGroupNameIsContaining(keyword, pageable);
         List<GroupDto> dtoList = mapToDto(groupPage);
         return new PageImpl<>(dtoList, groupPage.getPageable(), groupPage.getTotalElements());
     }
 
-    public List<GroupDto> mapToDto(Page<Group> groupPage){
+    public List<GroupDto> mapToDto(Page<Group> groupPage) {
         List<GroupDto> dtoList = groupPage.getContent().stream()
                 .map(group -> group.toDto())
                 .collect(Collectors.toList());
@@ -99,8 +101,14 @@ public class GroupService {
     }
 
     //그룹 중복 체크 함수
-    public boolean checkExist(String groupName, String code){
+    public boolean checkExist(String groupName, String code) {
         Optional<Group> group = groupRepository.findByGroupNameAndCode(groupName, code);
         return group.isPresent();
+    }
+
+    //그룹원 검색
+    public List<UserDto> getUserById(Long groupId, String keyword) {
+        List<User> users = joinGroupRepository.findUserByGroupIdAndUserName(groupId, keyword);
+        return users.stream().map(UserDto::fromUser).collect(Collectors.toList());
     }
 }
