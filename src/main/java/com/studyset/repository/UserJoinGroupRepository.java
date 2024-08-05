@@ -9,6 +9,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface UserJoinGroupRepository extends JpaRepository<UserJoinGroup, Long> {
     //회원의 스터디 그룹 리스트 조회
     @Query("SELECT uj.group FROM UserJoinGroup uj WHERE uj.user.id = :userId")
@@ -18,4 +21,8 @@ public interface UserJoinGroupRepository extends JpaRepository<UserJoinGroup, Lo
     Page<Group> findUserGroupBySearch(@Param("userId") Long userId, @Param("keyword") String keyword, Pageable pageable);
 
     int countUserJoinGroupByUserAndGroup(User user, Group group);
+
+    //스터디 그룹의 회원 조회
+    @Query("SELECT uj.user FROM UserJoinGroup uj JOIN User u ON uj.user.id = u.id WHERE uj.group.id = :groupId AND u.name LIKE CONCAT('%', :keyword, '%')")
+    List<User> findUserByGroupIdAndUserName(@Param("groupId") Long groupId, @Param("keyword") String keyword);
 }

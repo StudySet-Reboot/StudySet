@@ -2,6 +2,7 @@ package com.studyset.controller;
 
 import com.studyset.domain.User;
 import com.studyset.dto.group.GroupDto;
+import com.studyset.dto.user.UserDto;
 import com.studyset.service.GroupService;
 import com.studyset.web.form.GroupCreateForm;
 import jakarta.validation.Valid;
@@ -10,12 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller()
 @RequestMapping("/groups")
@@ -49,5 +50,16 @@ public class GroupController {
         model.addAttribute("keyword", keyword);
 
         return "/thyme/user/userMain";
+    }
+
+    //그룹원 검색
+    @GetMapping("/userSearch")
+    public String searchMember(@RequestParam Long groupId, @RequestParam String keyword, Model model) {
+        List<UserDto> userList = groupService.getUserById(groupId, keyword); // 수정 필요
+        GroupDto groupDto = groupService.getGroupById(groupId);
+        model.addAttribute("userList", userList);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("group", groupDto);
+        return "thyme/fragments/userSearchResult :: userSearchResult";
     }
 }

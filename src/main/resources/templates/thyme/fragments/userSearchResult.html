@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="userSearchResult">
+    <div th:if="${userList != null and !userList.isEmpty()}">
+        <div class="user-info" th:each="user : ${userList}">
+            <p>이름: <span th:text="${user.name}">User Name</span></p>
+            <p>이메일: <span th:text="${user.email}">User Email</span></p>
+        </div>
+    </div>
+    <div th:if="${userList == null or #lists.isEmpty(userList)}">
+        <p>해당 유저가 없습니다</p>
+    </div>
+</div>
+</body>
+</html>

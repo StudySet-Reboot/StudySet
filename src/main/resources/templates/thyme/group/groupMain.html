@@ -5,6 +5,7 @@
     <title>Main.html</title>
     <link rel="stylesheet" th:href="@{/style/header.css}">
     <link rel="stylesheet" th:href="@{/style/group/groupMain.css}">
+    <link rel="stylesheet" th:href="@{/style/fragments/userSearchResult.css}">
     <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css}"/>
 </head>
 <body>
@@ -39,6 +40,25 @@
             </div>
         </div>
     </div>
+
+    <!-- 그룹원 검색 모달 -->
+    <div id="searchModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <form id="searchModalForm" action="/groups/userSearch" method="GET">
+                <h2>그룹원 검색</h2>
+                <div class="search-container">
+                    <input type="text" id="keyword" name="keyword" placeholder="검색할 유저 이름" required>
+                    <button type="submit">검색</button>
+                </div>
+                <input type="hidden" id="groupId" name="groupId" th:value="${group.id}" />
+            </form>
+            <div id="searchResults">
+                <!-- 검색 결과 동적 삽입 -->
+            </div>
+        </div>
+    </div>
+
 
     <script th:src="@{/js/group/groupMain.js}"></script>
 </body>
