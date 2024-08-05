@@ -11,6 +11,7 @@ import com.studyset.web.form.GroupCreateForm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -194,19 +195,34 @@ class GroupControllerTest {
         // Given
         Long groupId = 1L;
         String keyword = "J";
-        UserDto userDto = new UserDto();
-        userDto.setName("John Doe");
-        userDto.setProvider("google");
-        userDto.setEmail("john.doe@example.com");
+
+        UserDto userDto1 = new UserDto();
+        userDto1.setName("John Doe");
+        userDto1.setProvider("google");
+        userDto1.setEmail("john.doe@example.com");
+
+        UserDto userDto2 = new UserDto();
+        userDto2.setName("Jane Smith");
+        userDto2.setProvider("facebook");
+        userDto2.setEmail("jane.smith@example.com");
+
+        List<UserDto> userDtoList = Arrays.asList(userDto1, userDto2);
 
         // When
-        when(groupService.getUserById(groupId, keyword)).thenReturn(userDto);
+        when(groupService.getUserById(groupId, keyword)).thenReturn(userDtoList);
         String viewName = groupController.searchMember(groupId, keyword, model);
 
         // Then
-        assertEquals("/thyme/group/groupMain", viewName);
-        verify(model, times(1)).addAttribute("user", userDto);
+        assertEquals("thyme/fragments/userSearchResult :: userSearchResult", viewName);
+        verify(model, times(1)).addAttribute("userList", userDtoList); // Check the list attribute
         verify(model, times(1)).addAttribute("keyword", keyword);
+
+        // Verify the size of the userList
+        ArgumentCaptor<List<UserDto>> userListCaptor = ArgumentCaptor.forClass(List.class);
+        verify(model).addAttribute(eq("userList"), userListCaptor.capture());
+        List<UserDto> capturedUserList = userListCaptor.getValue();
+        assertNotNull(capturedUserList, "User list should not be null");
+        assertEquals(2, capturedUserList.size(), "User list size should be 2");
     }
 
 }
