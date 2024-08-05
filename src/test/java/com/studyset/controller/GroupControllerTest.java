@@ -5,6 +5,7 @@ import com.studyset.api.exception.DuplicateGroup;
 import com.studyset.api.exception.GroupNotExist;
 import com.studyset.domain.User;
 import com.studyset.dto.group.GroupDto;
+import com.studyset.dto.user.UserDto;
 import com.studyset.service.GroupService;
 import com.studyset.web.form.GroupCreateForm;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +38,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -186,4 +187,26 @@ class GroupControllerTest {
                 .email("test@test.com")
                 .build();
     }
+
+    @Test
+    @DisplayName("이름 검색하면 유저 검색 결과")
+    void testSearchUser() throws Exception {
+        // Given
+        Long groupId = 1L;
+        String keyword = "J";
+        UserDto userDto = new UserDto();
+        userDto.setName("John Doe");
+        userDto.setProvider("google");
+        userDto.setEmail("john.doe@example.com");
+
+        // When
+        when(groupService.getUserById(groupId, keyword)).thenReturn(userDto);
+        String viewName = groupController.searchMember(groupId, keyword, model);
+
+        // Then
+        assertEquals("/thyme/group/groupMain", viewName);
+        verify(model, times(1)).addAttribute("user", userDto);
+        verify(model, times(1)).addAttribute("keyword", keyword);
+    }
+
 }

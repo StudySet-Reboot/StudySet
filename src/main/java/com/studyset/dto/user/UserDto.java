@@ -25,15 +25,12 @@ public class UserDto {
                 .build();
     }
 
-    private LocalDate parseBirth(String birth) {
-        if (birth == null || birth.isEmpty()) {
-            return null;
-        }
-        try {
-            return LocalDate.parse(birth, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        } catch (DateTimeParseException e) {
-            System.err.println("Invalid birth date format: " + birth);
-            return null;
-        }
+    public static UserDto fromUser(User user) {
+        UserDto userDto = new UserDto();
+        userDto.name = user.getName();
+        userDto.provider = user.getProvider();
+        userDto.phone = user.getPhone();
+        userDto.email = user.getEmail();
+        return userDto;
     }
 }
