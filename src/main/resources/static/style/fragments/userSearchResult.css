@@ -1,0 +1,14 @@
+.user-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-info p {
+    margin-right: 25px; /* 필요에 따라 간격 조정 */
+    color: #ff848b;
+}
+
+.user-info span {
+    color: #666666;
+}
