@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MemoMain.html</title>
+    <link rel="stylesheet" th:href="@{/style/header.css}">
+    <link rel="stylesheet" th:href="@{/style/memo/memoMain.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css}"/>
+</head>
+<body>
+<!-- header 삽입 -->
+<div th:replace="thyme/frameHeader :: header"></div>
+
+<!-- 그룹 정보 frame -->
+<div class="outer-frame">
+    <div class="frame">
+        <div class="groupName" th:text="${group.groupName}"></div>
+        <div class="category" th:text="${group.category}"></div>
+        <div class="description" th:text="${group.description}"></div>
+    </div>
+</div>
+
+<!-- 메모 작성 -->
+<div class="user-container"> <!-- user-container 클래스를 추가 -->
+    <div class="frame2">
+        <div th:each="user : ${userList}" class="user-frame">
+            <div class="user-title" th:text="${user.name}"></div>
+
+            <!-- memoList를 반복하면서 현재 user의 ID와 memo의 user_id가 같은 경우 메모 출력 -->
+            <div th:each="memo : ${memoList}" th:if="${memo.user.id} == ${user.id}" class="note">
+                <div class="memo" th:text="${memo.contents}"></div>
+            </div>
+
+            <button class="add-note">Add a new note..</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
