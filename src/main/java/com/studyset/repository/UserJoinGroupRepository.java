@@ -22,7 +22,11 @@ public interface UserJoinGroupRepository extends JpaRepository<UserJoinGroup, Lo
 
     int countUserJoinGroupByUserAndGroup(User user, Group group);
 
-    //스터디 그룹의 회원 조회
+    //그룹 내 이름으로 회원 조회
     @Query("SELECT uj.user FROM UserJoinGroup uj JOIN User u ON uj.user.id = u.id WHERE uj.group.id = :groupId AND u.name LIKE CONCAT('%', :keyword, '%')")
     List<User> findUserByGroupIdAndUserName(@Param("groupId") Long groupId, @Param("keyword") String keyword);
+
+    //그룹 내 모든 회원 조회
+    @Query("SELECT u FROM User u JOIN UserJoinGroup ujg ON u.id = ujg.user.id WHERE ujg.group.id = :groupId")
+    List<User> findUsersByGroupId(@Param("groupId") Long groupId);
 }

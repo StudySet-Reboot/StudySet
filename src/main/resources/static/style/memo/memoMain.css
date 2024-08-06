@@ -1,0 +1,95 @@
+@font-face {
+    font-family: 'TheJamsil5Bold';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+}
+
+body {
+    font-family: 'TheJamsil5Bold', sans-serif;
+}
+
+.outer-frame {
+    justify-content: center;
+    align-items: center;
+    width: 75%;
+    margin-top: 25px;
+    margin-bottom: 8px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.frame {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+    border-left: 4px solid rgba(0, 0, 0, 0.36);
+    padding: 0px 0px 10px 5px;
+}
+
+.groupName {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.category {
+    font-size: 14px;
+    color: rgba(102, 102, 102, 0.34);
+    margin-top: 6px;
+}
+
+.description {
+    font-size: 14px;
+    color: #666;
+    margin-top: 6px;
+}
+
+.user-container {
+    width: 75%;
+    display: flex;
+    padding: 15px;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.frame2 {
+    display: flex;
+    gap: 15px;
+    margin-left: 15%;
+}
+
+.user-frame {
+    background-color: rgba(255, 132, 139, 0.07);
+    padding: 20px;
+    border-radius: 8px;
+    width: 250px;
+    height: 430px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user-title {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.note {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.add-note {
+    background-color: #ff6f61;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: auto;
+}
