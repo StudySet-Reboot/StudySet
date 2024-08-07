@@ -1,14 +1,26 @@
 .user-info {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    margin-top: 10px;
 }
 
-.user-info p {
-    margin-right: 25px; /* 필요에 따라 간격 조정 */
+.user-item {
+    display: flex;
+    align-items: center;
+}
+
+.label {
     color: #ff848b;
+    margin-left: 30px;
+    font-weight: bold;
+    min-width: 50px;
 }
 
-.user-info span {
+.value {
     color: #666666;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-left: 10px;
 }
