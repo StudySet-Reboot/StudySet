@@ -4,8 +4,10 @@ import com.studyset.domain.Group;
 import com.studyset.domain.enumerate.GroupCategory;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class GroupDto {
     private Long id;
     private String groupName;
@@ -20,5 +22,14 @@ public class GroupDto {
         this.category = category;
         this.description = description;
         this.code = code;
+    }
+
+    public Group toGroup() {
+        return Group.builder()
+                .groupName(groupName)
+                .category(category)
+                .description(description)
+                .code(code)
+                .build();
     }
 }
