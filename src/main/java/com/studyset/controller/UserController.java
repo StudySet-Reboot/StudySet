@@ -42,7 +42,6 @@ public class UserController {
     // 그룹 메인 이동
     @GetMapping("/group/{groupId}")
     public String groupMain(@SessionAttribute("user") User user, @PathVariable Long groupId, Model model) {
-        model.addAttribute("user", user);
         GroupDto group = groupService.getGroupById(groupId);
         model.addAttribute("group", group);
         return "/thyme/group/groupMain";
