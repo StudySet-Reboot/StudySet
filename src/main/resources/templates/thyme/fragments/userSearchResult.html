@@ -4,8 +4,14 @@
 <div th:fragment="userSearchResult">
     <div th:if="${userList != null and !userList.isEmpty()}">
         <div class="user-info" th:each="user : ${userList}">
-            <p>이름: <span th:text="${user.name}">User Name</span></p>
-            <p>이메일: <span th:text="${user.email}">User Email</span></p>
+            <div class="user-item">
+                <p class="label">이름:</p>
+                <p class="value" th:text="${user.name}">User Name</p>
+            </div>
+            <div class="user-item">
+                <p class="label">이메일:</p>
+                <p class="value" th:text="${user.email}">User Email</p>
+            </div>
         </div>
     </div>
     <div th:if="${userList == null or #lists.isEmpty(userList)}">
