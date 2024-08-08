@@ -77,11 +77,18 @@ body {
     margin-bottom: 10px;
 }
 
+.memo-wrapper {
+    overflow-y: auto;
+    flex: 1;
+    margin-bottom: 10px; /* 메모와 입력 영역 사이에 여백 추가 */
+}
+
 .note {
     background-color: #fff;
     padding: 10px;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px; /* 메모 간의 여백 */
 }
 
 .memo-container {
@@ -108,7 +115,6 @@ body {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin-top: auto;
 }
 
 textarea::placeholder {
@@ -118,4 +124,23 @@ textarea::placeholder {
 
 button {
     font-family: 'TheJamsil5Bold', sans-serif;
+}
+
+/* 스크롤바 스타일 */
+.memo-wrapper::-webkit-scrollbar {
+    width: 7px; /* 스크롤바 너비 */
+}
+
+.memo-wrapper::-webkit-scrollbar-track {
+    background: rgba(255, 132, 139, 0.04); /* 스크롤바 트랙의 배경색 */
+    border-radius: 10px; /* 스크롤바 트랙의 모서리를 둥글게 */
+}
+
+.memo-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(255, 132, 139, 0.4); /* 스크롤바의 색상 */
+    border-radius: 10px; /* 스크롤바의 모서리를 둥글게 */
+}
+
+.memo-wrapper::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 117, 123, 0.66); /* 스크롤바에 마우스를 올렸을 때의 색상 */
 }
