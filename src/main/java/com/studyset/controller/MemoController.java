@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller()
-@RequestMapping("/memo")
+@RequestMapping("/groups")
 @RequiredArgsConstructor
 @Slf4j
 public class MemoController {
@@ -29,7 +29,7 @@ public class MemoController {
     private final JoinService joinService;
 
     // 진행상황 메인 이동
-    @GetMapping("/{groupId}")
+    @GetMapping("/memo/{groupId}")
     public String memoMain(@SessionAttribute("user") User user, @PathVariable Long groupId, Model model) {
         List<UserDto> userList = joinService.getUserByGroupId(groupId);
         GroupDto groupDto = groupService.getGroupById(groupId);
@@ -42,7 +42,7 @@ public class MemoController {
     }
 
     // 메모 작성
-    @PostMapping("/addMemo")
+    @PostMapping("/memo/addMemo")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> addMemo(@RequestBody MemoCreateForm memo) {
         MemoDto newMemo = memoService.addMemo(memo);

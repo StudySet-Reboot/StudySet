@@ -22,15 +22,17 @@
 </div>
 
 <!-- 메모 작성 -->
-<!-- 메모 작성 -->
 <div class="user-container">
     <div class="frame2">
         <div th:each="user : ${userList}" class="user-frame" th:data-user-id="${mem.id}" th:data-group-id="${group.id}">
             <div class="user-title" th:text="${user.name}"></div>
 
-            <!-- 그룹원의 id와 메모 작성자의 id가 일치하면 메모 출력 -->
-            <div th:each="memo : ${memoList}" th:if="${memo.user.id} == ${user.id}" class="note">
-                <div class="memo" th:text="${memo.contents}"></div>
+            <!-- 메모 출력 -->
+            <div class="memo-wrapper">
+                <!-- 그룹원의 id와 메모 작성자의 id가 일치하면 메모 출력 -->
+                <div th:each="memo : ${memoList}" th:if="${memo.user.id} == ${user.id}" class="note">
+                    <div class="memo" th:text="${memo.contents}"></div>
+                </div>
             </div>
 
             <!-- 현재 세션에 있는 mem의 id와 그룹원의 id가 같으면 메모 입력-->
@@ -41,6 +43,7 @@
         </div>
     </div>
 </div>
+
 
 </body>
 </html>
