@@ -10,6 +10,7 @@ import java.time.format.DateTimeParseException;
 
 @Getter @Setter
 public class UserDto {
+    private Long id;
     private String name;
     private String provider;
     private String phone;
@@ -18,6 +19,7 @@ public class UserDto {
 
     public User toMember() {
         return User.builder()
+                .id(id)
                 .name(name)
                 .provider(provider)
                 .phone(phone)
@@ -27,6 +29,7 @@ public class UserDto {
 
     public static UserDto fromUser(User user) {
         UserDto userDto = new UserDto();
+        userDto.id = user.getId();
         userDto.name = user.getName();
         userDto.provider = user.getProvider();
         userDto.phone = user.getPhone();

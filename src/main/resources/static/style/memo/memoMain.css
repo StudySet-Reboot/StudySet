@@ -77,11 +77,35 @@ body {
     margin-bottom: 10px;
 }
 
+.memo-wrapper {
+    overflow-y: auto;
+    flex: 1;
+    margin-bottom: 10px; /* 메모와 입력 영역 사이에 여백 추가 */
+}
+
 .note {
     background-color: #fff;
     padding: 10px;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px; /* 메모 간의 여백 */
+}
+
+.memo-container {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    margin-top: auto; /* 메모 작성란을 프레임의 하단으로 밀기 위해 사용 */
+}
+
+.memo-input {
+    flex: 1; /* input 필드가 가능한 한 넓게 차지 */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px; /* 버튼과의 간격 */
+    box-sizing: border-box; /* padding을 포함한 너비 계산 */
+    resize: vertical; /* 사용자가 textarea의 크기를 수직으로 조절 가능 */
 }
 
 .add-note {
@@ -91,5 +115,32 @@ body {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin-top: auto;
+}
+
+textarea::placeholder {
+    font-family: 'TheJamsil5Bold', sans-serif;
+    color: rgba(102, 102, 102, 0.39); /* 투명도를 가진 색상 적용 */
+}
+
+button {
+    font-family: 'TheJamsil5Bold', sans-serif;
+}
+
+/* 스크롤바 스타일 */
+.memo-wrapper::-webkit-scrollbar {
+    width: 7px; /* 스크롤바 너비 */
+}
+
+.memo-wrapper::-webkit-scrollbar-track {
+    background: rgba(255, 132, 139, 0.04); /* 스크롤바 트랙의 배경색 */
+    border-radius: 10px; /* 스크롤바 트랙의 모서리를 둥글게 */
+}
+
+.memo-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(255, 132, 139, 0.4); /* 스크롤바의 색상 */
+    border-radius: 10px; /* 스크롤바의 모서리를 둥글게 */
+}
+
+.memo-wrapper::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 117, 123, 0.66); /* 스크롤바에 마우스를 올렸을 때의 색상 */
 }
