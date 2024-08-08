@@ -7,14 +7,12 @@ import lombok.Data;
 
 @Data
 public class MemoDto {
-    private Long id;
     private Group group;
     private User user;
     private String contents;
 
     @Builder
-    public MemoDto(Long id, Group group, User user, String contents) {
-        this.id = id;
+    public MemoDto(Group group, User user, String contents) {
         this.group = group;
         this.user = user;
         this.contents = contents;

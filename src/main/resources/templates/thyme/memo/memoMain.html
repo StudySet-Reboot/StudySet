@@ -6,6 +6,7 @@
     <link rel="stylesheet" th:href="@{/style/header.css}">
     <link rel="stylesheet" th:href="@{/style/memo/memoMain.css}">
     <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css}"/>
+    <script th:src="@{/js/memo/memoMain.js}" defer></script>
 </head>
 <body>
 <!-- header 삽입 -->
@@ -21,20 +22,28 @@
 </div>
 
 <!-- 메모 작성 -->
-<div class="user-container"> <!-- user-container 클래스를 추가 -->
+<div class="user-container">
     <div class="frame2">
-        <div th:each="user : ${userList}" class="user-frame">
+        <div th:each="user : ${userList}" class="user-frame" th:data-user-id="${mem.id}" th:data-group-id="${group.id}">
             <div class="user-title" th:text="${user.name}"></div>
 
-            <!-- memoList를 반복하면서 현재 user의 ID와 memo의 user_id가 같은 경우 메모 출력 -->
-            <div th:each="memo : ${memoList}" th:if="${memo.user.id} == ${user.id}" class="note">
-                <div class="memo" th:text="${memo.contents}"></div>
+            <!-- 메모 출력 -->
+            <div class="memo-wrapper">
+                <!-- 그룹원의 id와 메모 작성자의 id가 일치하면 메모 출력 -->
+                <div th:each="memo : ${memoList}" th:if="${memo.user.id} == ${user.id}" class="note">
+                    <div class="memo" th:text="${memo.contents}"></div>
+                </div>
             </div>
 
-            <button class="add-note">Add a new note..</button>
+            <!-- 현재 세션에 있는 mem의 id와 그룹원의 id가 같으면 메모 입력-->
+            <div th:if="${mem.id} == ${user.id}" class="memo-container">
+                <textarea class="memo-input" rows="3" placeholder="진행상황을 공유해보세요!"></textarea>
+                <button class="add-note">전송</button>
+            </div>
         </div>
     </div>
 </div>
+
 
 </body>
 </html>
