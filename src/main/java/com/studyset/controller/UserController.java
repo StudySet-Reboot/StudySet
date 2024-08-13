@@ -4,6 +4,7 @@ import com.studyset.domain.User;
 import com.studyset.dto.group.GroupDto;
 import com.studyset.service.GroupService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -41,9 +42,10 @@ public class UserController {
 
     // 그룹 메인 이동
     @GetMapping("/group/{groupId}")
-    public String groupMain(@SessionAttribute("user") User user, @PathVariable Long groupId, Model model) {
+    public String groupMain(@SessionAttribute("user") User user, @PathVariable Long groupId, Model model, HttpSession session) {
         GroupDto group = groupService.getGroupById(groupId);
         model.addAttribute("group", group);
+        session.setAttribute("group", group);
         return "/thyme/group/groupMain";
     }
 }
