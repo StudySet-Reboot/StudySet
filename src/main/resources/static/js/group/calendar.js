@@ -1,15 +1,20 @@
 $(document).ready(function() {
+    var groupId = $('#groupId').val();
+    var eventList = {
+        url: 'schedules/events',
+        method: 'GET',
+        failure: function() {
+            console.error('There was an error while fetching events.');
+        }
+    }
+
     $('#calendar').fullCalendar({
-        events: [
-            {
-                title: 'Event 1',
-                start: '2024-08-01',
-                color: 'rgba(255, 117, 123, 0.66)'
-            }
-        ],
+        events: eventList,
         dayClick: function(date, jsEvent, view) {
+            console.log(date.format());
             $('#eventModal').show();
-            $('#eventDate').val(date.format());
+            $('#start-time').val(date.format()+'T00:00');
+            $('#end-time').val(date);
         }
     });
 
@@ -23,21 +28,5 @@ $(document).ready(function() {
         if ($(event.target).is('#eventModal')) {
             $('#eventModal').hide();
         }
-    });
-
-    // 이벤트 폼 제출 핸들러
-    $('#eventForm').submit(function(event) {
-        event.preventDefault();
-
-        var eventData = {
-            title: $('#eventTitle').val(),
-            start: $('#eventDate').val(),
-            description: $('#eventDescription').val(),
-            color: 'rgba(255, 117, 123, 0.66)' // 이벤트 색상
-        };
-
-        $('#calendar').fullCalendar('renderEvent', eventData, true); // 달력에 새 이벤트 추가
-        $('#eventModal').hide(); // 모달 닫기
-        $('#eventForm')[0].reset(); // 폼 초기화
     });
 });

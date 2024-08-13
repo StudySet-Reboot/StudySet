@@ -15,30 +15,30 @@
 </head>
 <body>
 <!-- header 삽입 -->
-<div th:replace="~{thyme/group/groupHeader :: groupHeader}"></div>
+<div th:replace="~{thyme/group/groupHeader :: groupHeader (group=${group})}"></div>
 
 <!-- calendar -->
 <div class="cal-container">
     <div id="calendar"></div>
 </div>
-
+<input type="hidden" id="groupId" name="groupId" th:value="${group.id}" />
+<input type="hidden" id="scheduleList" name="scheduleList" th:value="${jsonList}" />
 <!-- 이벤트 생성 Modal -->
 <div id="eventModal" class="modal">
     <div class="modal-content">
         <span class="close-btn">&times;</span>
-        <form id="eventForm" th:action="@{/groups/create}" method="post">
+        <form id="eventForm" th:action="@{/groups/{groupId}/schedules(groupId=${group.id})}" method="post">
             <h2 id="title">이벤트 생성</h2>
             <label for="is-important" class="custom-label">중요</label>
-            <input type="checkbox" name="isImportant" id="is-important">
+            <input type="checkbox" name="isImportant" id="is-important" value="true">
             <label for="event-name" class="custom-label">제목</label>
-            <input type="text" id="event-name" name="eventName" placeholder="이벤트 제목을 입력하세요" required>
-
-            <label for="date-time" class="custom-label">날짜/시간</label>
-            <input type="datetime-local" id="date-time" class="custom-datetime-local"> ~ <input type="datetime-local" class="custom-datetime-local">
+            <input type="text" id="event-name" name="title" placeholder="이벤트 제목을 입력하세요" required>
+            <label for="start-time" class="custom-label">날짜/시간</label>
+            <input type="datetime-local" name="startDate" id="start-time" class="custom-datetime-local"> ~ <input type="datetime-local" id="end-time" name="endDate" class="custom-datetime-local">
             <label for="event-description" class="custom-label">설명</label>
-            <input type="text" id="event-description" name="eventDescription" placeholder="이벤트 설명">
+            <input type="text" id="event-description" name="description" placeholder="이벤트 설명">
             <label for="event-place" class="custom-label">장소</label>
-            <input id="event-place" type="text" name="eventDescription" placeholder="장소">
+            <input id="event-place" type="text" name="location" placeholder="장소">
             <button type="submit">생성</button>
         </form>
     </div>
