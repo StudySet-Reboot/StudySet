@@ -41,6 +41,34 @@
         </div>
     </div>
 
+    <!-- 그룹 탈퇴 -->
+    <div class="outer-frame2">
+        <div class="btn">
+            <a id="groupLeaveBtn">그룹 탈퇴</a>
+        </div>
+    </div>
+
+    <div id="leaveGroupModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn2">&times;</span>
+            <div id="confirmationStep" class="modal-step">
+                <h2>그룹 탈퇴</h2>
+                <p>그룹을 탈퇴하시겠습니까?</p>
+                <button id="confirmLeaveBtn">확인</button>
+                <button id="cancelLeaveBtn">취소</button>
+            </div>
+            <div id="codeStep" class="modal-step">
+                <h2>그룹 코드 입력</h2>
+                <p>탈퇴를 완료하려면 그룹 코드를 입력하세요:</p>
+                <form id="leaveGroupForm">
+                    <input type="text" id="groupCode" name="groupCode" placeholder="그룹 코드" required>
+                    <button type="submit">제출</button>
+                    <button type="button" id="cancelCodeBtn">취소</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- 그룹원 검색 모달 -->
     <div id="searchModal" class="modal">
         <div class="modal-content">
@@ -58,7 +86,6 @@
             </div>
         </div>
     </div>
-
 
     <script th:src="@{/js/group/groupMain.js}"></script>
 </body>

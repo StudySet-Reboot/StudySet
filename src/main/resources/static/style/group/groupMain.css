@@ -20,6 +20,17 @@ body {
     margin-right: auto;
 }
 
+.outer-frame2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75%;
+    margin-top: 10px;
+    margin-bottom: 8px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .frame {
     width: 75%;
     display: flex;
@@ -155,7 +166,7 @@ body {
     text-align: center;
 }
 
-.close-btn {
+.close-btn, .close-btn2 {
     color: #aaa;
     float: right;
     font-size: 28px;
@@ -170,20 +181,20 @@ body {
     cursor: pointer;
 }
 
-#searchModalForm {
+#searchModalForm, #confirmationStep, #leaveGroupForm {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-#searchModalForm input {
+#searchModalForm input, #leaveGroupForm input {
     margin: 10px 0;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-#searchModalForm button {
+#searchModalForm button, #leaveGroupForm button, #confirmationStep button {
     padding: 10px 20px;
     background-color: rgba(255, 117, 123, 0.66);
     color: white;
@@ -201,4 +212,17 @@ body {
 .search-container {
     display: flex;
     align-items: center;
+}
+
+/* 그룹 탈퇴 관련 모달 */
+.modal-step {
+    display: none;
+}
+
+.modal-step.active {
+    display: block;
+}
+
+.hidden {
+    display: none;
 }
