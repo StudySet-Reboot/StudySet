@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     window.onclick = function(event) {
         if (event.target == searchModal) {
-            joinModal.style.display = "none";
+            searchModal.style.display = "none";
         }
     }
 
@@ -77,6 +77,98 @@ document.addEventListener("DOMContentLoaded", function() {
                 <p>${error.message}</p>
             </div>
         `;
+            });
+    });
+
+    // 그룹 탈퇴
+    const groupLeaveBtn = document.getElementById('groupLeaveBtn');
+    const leaveGroupModal = document.getElementById('leaveGroupModal');
+    const closeBtn = document.querySelector('.close-btn2'); // 여러 개의 닫기 버튼을 선택
+    const confirmationStep = document.getElementById('confirmationStep');
+    const codeStep = document.getElementById('codeStep');
+    const leaveGroupForm = document.getElementById('leaveGroupForm');
+
+    // 모달 열기 함수
+    function openLeaveGroupModal() {
+        leaveGroupModal.style.display = "block";
+    }
+
+    // 모달 닫기 함수
+    function closeLeaveGroupModal() {
+        closeBtn.parentElement.parentElement.style.display = "none";
+    }
+
+    // 그룹 탈퇴 버튼 클릭 시 모달 열기
+    groupLeaveBtn.addEventListener('click', function(event) {
+        openLeaveGroupModal();
+    });
+
+    // 모든 닫기 버튼 클릭 시 모달 닫기
+    if (closeBtn) { // closeBtn이 null이 아닐 때만 이벤트 추가
+        closeBtn.addEventListener('click', function () {
+            closeLeaveGroupModal();
+        });
+    }
+
+    // 모달 외부 클릭 시 모달 닫기
+    window.addEventListener('click', function(event) {
+        if (event.target === leaveGroupModal) {
+            closeLeaveGroupModal();
+        }
+    });
+
+    // 확인 버튼 클릭 시 코드 입력 단계로 이동
+    const confirmLeaveBtn = document.getElementById('confirmLeaveBtn');
+    if (confirmLeaveBtn) {
+        confirmLeaveBtn.addEventListener('click', function() {
+            confirmationStep.style.display = "none"; // 확인 단계 숨기기
+            codeStep.style.display = "block"; // 코드 입력 단계 표시하기
+        });
+    }
+
+    // 취소 버튼 클릭 시 모달 닫기
+    const cancelLeaveBtn = document.getElementById('cancelLeaveBtn');
+    if (cancelLeaveBtn) {
+        cancelLeaveBtn.addEventListener('click', function() {
+            closeLeaveGroupModal();
+        });
+    }
+
+    // 그룹 코드 입력 취소 버튼 클릭 시 단계 전환
+    const cancelCodeBtn = document.getElementById('cancelCodeBtn');
+    if (cancelCodeBtn) {
+        cancelCodeBtn.addEventListener('click', function() {
+            codeStep.style.display = "none"; // 코드 입력 단계 숨기기
+            confirmationStep.style.display = "block"; // 확인 단계 표시하기
+        });
+    }
+
+    // 폼 제출 시 서버로 요청 보내기
+    leaveGroupForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // 폼의 기본 제출 동작을 방지
+
+        const groupCode = document.getElementById('groupCode').value;
+
+        fetch('/api/leave-group', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ code: groupCode })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('그룹 탈퇴가 완료되었습니다.');
+                    closeLeaveGroupModal();
+                    // 페이지 리다이렉션 또는 추가 작업
+                    window.location.href = '/groups'; // 예: 그룹 목록 페이지로 리다이렉션
+                } else {
+                    alert('그룹 코드가 잘못되었습니다. 다시 시도해 주세요.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
     });
 });
