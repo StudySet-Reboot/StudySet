@@ -2,10 +2,15 @@ package com.studyset.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studyset.api.exception.DuplicateGroup;
+import com.studyset.api.exception.GroupCodeError;
 import com.studyset.api.exception.GroupNotExist;
+import com.studyset.domain.Group;
 import com.studyset.domain.User;
+import com.studyset.domain.UserJoinGroup;
+import com.studyset.domain.enumerate.GroupCategory;
 import com.studyset.dto.group.GroupDto;
 import com.studyset.dto.user.UserDto;
+import com.studyset.repository.UserJoinGroupRepository;
 import com.studyset.service.GroupService;
 import com.studyset.web.form.GroupCreateForm;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,6 +56,8 @@ class GroupControllerTest {
     private ObjectMapper objectMapper;
     @Mock
     private Model model;
+    @Mock
+    private UserJoinGroupRepository userJoinGroupRepository;
 
     @BeforeEach
     public void setUp() {
@@ -92,7 +99,7 @@ class GroupControllerTest {
                         .param("description", groupCreateForm.getDescription())
                         .param("code", groupCreateForm.getCode()))
 
-        //then
+                //then
                 .andExpect(status().isConflict())
                 .andDo(print());
     }
@@ -127,7 +134,7 @@ class GroupControllerTest {
                         .param("groupName", "Test Group")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().isBadRequest())
-                        .andDo(print());
+                .andDo(print());
 
         verify(groupService, times(0)).joinGroup(user, "groupName", null);
     }
@@ -181,8 +188,19 @@ class GroupControllerTest {
 
     private User createUser() {
         return User.builder()
+                .id(Long.valueOf("5"))
                 .name("Test User")
                 .email("test@test.com")
+                .build();
+    }
+
+    private GroupDto createGroup() {
+        return GroupDto.builder()
+                .id(Long.valueOf("5"))
+                .groupName("Test group")
+                .code("798456")
+                .category(GroupCategory.valueOf("DESIGN"))
+                .description("example")
                 .build();
     }
 
@@ -222,4 +240,28 @@ class GroupControllerTest {
         assertEquals(2, capturedUserList.size(), "User list size should be 2");
     }
 
+    @Test
+    @DisplayName("유저 탈퇴")
+    void testGroupLeave() throws Exception {
+        // given
+        User user = createUser();
+        GroupDto groupDto = createGroup();
+        groupDto.setCode("798456"); // 그룹에 코드 설정
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("user", user);
+        session.setAttribute("group", groupDto);
+
+        String code = "798456";
+
+        // when
+        mockMvc.perform(post("/groups/leave")
+                        .session(session)
+                        .param("code", code)
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk()) // Expect 200 OK status
+                .andDo(print());
+
+        // then
+        verify(groupService).leaveGroup(user.getId(), groupDto, code);
+    }
 }

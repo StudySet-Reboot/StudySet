@@ -1,13 +1,10 @@
 package com.studyset.service;
 
-import com.studyset.api.exception.DuplicateGroup;
-import com.studyset.api.exception.UserNotExist;
+import com.studyset.api.exception.*;
 import com.studyset.domain.Group;
 import com.studyset.domain.User;
 import com.studyset.domain.UserJoinGroup;
 import com.studyset.dto.group.GroupDto;
-import com.studyset.api.exception.AlreadyJoin;
-import com.studyset.api.exception.GroupNotExist;
 import com.studyset.dto.user.UserDto;
 import com.studyset.repository.GroupRepository;
 import com.studyset.repository.UserJoinGroupRepository;
@@ -110,5 +107,23 @@ public class GroupService {
     public List<UserDto> getUserById(Long groupId, String keyword) {
         List<User> users = joinGroupRepository.findUserByGroupIdAndUserName(groupId, keyword);
         return users.stream().map(UserDto::fromUser).collect(Collectors.toList());
+    }
+
+    //그룹 코드 검사
+    public boolean checkGroupCode(GroupDto group, String code) {
+        System.out.println("Code matches: " + checkGroupCode(group, code));
+        return group.getCode().equals(code);
+    }
+
+    //그룹 탈퇴
+    @Transactional
+    public void leaveGroup(Long userId, GroupDto group, String code) {
+        //그룹 코드 검사
+        if (checkGroupCode(group, code)) {
+            //일치하면 유저 탈퇴
+            joinGroupRepository.deleteUserByGroupId(userId, group.getId());
+        } else {
+            throw new GroupCodeError();
+        }
     }
 }

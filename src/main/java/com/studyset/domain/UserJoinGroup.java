@@ -1,11 +1,14 @@
 package com.studyset.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserJoinGroup extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

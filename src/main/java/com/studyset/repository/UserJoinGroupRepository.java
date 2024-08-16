@@ -27,6 +27,10 @@ public interface UserJoinGroupRepository extends JpaRepository<UserJoinGroup, Lo
     List<User> findUserByGroupIdAndUserName(@Param("groupId") Long groupId, @Param("keyword") String keyword);
 
     //그룹 내 모든 회원 조회
-    @Query("SELECT u FROM User u JOIN UserJoinGroup ujg ON u.id = ujg.user.id WHERE ujg.group.id = :groupId")
+    @Query("SELECT u FROM User u JOIN UserJoinGroup uj ON u.id = uj.user.id WHERE uj.group.id = :groupId")
     List<User> findUsersByGroupId(@Param("groupId") Long groupId);
+
+    //그룹 탈퇴
+    @Query("DELETE FROM UserJoinGroup WHERE user.id = :userId AND group.id = :groupId")
+    int deleteUserByGroupId(@Param("userId") Long userId, @Param("groupId") Long groupId);
 }
