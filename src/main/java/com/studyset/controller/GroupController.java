@@ -62,4 +62,11 @@ public class GroupController {
         model.addAttribute("group", groupDto);
         return "thyme/fragments/userSearchResult :: userSearchResult";
     }
+
+    //그룹 탈퇴
+    @PostMapping("/leave")
+    @ResponseBody
+    public void leaveGroup(@SessionAttribute("user") User user, @SessionAttribute("group") GroupDto group, @RequestParam String code) {
+        groupService.leaveGroup(user.getId(), group, code);
+    }
 }
