@@ -11,12 +11,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller()
 @RequestMapping("/groups")
@@ -66,7 +69,11 @@ public class GroupController {
     //그룹 탈퇴
     @PostMapping("/leave")
     @ResponseBody
-    public void leaveGroup(@SessionAttribute("user") User user, @SessionAttribute("group") GroupDto group, @RequestParam String code) {
+    public ResponseEntity<Map<String, Object>> leaveGroup(@SessionAttribute("user") User user, @SessionAttribute("group") GroupDto group, @RequestParam String code) {
         groupService.leaveGroup(user.getId(), group, code);
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        return ResponseEntity.ok(response);
     }
+
 }

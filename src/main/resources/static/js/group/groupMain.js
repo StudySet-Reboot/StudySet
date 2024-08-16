@@ -149,26 +149,30 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const groupCode = document.getElementById('groupCode').value;
 
-        fetch('/api/leave-group', {
+        fetch('/groups/leave', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: JSON.stringify({ code: groupCode })
+            body: new URLSearchParams({ code: groupCode })
         })
-            .then(response => response.json())
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('네트워크 오류가 발생했습니다.');
+                }
+            })
             .then(data => {
                 if (data.success) {
                     alert('그룹 탈퇴가 완료되었습니다.');
                     closeLeaveGroupModal();
-                    // 페이지 리다이렉션 또는 추가 작업
-                    window.location.href = '/groups'; // 예: 그룹 목록 페이지로 리다이렉션
-                } else {
-                    alert('그룹 코드가 잘못되었습니다. 다시 시도해 주세요.');
+                    window.location.href = '/users/main';
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
+                alert('탈퇴 중 오류가 발생했습니다. 다시 시도해 주세요.');
             });
     });
 });

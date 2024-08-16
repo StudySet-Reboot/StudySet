@@ -6,6 +6,7 @@ import com.studyset.domain.UserJoinGroup;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -27,10 +28,11 @@ public interface UserJoinGroupRepository extends JpaRepository<UserJoinGroup, Lo
     List<User> findUserByGroupIdAndUserName(@Param("groupId") Long groupId, @Param("keyword") String keyword);
 
     //그룹 내 모든 회원 조회
-    @Query("SELECT u FROM User u JOIN UserJoinGroup uj ON u.id = uj.user.id WHERE uj.group.id = :groupId")
-    List<User> findUsersByGroupId(@Param("groupId") Long groupId);
+    @Query("SELECT u.user from UserJoinGroup u WHERE u.group.id = :groupId")
+    List findUsersByGroupId(@Param("groupId") Long groupId);
 
     //그룹 탈퇴
+    @Modifying
     @Query("DELETE FROM UserJoinGroup WHERE user.id = :userId AND group.id = :groupId")
     int deleteUserByGroupId(@Param("userId") Long userId, @Param("groupId") Long groupId);
 }
