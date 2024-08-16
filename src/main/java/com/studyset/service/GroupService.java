@@ -111,7 +111,6 @@ public class GroupService {
 
     //그룹 코드 검사
     public boolean checkGroupCode(GroupDto group, String code) {
-        System.out.println("Code matches: " + checkGroupCode(group, code));
         return group.getCode().equals(code);
     }
 
