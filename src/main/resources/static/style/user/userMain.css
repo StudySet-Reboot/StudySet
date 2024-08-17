@@ -48,8 +48,10 @@ body {
     border-radius: 15px;
     height: 500px;
     display: flex;
-    flex-direction: column; /* 내부 요소들을 세로로 배치 */
-    align-items: center; /* 내부 요소 수평 가운데 정렬 */
+    flex-direction: column; /*내부 요소 세로로 */
+    align-items: center; /* 내부 요소 수평 가운데 */
+    position: relative;
+    padding-bottom: 50px;
 }
 
 .frame2 form {
@@ -198,9 +200,11 @@ select:focus {
 
 /* 페이징 네비게이션 스타일 */
 .pagination {
+    position: absolute;
     display: flex;
     justify-content: center;
-    margin-top: 340px;
+    margin-bottom: 20px;
+    bottom: 0;
 }
 
 .pagination ul {
