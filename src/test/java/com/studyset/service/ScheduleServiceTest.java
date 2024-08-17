@@ -2,7 +2,7 @@ package com.studyset.service;
 
 import com.studyset.domain.Group;
 import com.studyset.domain.Schedule;
-import com.studyset.dto.schedule.Event;
+import com.studyset.api.response.schedule.Event;
 import com.studyset.repository.GroupRepository;
 import com.studyset.repository.ScheduleRepository;
 import com.studyset.web.form.ScheduleCreateForm;
@@ -39,9 +39,9 @@ class ScheduleServiceTest {
     void testAddSchedule() {
         Group group = new Group();
         ScheduleCreateForm scheduleCreateForm = new ScheduleCreateForm();
-        scheduleCreateForm.setTitle("Schedule Title");
-        scheduleCreateForm.setDescription("Schedule Description");
-        scheduleCreateForm.setLocation("Schedule Location");
+        scheduleCreateForm.setTitle("schedule Title");
+        scheduleCreateForm.setDescription("schedule Description");
+        scheduleCreateForm.setLocation("schedule Location");
         when(groupRepository.findGroupById(1l)).thenReturn(Optional.of(group));
 
         scheduleService.addSchedule(scheduleCreateForm, 1l);
@@ -63,8 +63,8 @@ class ScheduleServiceTest {
         LocalDateTime start = LocalDateTime.of(year, month, 1, 0, 0);
         LocalDateTime end = YearMonth.of(year, month).atEndOfMonth().atTime(LocalTime.MAX);
         Schedule schedule = Schedule.builder()
-                .title("Schedule Title")
-                .description("Schedule Description")
+                .title("schedule Title")
+                .description("schedule Description")
                 .startTime(now)
                 .isImportant(true)
                 .build();
@@ -76,6 +76,6 @@ class ScheduleServiceTest {
                 scheduleService.getGroupSchedule(1l, year, month);
 
         assertEquals(eventList.size(), 1);
-        assertEquals(eventList.get(0).getTitle(), "Schedule Title");
+        assertEquals(eventList.get(0).getTitle(), "schedule Title");
     }
 }
