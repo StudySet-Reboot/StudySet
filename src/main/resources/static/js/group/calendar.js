@@ -10,7 +10,7 @@ $(document).ready(function() {
         },
         dayClick: function(date, jsEvent, view) {
             console.log(date.format());
-            $('#eventModal').show();
+            $('#event-create-modal').show();
             $('#start-time').val(date.format() + 'T00:00');
             $('#end-time').val(date);
         },
@@ -34,14 +34,14 @@ $(document).ready(function() {
 
     // 모달 닫기 버튼 이벤트 핸들러
     $('.close-btn').click(function() {
-        $('#eventModal').hide();
+        $('#event-create-modal').hide();
         $('#edit-event-modal').hide();
     });
 
     // 모달 외부 클릭 시 닫기
     $(window).click(function(event) {
         if ($(event.target).is('#eventModal')) {
-            $('#eventModal').hide();
+            $('#event-create-modal').hide();
         }
     });
 
@@ -49,7 +49,7 @@ $(document).ready(function() {
     $('#eventForm').submit(function(event) {
         event.preventDefault(); // 기본 폼 제출 방지
         const scheduleCreate = {
-            isImportant: $('#is-important').is(':checked'),
+            isImportant: $('#is-important').prop('checked'),
             title: $('#event-name').val(),
             startDate: $('#start-time').val(),
             endDate: $('#end-time').val(),
@@ -57,28 +57,28 @@ $(document).ready(function() {
             location: $('#event-place').val()
         };
 
-        fetch(`/groups/${groupId}/schedules`, {
+        fetch(`/groups/${groupId}/schedules/events`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(scheduleCreate)
-        }).then(response => response.json())
-            .then(data => {
-                console.log('Event created:', data);
-                $('#eventModal').hide();
-                calendar.fullCalendar('refetchEvents');
-            })
-            .catch(error => console.error('Error:', error));
+        }).then(response=> {
+            $('#event-create-modal').hide();
+            calendar.fullCalendar('refetchEvents');
+        }).catch(error => console.error('Error:', error));
     });
 
     // 이벤트 수정 폼 제출 이벤트 핸들러
     $('#editForm').submit(function(event) {
         event.preventDefault(); // 기본 폼 제출 방지
+        var isImportant = ($('#edit-is-important').prop('checked'));
+        console.log(isImportant);
+
         const eventId = $('#edit-event-id').val();
         const scheduleEdit = {
             id: eventId,
-            isImportant: $('#edit-is-important').is(':checked'),
+            isImportant: isImportant,
             title: $('#edit-event-name').val(),
             startDate: $('#edit-start-time').val(),
             endDate: $('#edit-end-time').val(),

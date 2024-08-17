@@ -7,7 +7,7 @@ import com.studyset.domain.Schedule;
 import com.studyset.api.response.schedule.Event;
 import com.studyset.repository.GroupRepository;
 import com.studyset.repository.ScheduleRepository;
-import com.studyset.web.form.ScheduleCreateForm;
+import com.studyset.api.request.schedule.ScheduleCreateForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

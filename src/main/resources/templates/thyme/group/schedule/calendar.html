@@ -24,13 +24,13 @@
 <input type="hidden" id="groupId" name="groupId" th:value="${group.id}" />
 <input type="hidden" id="scheduleList" name="scheduleList" th:value="${jsonList}" />
 <!-- 이벤트 생성 Modal -->
-<div id="eventModal" class="modal">
+<div id="event-create-modal" class="modal">
     <div class="modal-content">
         <span class="close-btn">&times;</span>
         <form class="modal-form" id="eventForm" th:action="@{/groups/{groupId}/schedules(groupId=${group.id})}" method="post">
             <h2>이벤트 생성</h2>
             <label for="is-important" class="custom-label">중요</label>
-            <input type="checkbox" name="isImportant" id="is-important" value="true">
+            <input type="checkbox" name="isImportant" id="is-important">
             <label for="event-name" class="custom-label">제목</label>
             <input type="text" id="event-name" name="title" placeholder="이벤트 제목을 입력하세요" required>
             <label for="start-time" class="custom-label">날짜/시간</label>
