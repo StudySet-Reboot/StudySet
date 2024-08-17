@@ -20,8 +20,10 @@ public class ErrorResponse {
     public ErrorResponse(String code, String message, Map<String, String> validation) {
         this.code = code;
         this.message = message;
-        for(String key: validation.keySet()){
-            this.validation.put(key, validation.get(key));
+        if(validation != null){
+            for(String key: validation.keySet()){
+                this.validation.put(key, validation.get(key));
+            }
         }
     }
 }

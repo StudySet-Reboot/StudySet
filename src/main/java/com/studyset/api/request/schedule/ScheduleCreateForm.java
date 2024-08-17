@@ -1,24 +1,25 @@
-package com.studyset.web.form;
+package com.studyset.api.request.schedule;
 
 import com.studyset.domain.Schedule;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.time.LocalDateTime;
 
 @Data
+@Slf4j
 public class ScheduleCreateForm {
     @NotBlank
     private String title;
-    private String isImportant = "false";
+    private Boolean isImportant;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String description;
     private String location;
 
     public Schedule toEntity(){
-        boolean isImportant = getIsImportant().equals("true") ? true : false;
         return Schedule.builder()
                 .title(title)
                 .isImportant(isImportant)
@@ -26,6 +27,7 @@ public class ScheduleCreateForm {
                 .location(location)
                 .startTime(startDate)
                 .endTime(endDate)
+                .isImportant(isImportant)
                 .build();
     }
 }
