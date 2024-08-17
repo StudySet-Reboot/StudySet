@@ -1,4 +1,4 @@
-package com.studyset.dto.schedule;
+package com.studyset.api.response.schedule;
 import lombok.Builder;
 import lombok.Getter;
 

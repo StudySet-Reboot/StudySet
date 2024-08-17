@@ -1,4 +1,4 @@
-package com.studyset.api.request;
+package com.studyset.api.request.schedule;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class ScheduleEditRequest {
-    @NotBlank
     private String title;
     private String isImportant = "false";
     private LocalDateTime startDate;

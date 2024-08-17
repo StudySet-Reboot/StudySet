@@ -1,9 +1,10 @@
 package com.studyset.service;
 
 import com.studyset.api.exception.GroupNotExist;
+import com.studyset.api.request.schedule.ScheduleEditRequest;
 import com.studyset.domain.Group;
 import com.studyset.domain.Schedule;
-import com.studyset.dto.schedule.Event;
+import com.studyset.api.response.schedule.Event;
 import com.studyset.repository.GroupRepository;
 import com.studyset.repository.ScheduleRepository;
 import com.studyset.web.form.ScheduleCreateForm;
@@ -15,7 +16,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.YearMonth;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,5 +43,14 @@ public class ScheduleService {
         List<Schedule> scheduleList = scheduleRepository.findSchedulesByGroup_IdAndStartTimeBetween(groupId, start, end);
         return scheduleList.stream().map(Schedule::toEvent)
                 .toList();
+    }
+
+    @Transactional
+    public Event editSchedule(Long scheduleId, ScheduleEditRequest scheduleEditRequest) {
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(IllegalArgumentException::new);
+        schedule.edit(scheduleEditRequest);
+        scheduleRepository.save(schedule);
+        return schedule.toEvent();
     }
 }
