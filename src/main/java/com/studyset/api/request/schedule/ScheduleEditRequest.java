@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Setter
 public class ScheduleEditRequest {
     private String title;
-    private String isImportant = "false";
+    private Boolean isImportant;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String description;
