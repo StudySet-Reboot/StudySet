@@ -10,7 +10,7 @@ public class Event {
     public static final String IMPORTANT_COLOR = "PINK";
     public static final String NORMAL_COLOR = "GRAY";
 
-    private int id;
+    private long id;
     private String title;
     private LocalDateTime start;
     private LocalDateTime end;
@@ -19,7 +19,7 @@ public class Event {
     private String location;
 
     @Builder
-    public Event(int id, String title, LocalDateTime start, LocalDateTime end, String description, String color, String location) {
+    public Event(long id, String title, LocalDateTime start, LocalDateTime end, String description, String color, String location) {
         this.id = id;
         this.title = title;
         this.start = start;
