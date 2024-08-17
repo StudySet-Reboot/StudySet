@@ -41,19 +41,20 @@
     cursor: pointer;
 }
 
-#eventForm label {
+.modal-form label {
     display: block;
     margin-top: 10px;
 }
 
-#eventForm input[type="text"],
-#eventForm textarea {
+.modal-form input[type="text"],
+.modal-form textarea {
     width: 90%;
     padding: 10px;
     margin: auto;
     border: 2px solid #ccc;
     border-radius: 4px;
 }
+
 .custom-datetime-local {
     border: 2px solid rgba(255, 117, 123, 0.66);;
     border-radius: 5px;
@@ -66,7 +67,8 @@
     margin-bottom: 5px;
     display: block;
 }
-#eventForm button {
+
+.modal-form button {
     background-color: rgba(255, 117, 123, 0.66);
     border: none;
     color: white;
@@ -80,9 +82,10 @@
     border-radius: 4px;
 }
 
-#eventForm button:hover {
+.modal-form button:hover {
     background-color: rgba(255, 117, 123, 1);
 }
-#is-important{
+
+#is-important, #edit-is-important{
     display: flex;
 }

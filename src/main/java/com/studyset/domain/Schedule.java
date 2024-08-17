@@ -44,6 +44,7 @@ public class Schedule extends BaseEntity{
 
     public Event toEvent(){
         return Event.builder()
+                .id(id)
                 .title(title)
                 .start(startTime)
                 .end(endTime)
