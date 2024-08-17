@@ -17,9 +17,10 @@ public class Event {
     private String description;
     private String color;
     private String location;
+    private Boolean isImportant;
 
     @Builder
-    public Event(long id, String title, LocalDateTime start, LocalDateTime end, String description, String color, String location) {
+    public Event(long id, String title, LocalDateTime start, LocalDateTime end, String description, String color, String location, Boolean isImportant) {
         this.id = id;
         this.title = title;
         this.start = start;
@@ -27,5 +28,6 @@ public class Event {
         this.description = description;
         this.color = color;
         this.location = location;
+        this.isImportant = isImportant;
     }
 }
