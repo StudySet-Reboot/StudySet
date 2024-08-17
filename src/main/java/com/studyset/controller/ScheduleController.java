@@ -3,8 +3,6 @@ package com.studyset.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.studyset.dto.group.GroupDto;
 import com.studyset.service.ScheduleService;
-import com.studyset.api.request.schedule.ScheduleCreateForm;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

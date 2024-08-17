@@ -13,14 +13,13 @@ import java.time.LocalDateTime;
 public class ScheduleCreateForm {
     @NotBlank
     private String title;
-    private boolean isImportant;
+    private Boolean isImportant;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String description;
     private String location;
 
     public Schedule toEntity(){
-        log.info("==============="+isImportant+"===================");
         return Schedule.builder()
                 .title(title)
                 .isImportant(isImportant)
