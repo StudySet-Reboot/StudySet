@@ -1,13 +1,12 @@
 package com.studyset.domain;
 
-import com.studyset.dto.schedule.Event;
+import com.studyset.api.request.schedule.ScheduleEditRequest;
+import com.studyset.api.response.schedule.Event;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Entity
 @NoArgsConstructor
@@ -44,12 +43,23 @@ public class Schedule extends BaseEntity{
 
     public Event toEvent(){
         return Event.builder()
+                .id(id)
                 .title(title)
                 .start(startTime)
                 .end(endTime)
                 .description(description)
                 .location(location)
                 .color(isImportant ? Event.IMPORTANT_COLOR : Event.NORMAL_COLOR)
+                .isImportant(isImportant)
                 .build();
+    }
+
+    public void edit(ScheduleEditRequest scheduleEditRequest) {
+        this.title = scheduleEditRequest.getTitle();
+        this.startTime = scheduleEditRequest.getStartDate();
+        this.endTime = scheduleEditRequest.getEndDate();
+        this.description = scheduleEditRequest.getDescription();
+        this.isImportant = scheduleEditRequest.getIsImportant();
+        this.location = scheduleEditRequest.getLocation();
     }
 }

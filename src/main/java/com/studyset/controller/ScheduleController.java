@@ -3,15 +3,11 @@ package com.studyset.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.studyset.dto.group.GroupDto;
 import com.studyset.service.ScheduleService;
-import com.studyset.web.form.ScheduleCreateForm;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,10 +22,4 @@ public class ScheduleController {
         return "/thyme/group/schedule/calendar";
     }
 
-    @PostMapping("/groups/{groupId}/schedules")
-    public String addSchedule(@PathVariable Long groupId, @SessionAttribute GroupDto group, @Valid ScheduleCreateForm scheduleCreateForm, Model model) {
-        scheduleService.addSchedule(scheduleCreateForm, groupId);
-        model.addAttribute("group", group);
-        return "redirect:/groups/{groupId}/schedules";
-    }
 }
