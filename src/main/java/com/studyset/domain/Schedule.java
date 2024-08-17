@@ -50,6 +50,7 @@ public class Schedule extends BaseEntity{
                 .description(description)
                 .location(location)
                 .color(isImportant ? Event.IMPORTANT_COLOR : Event.NORMAL_COLOR)
+                .isImportant(isImportant)
                 .build();
     }
 
@@ -58,7 +59,7 @@ public class Schedule extends BaseEntity{
         this.startTime = scheduleEditRequest.getStartDate();
         this.endTime = scheduleEditRequest.getEndDate();
         this.description = scheduleEditRequest.getDescription();
-        this.isImportant = scheduleEditRequest.getIsImportant() == "true" ? true : false;
+        this.isImportant = scheduleEditRequest.getIsImportant();
         this.location = scheduleEditRequest.getLocation();
     }
 }

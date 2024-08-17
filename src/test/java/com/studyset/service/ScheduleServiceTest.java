@@ -5,7 +5,7 @@ import com.studyset.domain.Schedule;
 import com.studyset.api.response.schedule.Event;
 import com.studyset.repository.GroupRepository;
 import com.studyset.repository.ScheduleRepository;
-import com.studyset.web.form.ScheduleCreateForm;
+import com.studyset.api.request.schedule.ScheduleCreateForm;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
