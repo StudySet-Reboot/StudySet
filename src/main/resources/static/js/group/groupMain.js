@@ -158,21 +158,21 @@ document.addEventListener("DOMContentLoaded", function() {
         })
             .then(response => {
                 if (response.ok) {
-                    return response.json();
+                    if (response.status === 200) {
+                        alert('그룹 탈퇴가 완료되었습니다.');
+                        closeLeaveGroupModal();
+                        window.location.href = '/users/main';
+                    } else {
+                        alert("알 수 없는 응답 상태 코드: " + response.status);
+                    }
                 } else {
-                    throw new Error('네트워크 오류가 발생했습니다.');
-                }
-            })
-            .then(data => {
-                if (data.success) {
-                    alert('그룹 탈퇴가 완료되었습니다.');
-                    closeLeaveGroupModal();
-                    window.location.href = '/users/main';
+                    return response.json().then(err => {
+                        throw new Error(err.message);
+                    });
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                alert('탈퇴 중 오류가 발생했습니다. 다시 시도해 주세요.');
+                alert(`${error.message}`);
             });
     });
 });
