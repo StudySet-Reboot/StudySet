@@ -1,6 +1,13 @@
 $(document).ready(function() {
     var groupId = $('#groupId').val();
     var calendar = $('#calendar').fullCalendar({
+        initialView: 'dayGridMonth',
+        locale: 'ko',
+        header: {
+            center: 'title'
+        },
+        showNonCurrentDates: false, // 이전 달과 다음 달의 날짜 숨기기
+        height: 600, // 전체 캘린더 높이 조정
         events: {
             url: 'schedules/events',
             method: 'GET',
@@ -32,11 +39,30 @@ $(document).ready(function() {
         }
     });
 
+    // 캘린더 스타일 커스터마이징
+    $('.fc-day-top .fc-day-number').css({
+        'float': 'left',
+        'margin-left': '5px',
+        'margin-right': '0'
+    });
+    $('.fc-event-title').css({
+        'overflow': 'hidden',
+        'white-space': 'nowrap',
+        'text-overflow' : 'ellipsis'
+    });
+    $('.fc-day-header').css({
+        'background' : '#ff859a',
+        'height' : '30px',
+        'vertical-align' : 'middle'
+    });
+
     // 모달 닫기 버튼 이벤트 핸들러
     $('.close-btn').click(function() {
         $('#event-create-modal').hide();
         $('#edit-event-modal').hide();
     });
+
+
 
     // 모달 외부 클릭 시 닫기
     $(window).click(function(event) {
@@ -63,7 +89,7 @@ $(document).ready(function() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(scheduleCreate)
-        }).then(response=> {
+        }).then(response => {
             $('#event-create-modal').hide();
             calendar.fullCalendar('refetchEvents');
         }).catch(error => console.error('Error:', error));
@@ -100,5 +126,4 @@ $(document).ready(function() {
             })
             .catch(error => console.error('Error:', error));
     });
-
 });
