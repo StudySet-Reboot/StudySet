@@ -33,18 +33,15 @@ document.addEventListener("DOMContentLoaded", function() {
             if (response.ok) {
                 const data = await response.json();
 
-                // 페이지 업데이트
-                const memoWrapper = userFrame.querySelector('.memo-wrapper');
-                const noteContainers = userFrame.querySelectorAll('.note');
-
-                // 새 메모를 추가
-                let targetNoteContainer;
-                if (noteContainers.length > 0) {
-                    targetNoteContainer = noteContainers[noteContainers.length - 1];
-                } else {
-                    targetNoteContainer = userFrame; // .note 요소가 없는 경우 userFrame에 직접 추가
+                // userFrame 내의 memo-wrapper를 찾거나 생성
+                let memoWrapper = userFrame.querySelector('.memo-wrapper');
+                if (!memoWrapper) {
+                    memoWrapper = document.createElement('div');
+                    memoWrapper.className = 'memo-wrapper';
+                    userFrame.insertBefore(memoWrapper, userFrame.querySelector('.memo-container')); // 메모 입력창 위에 삽입
                 }
 
+                // 새 메모를 추가
                 const newNoteContainer = document.createElement('div');
                 newNoteContainer.className = 'note';
 
@@ -53,19 +50,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 newMemo.textContent = data.newMemo.contents;
 
                 newNoteContainer.appendChild(newMemo);
-
-                if (targetNoteContainer.nextSibling) {
-                    targetNoteContainer.parentNode.insertBefore(newNoteContainer, targetNoteContainer.nextSibling);
-                } else {
-                    targetNoteContainer.parentNode.appendChild(newNoteContainer);
-                }
+                memoWrapper.appendChild(newNoteContainer); // memo-wrapper 내에 새 note를 추가
 
                 // 입력창 초기화
                 memoInput.value = '';
 
                 // 스크롤을 맨 아래로 이동
                 scrollToBottom(memoWrapper);
-            } else {
+            }
+            else {
                 alert('메모 전송에 실패했습니다.');
             }
         } catch (error) {
