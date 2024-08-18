@@ -33,10 +33,10 @@
         <div class="headerMenu">
             <nav>
                 <ul>
-                    <li><a th:href="@{/secondhand/list/ALL(pageNum=1)}">홈</a></li>
+                    <li><a th:href="@{|/groups/${group.id}}">홈</a></li>
                     <li><a th:href="@{|/groups/${group.id}/schedules|}">일정</a></li>
                     <li><a th:href="@{/groupBuying/list/ALL(pageNum=1)}">과제</a></li>
-                    <li><a th:href="@{/groups/memo/{id}(id=${group.id})}">진행상황</a></li>
+                    <li><a th:href="@{/groups/{id}/memo(id=${group.id})}">진행상황</a></li>
                     <li><a th:href="@{/groupBuying/list/ALL(pageNum=1)}">회비</a></li>
 
                     <li>
