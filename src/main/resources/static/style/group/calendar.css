@@ -1,9 +1,14 @@
-/* 모달 스타일 */
-.cal-container{
+/* 캘린더 컨테이너 스타일 */
+
+.cal-container {
     margin: auto;
     padding: 10px;
-    width: 80%;
+    width: 90%; /* 캘린더 크기를 조정 */
+    max-width: 1200px;
+    position: relative;
 }
+
+/* Modal styles */
 .modal {
     display: none;
     position: fixed;
@@ -56,12 +61,13 @@
 }
 
 .custom-datetime-local {
-    border: 2px solid rgba(255, 117, 123, 0.66);;
+    border: 2px solid rgba(255, 117, 123, 0.66);
     border-radius: 5px;
     padding: 10px;
     background-color: #f8f9fa;
     font-size: 13px;
 }
+
 .custom-label {
     font-weight: bold;
     margin-bottom: 5px;
@@ -86,6 +92,29 @@
     background-color: rgba(255, 117, 123, 1);
 }
 
-#is-important, #edit-is-important{
+#is-important, #edit-is-important {
     display: flex;
+}
+
+/* 버튼 스타일 조정 */
+.button-container {
+    text-align: right;
+    width: 90%;
+    margin: auto;
+    padding: 10px;
+    margin-top: 20px; /* 헤더와의 간격 조정 */
+}
+
+#adjust-schedule-btn {
+    padding: 10px 30px;
+    background-color: rgba(255, 117, 123, 0.66); /* 기존 버튼과 색상 맞춤 */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#adjust-schedule-btn:hover {
+    background-color: rgba(255, 117, 123, 1); /* 기존 버튼과 동일한 호버 효과 */
 }
