@@ -50,7 +50,7 @@ public class GroupService {
         return new PageImpl<>(dtoList, groupPage.getPageable(), groupPage.getTotalElements());
     }
 
-    // 그룹ID로 그룹 조회
+    // 그룹ID로 그룹 조회 (DTO 반환)
     public GroupDto getGroupById(Long id) {
         Optional<Group> optionalGroup = groupRepository.findGroupById(id);
         Group group = optionalGroup.orElseThrow(() -> new GroupNotExist());
@@ -124,5 +124,16 @@ public class GroupService {
         } else {
             throw new GroupCodeError();
         }
+    }
+
+    //그룹 아이디로 그룹 찾기
+    public Group findGroupById(Long id) {
+        return groupRepository.findGroupById(id)
+                .orElseThrow(() -> new GroupNotExist());
+    }
+
+    //그룹 인터셉터 - 특정 그룹에 세션 유저 가입 여부 판단
+    public boolean isUserMemberOfGroup(User user, Group group) {
+        return joinGroupRepository.countUserJoinGroupByUserAndGroup(user, group) > 0;
     }
 }

@@ -29,7 +29,7 @@ public class MemoController {
     private final JoinService joinService;
 
     // 진행상황 메인 이동
-    @GetMapping("/memo/{groupId}")
+    @GetMapping("/{groupId}/memo")
     public String memoMain(@SessionAttribute("user") User user, @PathVariable Long groupId, Model model) {
         List<UserDto> userList = joinService.getUserByGroupId(groupId);
         GroupDto groupDto = groupService.getGroupById(groupId);

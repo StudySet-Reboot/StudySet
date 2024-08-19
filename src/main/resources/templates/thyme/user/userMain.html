@@ -38,7 +38,7 @@
             </div>
             <div th:if="${not #lists.isEmpty(groups)}" class="list">
                 <div th:each="group : ${groups}" class="list-item">
-                    <a th:href="@{/users/group/{id}(id=${group.id})}" th:text="${group.groupName}" class="no-link-style"></a>
+                    <a th:href="@{/groups/{id}(id=${group.id})}" th:text="${group.groupName}" class="no-link-style"></a>
                 </div>
             </div>
 

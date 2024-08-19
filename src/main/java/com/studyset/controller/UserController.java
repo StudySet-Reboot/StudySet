@@ -16,14 +16,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/users")
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
     private final GroupService groupService;
 
     // 유저 메인 페이지 및 그룹 조회
-    @GetMapping("/main")
+    @GetMapping("/users/main")
     public String userMain(HttpServletRequest request, @PageableDefault(page = 0, size = 10) Pageable pageable, Model model) {
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
@@ -41,7 +40,7 @@ public class UserController {
     }
 
     // 그룹 메인 이동
-    @GetMapping("/group/{groupId}")
+    @GetMapping("/groups/{groupId}")
     public String groupMain(@SessionAttribute("user") User user, @PathVariable Long groupId, Model model, HttpSession session) {
         GroupDto group = groupService.getGroupById(groupId);
         model.addAttribute("group", group);
