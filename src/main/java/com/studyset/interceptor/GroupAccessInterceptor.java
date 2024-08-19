@@ -53,7 +53,9 @@ public class GroupAccessInterceptor implements HandlerInterceptor {
             // 그룹 조회 및 사용자 그룹 멤버 여부 확인
             Group group = groupService.findGroupById(groupId);
             if (!groupService.isUserMemberOfGroup(user, group)) {
-                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied: You are not a member of the group.");
+                response.setContentType("text/html; charset=UTF-8");
+                response.getWriter().write("<script>alert('접근 불가: 그룹에 가입해주세요.'); window.location.href='/users/main';</script>");
+                //response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied: You are not a member of the group.");
                 return false;
             }
 
