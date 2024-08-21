@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>taskMain.html</title>
+    <link rel="stylesheet" th:href="@{/style/header.css}">
+    <link rel="stylesheet" th:href="@{/style/task/taskMain.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css}"/>
+    <script th:src="@{/js/task/taskMain.js}" defer></script>
+</head>
+<body>
+    <!-- header 삽입 -->
+    <div th:replace="thyme/group/groupHeader :: groupHeader (group=${group})"></div>
+
+    <!-- 그룹 정보 frame -->
+    <div class="outer-frame">
+        <div class="frame">
+            <div class="groupName" th:text="${group.groupName}"></div>
+            <div class="category" th:text="${group.category}"></div>
+            <div class="description" th:text="${group.description}"></div>
+        </div>
+        <div class="btn">
+            <a id="createTaskBtn">과제 생성</a>
+        </div>
+    </div>
+
+    <!-- 과제 목록 -->
+    <div class="user-container">
+        <div class="frame2">
+            <div th:each="user : ${userList}" class="user-frame" th:data-user-id="${mem.id}" th:data-group-id="${group.id}">
+                <div class="user-title" th:text="${user.name}"></div>
+
+                <!-- 과제 전송 -->
+                <div class="memo-wrapper">
+                    <!-- 그룹원의 id와 메모 작성자의 id가 일치하면 메모 출력 -->
+                    <div th:each="memo : ${memoList}" th:if="${memo.user.id} == ${user.id}" class="note">
+                        <div class="memo" th:text="${memo.contents}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 과제 생성 모달 -->
+
+</body>
+</html>
