@@ -1,6 +1,5 @@
 package com.studyset.repository;
 
-import com.studyset.domain.Group;
 import com.studyset.domain.Memo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;

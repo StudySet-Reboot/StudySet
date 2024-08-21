@@ -1,0 +1,92 @@
+@font-face {
+    font-family: 'TheJamsil5Bold';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+}
+
+body {
+    font-family: 'TheJamsil5Bold', sans-serif;
+}
+
+.outer-frame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75%;
+    margin-top: 25px;
+    margin-bottom: 8px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.frame {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+    border-left: 4px solid rgba(0, 0, 0, 0.36);
+    padding: 0px 0px 10px 5px;
+}
+
+.groupName {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.category {
+    font-size: 14px;
+    color: rgba(102, 102, 102, 0.34);
+    margin-top: 6px;
+}
+
+.description {
+    font-size: 14px;
+    color: #666;
+    margin-top: 6px;
+}
+
+button {
+    font-family: 'TheJamsil5Bold', sans-serif;
+}
+
+.btn {
+    display: flex;
+    gap: 25px;
+    justify-content: flex-end;
+    width: 100%;
+    margin-bottom: -30px;
+}
+
+.btn a {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: rgba(255, 117, 123, 0.66);
+    color: white;
+    text-decoration: none;
+    border-radius: 18px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.btn a:hover {
+    background-color: #f46e73;
+}
+
+.user-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.frame2 {
+    width: 75%;
+    padding: 10px 0;
+    background-color: rgba(255, 132, 139, 0.07);
+    border-radius: 15px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
