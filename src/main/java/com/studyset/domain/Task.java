@@ -1,11 +1,16 @@
 package com.studyset.domain;
 
+import com.studyset.dto.task.TaskDto;
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
+@NoArgsConstructor
+@Setter
 public class Task extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,4 +24,13 @@ public class Task extends BaseEntity{
     private LocalDate startTime;
     private LocalDate endTime;
     private String description;
+
+    public TaskDto toDto() {
+        return TaskDto.builder()
+                .group(group)
+                .taskName(taskName)
+                .description(description)
+                .endTime(endTime)
+                .build();
+    }
 }

@@ -90,3 +90,149 @@ button {
     flex-direction: column;
     align-items: center;
 }
+
+.list {
+    display: grid;
+    gap: 20px; /* 아이템 간의 간격 */
+    width: 100%; /* 리스트 너비 */
+    text-align: center;
+    overflow-y: auto;
+}
+
+.empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100px; /* 높이 조정 필요시 */
+    font-size: 1.2em;
+    color: #333;
+}
+
+.list-item {
+    background-color: rgba(255, 132, 139, 0.13);
+    padding: 15px;
+    margin: 0 auto; /* 수정: 중앙 정렬 */
+    width: 80%;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    cursor: pointer;
+}
+
+.task-item {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    color: inherit;
+}
+
+span.task-name {
+    text-align: left;
+    margin-left: 35px;
+}
+
+span.task-end-time {
+    text-align: right;
+    margin-right: 35px;
+}
+
+.no-link-style {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 모달창 스타일링 */
+.modal {
+    display: none; /* 모달 초기 상태는 숨김 */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* 배경 반투명 검정 */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 13% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    text-align: center;
+}
+
+#createModalForm input {
+    width: calc(100% - 20px); /* 패딩을 고려하여 너비 조정 */
+    margin: 5px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#createModalForm label {
+    text-align: left;
+}
+
+#createModalForm button {
+    padding: 10px 20px;
+    background-color: rgba(255, 117, 123, 0.66);
+    color: white;
+    margin: 5px auto 0; /* 상단 15px 마진, 좌우 자동으로 가운데 정렬 */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 20%;
+
+}
+
+#createModalForm button:hover {
+    background-color: #f46e73;
+}
+
+/* 스크롤바 스타일 */
+.list::-webkit-scrollbar {
+    width: 7px; /* 스크롤바 너비 */
+}
+
+.list::-webkit-scrollbar-track {
+    background: rgba(255, 132, 139, 0.04); /* 스크롤바 트랙의 배경색 */
+    border-radius: 10px; /* 스크롤바 트랙의 모서리를 둥글게 */
+}
+
+.list::-webkit-scrollbar-thumb {
+    background: rgba(255, 132, 139, 0.4); /* 스크롤바의 색상 */
+    border-radius: 10px; /* 스크롤바의 모서리를 둥글게 */
+}
+
+.list::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 117, 123, 0.66); /* 스크롤바에 마우스를 올렸을 때의 색상 */
+}
