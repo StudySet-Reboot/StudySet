@@ -10,10 +10,10 @@
 </head>
 <body>
 <!-- header -->
-<div th:replace="~{thyme/group/groupHeader :: groupHeader (group=${group})}" class="header"></div>
+<div th:replace="~{thyme/group/groupHeader :: groupHeader (group=${session.group})}" class="header"></div>
 <div class="sub-header">
     <div class="sub-header-title">
-        <h3>※참석 가능한 시간에 색칠해주세요</h3>
+        <h2 th:text="'🪄'+${month} + '월 ' + ${weekOfMonth} + '째 주 스케줄 조정표'"></h2>
     </div>
     <div class="button-container">
         <button class="unselected-btn" id="adjust-calendar-btn">캘린더 보기</button>
@@ -23,6 +23,7 @@
 <div class="container">
     <!-- time table -->
     <div class="time-table-container">
+        <h6>※참석 가능한 시간에 색칠해주세요</h6>
         <table id="time-table">
             <thead>
             <tr>
@@ -64,6 +65,6 @@
     </div>
 </div>
 
-<input type="hidden" id="groupId" name="groupId" th:value="${group.id}" />
+<input type="hidden" id="groupId" name="groupId" th:value="${session.group.id}" />
 </body>
 </html>
