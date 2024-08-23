@@ -4,7 +4,8 @@ $(document).ready(function() {
         initialView: 'dayGridMonth',
         locale: 'ko',
         header: {
-            center: 'title'
+            center: 'title',
+            left: 'none'
         },
         showNonCurrentDates: false, // 이전 달과 다음 달의 날짜 숨기기
         height: 600, // 전체 캘린더 높이 조정
@@ -61,8 +62,6 @@ $(document).ready(function() {
         $('#event-create-modal').hide();
         $('#edit-event-modal').hide();
     });
-
-
 
     // 모달 외부 클릭 시 닫기
     $(window).click(function(event) {
@@ -125,5 +124,10 @@ $(document).ready(function() {
                 calendar.fullCalendar('refetchEvents');
             })
             .catch(error => console.error('Error:', error));
+    });
+
+    $('#adjust-schedule-btn').click(function() {
+        var groupId = $('#groupId').val(); // groupId 값을 가져옴
+        window.location.href = '/groups/' + groupId + '/timetables'; // 새 URL로 이동
     });
 });
