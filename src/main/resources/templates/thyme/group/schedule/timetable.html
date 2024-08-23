@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Time Table</title>
+    <link rel="stylesheet" th:href="@{/style/header.css}">
+    <link rel="stylesheet" th:href="@{/style/group/calendar.css}">
+    <script th:src="@{/js/group/timetable.js}" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+<!-- header -->
+<div th:replace="~{thyme/group/groupHeader :: groupHeader (group=${session.group})}" class="header"></div>
+<div class="sub-header">
+    <div class="sub-header-title">
+        <h2 th:text="'🪄'+${month} + '월 ' + ${weekOfMonth} + '째 주 스케줄 조정표'"></h2>
+    </div>
+    <div class="button-container">
+        <button class="unselected-btn" id="adjust-calendar-btn">캘린더 보기</button>
+        <button class="selected-btn" id="adjust-schedule-btn">스케줄 조정하기</button>
+    </div>
+</div>
+<div class="container">
+    <!-- time table -->
+    <div class="time-table-container">
+        <h6>※참석 가능한 시간에 색칠해주세요</h6>
+        <table id="time-table">
+            <thead>
+            <tr>
+                <th style="border-top-left-radius: 25px;">시간(시)</th>
+                <th>월</th>
+                <th>화</th>
+                <th>수</th>
+                <th>목</th>
+                <th>금</th>
+                <th>토</th>
+                <th style="border-top-right-radius: 25px;">일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- 시간과 요일 데이터를 반복해서 표시 -->
+            <th:block th:each="dayList, stat : ${times}">
+                <tr>
+                    <th th:text="${stat.index}+'~'+${stat.index + 1}"></th>
+                    <th:block th:each="day, dayIndex : ${dayList}">
+                        <td class="time-cell"></td>
+                    </th:block>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+    <div class="time-table-side">
+        <form name="form" action="#" method="POST">
+            <button type="button" class="selected-btn" onclick="addChart()">제출하기</button>
+            <input type="hidden" name="editTime">
+        </form>
+        <!-- member list -->
+        <div class="member-list-container" id="member-list">
+            멤버 리스트
+            <div class="member-list">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="groupId" name="groupId" th:value="${session.group.id}" />
+</body>
+</html>

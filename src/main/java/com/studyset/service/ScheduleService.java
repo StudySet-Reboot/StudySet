@@ -53,4 +53,9 @@ public class ScheduleService {
         scheduleRepository.save(schedule);
         return schedule.toEvent();
     }
+
+    public int[][] getUsersAvailableTime() {
+        int availableTime[][] = new int[24][7];
+        return availableTime;
+    }
 }
