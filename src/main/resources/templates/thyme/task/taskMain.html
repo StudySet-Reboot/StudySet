@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>taskMain.html</title>
+    <link rel="stylesheet" th:href="@{/style/header.css}">
+    <link rel="stylesheet" th:href="@{/style/task/taskMain.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css}"/>
+    <script th:src="@{/js/task/taskMain.js}" defer></script>
+</head>
+<body>
+    <!-- header 삽입 -->
+    <div th:replace="thyme/group/groupHeader :: groupHeader (group=${group})"></div>
+
+    <!-- 그룹 정보 frame -->
+    <div class="outer-frame">
+        <div class="frame">
+            <div class="groupName" th:text="${group.groupName}"></div>
+            <div class="category" th:text="${group.category}"></div>
+            <div class="description" th:text="${group.description}"></div>
+        </div>
+        <div class="btn">
+            <a id="createTaskBtn">과제 생성</a>
+        </div>
+    </div>
+
+    <!-- 과제 목록 -->
+    <div class="user-container">
+        <div class="frame2">
+            <div th:if="${taskList == null or #lists.isEmpty(taskList)}">
+                <div class="empty">생성된 과제가 없습니다. 과제를 생성해보세요!</div>
+            </div>
+            <div th:if="${taskList != null and not #lists.isEmpty(taskList)}" class="list">
+                <div th:each="task : ${taskList}" class="list-item">
+                    <a th:href="@{/tasks/{id}(id=${task.id})}" class="no-link-style task-item">
+                        <span class="task-name" th:text="${task.taskName}">Task Name</span>
+                        <span class="task-end-time" th:text="'마감: ' + ${task.endTimeFormatted}">End Date</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 과제 생성 모달 -->
+    <div id="createModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <form id="createModalForm" action="/groups/task/create" method="post">
+                <h2>과제 생성</h2>
+                <input type="hidden" id="groupId" name="groupId" th:value="${group.id}">
+                <label for="taskName">과제 제목</label>
+                <input type="text" id="taskName" name="taskName" required>
+                <label for="description">과제 설명</label>
+                <input type="text" id="description" maxlength="6" name="description" required>
+                <label for="startTime">제출 기한</label>
+                <input type="date" id="startTime" name="startTime" required>
+                <input type="date" id="endTime" name="endTime" required>
+                <button type="submit">생성</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
