@@ -21,9 +21,15 @@
 <!-- 헤더 삽입 -->
 <div th:replace="~{thyme/group/groupHeader :: groupHeader (group=${group})}"></div>
 
-<!-- 조정 버튼 -->
-<div class="button-container">
-    <button id="adjust-schedule-btn">스케줄 조정하기</button>
+<!-- 서브 헤더 -->
+<div class="sub-header">
+    <div class="sub-header-title">
+        <h2>📌schedule</h2>
+    </div>
+    <div class="button-container">
+        <button class="unselected-btn" id="adjust-calendar-btn">캘린더 보기</button>
+        <button class="selected-btn" id="adjust-schedule-btn">스케줄 조정하기</button>
+    </div>
 </div>
 
 <!-- 캘린더 -->
