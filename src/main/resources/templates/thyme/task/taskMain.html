@@ -32,10 +32,15 @@
             </div>
             <div th:if="${taskList != null and not #lists.isEmpty(taskList)}" class="list">
                 <div th:each="task : ${taskList}" class="list-item">
-                    <a th:href="@{/tasks/{id}(id=${task.id})}" class="no-link-style task-item">
-                        <span class="task-name" th:text="${task.taskName}">Task Name</span>
-                        <span class="task-end-time" th:text="'마감: ' + ${task.endTimeFormatted}">End Date</span>
-                    </a>
+                    <div class="task-details">
+                        <a th:href="@{/groups/{groupId}/{taskId}/taskDetail(groupId=${group.id}, taskId=${task.id})}" class="no-link-style task-item">
+                            <span class="task-name" th:text="${task.taskName}">Task Name</span>
+                            <div class="task-time">
+                                <span class="task-start-time" th:text="${task.startTimeFormatted}">Start Date</span>
+                                <span class="task-end-time" th:text="${task.endTimeFormatted}">End Date</span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -51,7 +56,7 @@
                 <label for="taskName">과제 제목</label>
                 <input type="text" id="taskName" name="taskName" required>
                 <label for="description">과제 설명</label>
-                <input type="text" id="description" maxlength="6" name="description" required>
+                <textarea id="description" rows="3" name="description" required></textarea>
                 <label for="startTime">제출 기한</label>
                 <input type="date" id="startTime" name="startTime" required>
                 <input type="date" id="endTime" name="endTime" required>
