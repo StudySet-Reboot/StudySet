@@ -1,5 +1,85 @@
-/* 캘린더 컨테이너 스타일 */
+@font-face {
+    font-family: 'TheJamsil5Bold';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+}
 
+body {
+    font-family: 'TheJamsil5Bold', sans-serif;
+}
+
+/* 서브 헤더 영역 */
+.sub-header{
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    align-items: center;
+    width: 75%;
+    margin: auto;
+}
+
+.sub-header-title{
+
+}
+/* 버튼 스타일  */
+.button-container {
+    text-align: right;
+    width: 30%;
+    margin: 20px auto auto;
+}
+
+.selected-btn {
+    padding: 10px 30px;
+    background-color: rgba(255, 117, 123, 0.66);
+    color: white;
+    border: 1.5px solid rgba(255, 117, 123, 0.66);
+    border-radius: 18px;
+    cursor: pointer;
+    font-size: 15px;
+    min-width: 100px;
+    font-family: 'TheJamsil5Bold', sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 버튼에 살짝 그림자 추가 */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 호버 시 부드러운 전환 */
+}
+
+.unselected-btn {
+    padding: 10px 30px;
+    background-color: #d3d3d3;
+    color: #7f8c8d;
+    border: 1.5px solid #bdc3c7;
+    border-radius: 18px;
+    cursor: pointer;
+    font-size: 15px;
+    min-width: 100px;
+    font-family: 'TheJamsil5Bold', sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.selected-btn:hover {
+    background-color: #ff6b81;
+    border: 3px solid;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.unselected-btn:hover {
+    background-color: #ff6b81;
+    border: 3px solid #ff6b81;
+    color: #636e72;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+table td.highlighted {
+    background-color: rgba(255, 117, 123, 0.1);
+}
+
+.button-container {
+    margin: 20px;
+}
+
+/* 캘린더 컨테이너 스타일 */
 .cal-container {
     margin: auto;
     padding: 10px;
@@ -96,18 +176,81 @@
     display: flex;
 }
 
-/* 버튼 스타일 조정 */
-.button-container {
-    text-align: right;
-    width: 90%;
+.container {
     margin: auto;
-    padding: 10px;
-    margin-top: 20px; /* 헤더와의 간격 조정 */
+    width: 75%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
 }
 
-#adjust-schedule-btn {
-    padding: 10px 30px;
-    background-color: rgba(255, 117, 123, 0.66); /* 기존 버튼과 색상 맞춤 */
+/* 타임테이블 컨테이너 스타일 */
+.time-table-container {
+    width: 80%;
+}
+
+/* 멤버 리스트 컨테이너 스타일 */
+.time-table-side {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.member-list-container {
+    background-color: #f5f5f5;
+    height: 200px;
+    width: 100px;
+    vertical-align: middle;
+    border-radius: 10px;
+    margin: 40px auto auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.member-list {
+    margin: auto;
+    padding: 5px;
+    overflow-y: scroll;
+}
+
+/* 타임테이블의 스타일 */
+#time-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+    margin: 20px;
+    border-radius: 25px;
+}
+
+#time-table th, #time-table td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #8f8f8f;
+}
+
+#time-table th {
+    font-size: 14px; /* 헤더의 글씨 크기 줄임 */
+    background-color: #ffa0a0; /* 헤더 배경 색상 설정 */
+    height: 8px;
+    width: 50px;
+}
+
+#time-table td {
+    height: 8px;
+    border-right: 1px solid #8f8f8f;
+}
+/* 하이라이트 셀 스타일 */
+td.highlighted {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* 버튼 스타일 */
+.button-container {
+    margin-bottom: 20px;
+}
+
+.btn1 {
+    padding: 10px 20px;
+    background-color: rgba(255, 117, 123, 0.66);
     color: white;
     border: none;
     border-radius: 5px;
@@ -115,6 +258,11 @@
     font-size: 14px;
 }
 
-#adjust-schedule-btn:hover {
-    background-color: rgba(255, 117, 123, 1); /* 기존 버튼과 동일한 호버 효과 */
+.btn1:hover {
+    background-color: rgba(255, 117, 123, 1);
+}
+
+/* 헤더와 타임테이블 컨테이너의 간격 조정 */
+.header {
+    margin-bottom: 20px;
 }
