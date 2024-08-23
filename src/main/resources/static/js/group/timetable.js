@@ -1,4 +1,10 @@
-// Function to handle cell selection and form submission
+$(document).ready(function() {
+    $('#adjust-calendar-btn').click(function() {
+        var groupId = $('#groupId').val();
+        window.location.href = '/groups/' + groupId + '/schedules'; // 새 URL로 이동
+    });
+});
+
 function addChart() {
     var selectedCells = document.querySelectorAll('.highlighted');
     var timelist = { "list": [] };
