@@ -58,4 +58,8 @@ public class ScheduleService {
         int availableTime[][] = new int[24][7];
         return availableTime;
     }
+
+    public void deleteSchedule(Long scheduleId) {
+        scheduleRepository.deleteById(scheduleId);
+    }
 }
