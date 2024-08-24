@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>taskDetail.html</title>
+    <link rel="stylesheet" th:href="@{/style/header.css}">
+    <link rel="stylesheet" th:href="@{/style/task/taskDetail.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css}"/>
+</head>
+<body>
+    <!-- header 삽입 -->
+    <div th:replace="thyme/group/groupHeader :: groupHeader (group=${group})"></div>
+
+    <div class="task">
+        <!-- 과제 제목 -->
+        <div class="title">
+            <div class="taskName" th:text="${task.taskName}"></div>
+        </div>
+
+        <!-- 과제 설명 -->
+        <div class="frame">
+            <div class="description">
+                <div class="description" th:text="${task.description}"></div>
+            </div>
+        </div>
+
+        <!-- userList -->
+        <div class="frame2">
+            <div th:each="user : ${userList}" class="user-frame">
+                <a th:href="@{/groups/{taskId}/{id}/userTask(taskId=${task.id}, id=${user.id})}" class="no-link-style task-item">
+                    <div class="task-details">
+                        <span class="user-title" th:text="${user.name}"></span>
+                        <span class="task-end-time" th:text="${task.endTimeFormatted}">End Date</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
