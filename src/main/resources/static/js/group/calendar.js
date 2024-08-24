@@ -10,7 +10,7 @@ $(document).ready(function() {
         showNonCurrentDates: false, // 이전 달과 다음 달의 날짜 숨기기
         height: 600, // 전체 캘린더 높이 조정
         events: {
-            url: 'schedules/events',
+            url: '/api/groups/'+groupId+'/schedules/events',
             method: 'GET',
             failure: function() {
                 console.error('There was an error while fetching events.');
@@ -82,7 +82,7 @@ $(document).ready(function() {
             location: $('#event-place').val()
         };
 
-        fetch(`/groups/${groupId}/schedules/events`, {
+        fetch(`/api/groups/${groupId}/schedules/events`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -111,7 +111,7 @@ $(document).ready(function() {
             location: $('#edit-event-place').val()
         };
 
-        fetch(`/groups/${groupId}/schedules/events/${eventId}`, {
+        fetch(`/api/groups/${groupId}/schedules/events/${eventId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -126,8 +126,20 @@ $(document).ready(function() {
             .catch(error => console.error('Error:', error));
     });
 
+    $('#del-schedule-btn').click(function () {
+        const result = confirm('정말 삭제하시겠습니까?');
+        if(result){
+            const eventId = $('#edit-event-id').val();
+            fetch(`/api/groups/${groupId}/schedules/events/${eventId}`, {
+                method: 'DELETE'
+            }).then(response => {
+                    $('#edit-event-modal').hide();
+                    calendar.fullCalendar('refetchEvents');
+            }).catch(error => console.error('Error:', error))
+        }
+    });
+
     $('#adjust-schedule-btn').click(function() {
-        var groupId = $('#groupId').val(); // groupId 값을 가져옴
-        window.location.href = '/groups/' + groupId + '/timetables'; // 새 URL로 이동
+        window.location.href = '/groups/' + groupId + '/timetables';
     });
 });

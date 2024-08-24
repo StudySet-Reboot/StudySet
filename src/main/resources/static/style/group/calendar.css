@@ -23,6 +23,7 @@ body {
 .sub-header-title{
     text-align: center;
 }
+
 /* 버튼 스타일  */
 .button-container {
     text-align: right;
@@ -126,9 +127,13 @@ table td.highlighted {
     cursor: pointer;
 }
 
+.modal-form {
+    padding: 10px;
+}
+
 .modal-form label {
     display: block;
-    margin-top: 10px;
+    margin: 10px;
 }
 
 .modal-form input[type="text"],
@@ -166,6 +171,16 @@ table td.highlighted {
     margin-top: 10px;
     cursor: pointer;
     border-radius: 4px;
+}
+
+.modal-button-group {
+    margin: auto;
+    padding: 10px;
+    width: 90%;
+}
+
+#del-schedule-btn {
+    float: right;
 }
 
 .modal-form button:hover {
