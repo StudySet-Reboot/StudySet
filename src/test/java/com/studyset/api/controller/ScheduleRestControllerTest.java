@@ -5,6 +5,7 @@ import com.studyset.api.response.schedule.Event;
 import com.studyset.service.ScheduleService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,14 +21,17 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @MockBean(JpaMetamodelMappingContext.class)
-@WebMvcTest
+@WebMvcTest(ScheduleRestController.class)
 class ScheduleRestControllerTest {
 
     @Autowired
@@ -42,7 +46,7 @@ class ScheduleRestControllerTest {
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
             http
                     .authorizeRequests(authorizeRequests ->
-                            authorizeRequests.anyRequest().permitAll() // 모든 요청을 허용
+                            authorizeRequests.anyRequest().permitAll()
                     ).csrf(AbstractHttpConfigurer::disable);
             return http.build();
         }
@@ -54,12 +58,6 @@ class ScheduleRestControllerTest {
         Long groupId = 1L;
         Integer year = 2024;
         Integer month = 8;
-        User user = User.builder()
-                .name("user")
-                .email("test@test.com")
-                .build();
-        MockHttpSession session = new MockHttpSession();
-        session.setAttribute("user", user);
         Event event = Event.builder()
                 .title("Event Title")
                 .start(LocalDateTime.of(year, month, 1, 0, 0))
@@ -75,5 +73,15 @@ class ScheduleRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].title").value("Event Title"))
                 .andDo(print()); // 디버깅에 유용하지만, 실제 배포 환경에서는 제거할 수 있음
+    }
+
+    @Test
+    @DisplayName("삭제 성공 테스트")
+    void deleteSchedule() throws Exception {
+        Mockito.doNothing().when(scheduleService).deleteSchedule(anyLong());
+        mockMvc.perform(delete("/groups/1/schedules/events/1"))
+                .andExpect(status().isNoContent());
+
+        Mockito.verify(scheduleService).deleteSchedule(anyLong());
     }
 }
