@@ -20,7 +20,7 @@
         <!-- 과제 설명 -->
         <div class="frame">
             <div class="description">
-                <div class="description" th:text="${task.description}"></div>
+                <div class="description" th:text="${task.description}" style="white-space: pre-wrap;"></div>
             </div>
         </div>
 
@@ -31,6 +31,10 @@
                     <div class="task-details">
                         <span class="user-title" th:text="${user.name}"></span>
                         <span class="task-end-time" th:text="${task.endTimeFormatted}">End Date</span>
+                        <!-- user.id가 mem.id와 같을 때만 버튼을 보여줌 -->
+                        <span th:if="${user.id == loginUser.id}" class="submit-button-wrapper">
+                            <a th:href="@{/groups/{groupId}/{taskId}/submitTask(groupId=${group.id}, taskId=${task.id})}" class="submit-button">제출</a>
+                        </span>
                     </div>
                 </a>
             </div>

@@ -1,5 +1,6 @@
 package com.studyset.controller;
 
+import com.studyset.domain.User;
 import com.studyset.dto.group.GroupDto;
 import com.studyset.dto.task.TaskDto;
 import com.studyset.dto.user.UserDto;
@@ -26,7 +27,7 @@ public class TaskController {
     private final TaskService taskService;
     private final JoinService joinService;
 
-    // 과제 메인 이동
+    // 과제 메인페이지 이동
     @GetMapping("/{groupId}/task")
     public String taskMain(@SessionAttribute("group") GroupDto group, Model model) {
         List<TaskDto> taskList = taskService.getTaskByGroupId(group.getId());
@@ -57,15 +58,10 @@ public class TaskController {
         return ResponseEntity.ok(response);
     }
 
-    // 과제 상세 이동
+    // 과제 상세페이지 이동
     @GetMapping("/{groupId}/{taskId}/taskDetail")
-    public String taskDetail(@PathVariable Long taskId, @SessionAttribute("group") GroupDto group, Model model) {
-        System.out.println("과제 상세 이동 컨트롤러 진입");
+    public String taskDetail(@PathVariable Long taskId, @SessionAttribute("group") GroupDto group, @SessionAttribute("user") User user, Model model) {
         List<UserDto> userList = joinService.getUserByGroupId(group.getId());
-        System.out.println("그룹 존재 에러");
-        for (UserDto user : userList) {
-            System.out.println(user.getId());
-        }
         TaskDto task = taskService.getTaskDetailByTaskId(taskId);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -75,15 +71,38 @@ public class TaskController {
 
         model.addAttribute("group", group);
         model.addAttribute("userList", userList);
+        model.addAttribute("loginUser", user);
         model.addAttribute("task", task);
         return "/thyme/task/taskDetail";
     }
 
-    // 유저별 과제 이동
+    // 유저별 과제페이지 이동(=과제 조회)
     @GetMapping("/{taskId}/{userId}/userTask")
-    public String userTask(@PathVariable Long taskId, @PathVariable Long userId, @SessionAttribute("group") GroupDto group, Model model) {
+    public String userTask(@PathVariable Long taskId, @PathVariable Long userId, Model model) {
         // 추후
 
         return "/thyme/task/userTask";
+    }
+
+    // 과제 제출페이지 이동
+    @GetMapping("/{groupId}/{taskId}/submitTask")
+    public String taskSubmit(@PathVariable Long taskId, @SessionAttribute("user") User user, @SessionAttribute("group") GroupDto group, Model model) {
+        TaskDto task = taskService.getTaskDetailByTaskId(taskId);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        if (task.getEndTime() != null) {
+            task.setEndTimeFormatted(task.getEndTime().format(formatter));
+        }
+
+        model.addAttribute("group", group);
+        model.addAttribute("task", task);
+        model.addAttribute("user", user);
+        return "/thyme/task/userTaskSubmit";
+    }
+
+    // 과제 제출
+    @PostMapping("/task/submitTask")
+    public ResponseEntity<Map<String, Object>> submitTask() {
+
+        return null;
     }
 }

@@ -1,0 +1,89 @@
+@font-face {
+    font-family: 'TheJamsil5Bold';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+}
+
+body {
+    font-family: 'TheJamsil5Bold', sans-serif;
+}
+
+.task {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.title {
+    padding: 20px;
+    color: rgba(0, 0, 0, 0.63);
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+}
+
+.taskName {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.frame {
+    padding: 20px;
+    background-color: rgba(255, 132, 139, 0.13);
+    border-radius: 5px;
+}
+
+/* 과제 제출 */
+.taskSubmit {
+    margin-top: 20px;
+    border: 2px solid rgba(255, 132, 139, 0.4);
+    border-radius: 5px;
+    padding: 20px;
+    font-family: inherit;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 3px solid rgba(221, 221, 221, 0.51);
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="file"] {
+    display: block;
+    margin-top: 5px;
+    font-family: inherit;
+}
+
+.submit-button-container {
+    text-align: right;
+}
+
+.submit-button {
+    padding: 10px 20px;
+    background-color: rgba(255, 117, 123, 0.62);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: inherit;
+}
+
+.submit-button:hover {
+    background-color: #f46e73;
+}
