@@ -129,14 +129,25 @@ button {
     color: inherit;
 }
 
-span.task-name {
-    text-align: left;
-    margin-left: 35px;
+.task-details {
+    justify-content: space-between;
+    align-items: center;
 }
 
-span.task-end-time {
-    text-align: right;
-    margin-right: 35px;
+span.task-name {
+    margin-right: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.task-time {
+    display: flex;
+    align-items: flex-end;
+}
+
+.task-start-time, .task-end-time {
+    margin-left: 10px;
 }
 
 .no-link-style {

@@ -27,9 +27,11 @@ public class Task extends BaseEntity{
 
     public TaskDto toDto() {
         return TaskDto.builder()
+                .id(id)
                 .group(group)
                 .taskName(taskName)
                 .description(description)
+                .startTime(startTime)
                 .endTime(endTime)
                 .build();
     }
