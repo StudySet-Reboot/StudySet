@@ -89,9 +89,20 @@ $(document).ready(function() {
             },
             body: JSON.stringify(scheduleCreate)
         }).then(response => {
+            if (!response.ok) {
+                return response.json().then(errorData => {
+                    if (errorData.validation) {
+                        displayErrorToast(errorData.validation);
+                    } else {
+                        throw new Error(`Error ${response.status}: ${errorData.message}`);
+                    }
+                });
+            }
             $('#event-create-modal').hide();
             calendar.fullCalendar('refetchEvents');
-        }).catch(error => console.error('Error:', error));
+        }).catch(error => {
+            console.error(`An error occurred: ${error.message}`);
+        });
     });
 
     // 이벤트 수정 폼 제출 이벤트 핸들러
@@ -117,13 +128,21 @@ $(document).ready(function() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(scheduleEdit)
-        }).then(response => response.json())
-            .then(data => {
-                console.log('Event updated:', data);
-                $('#edit-event-modal').hide();
-                calendar.fullCalendar('refetchEvents');
-            })
-            .catch(error => console.error('Error:', error));
+        }).then(response => {
+            if (!response.ok) {
+                return response.json().then(errorData => {
+                    if (errorData.validation) {
+                        displayErrorToast(errorData.validation);
+                    } else {
+                        throw new Error(`Error ${response.status}: ${errorData.message}`);
+                    }
+                });
+            }
+            $('#edit-event-modal').hide();
+            calendar.fullCalendar('refetchEvents');
+        }).catch(error => {
+            console.error('Error:', error);
+        });
     });
 
     $('#del-schedule-btn').click(function () {
@@ -142,4 +161,18 @@ $(document).ready(function() {
     $('#adjust-schedule-btn').click(function() {
         window.location.href = '/groups/' + groupId + '/timetables';
     });
+
+
+    function displayErrorToast(validationErrors) {
+        const toast = $('#error-toast');
+        let message = '';
+        for (const [field, error] of Object.entries(validationErrors)) {
+            message += `${error} `;
+        }
+        toast.text(message);
+        toast.addClass('show');
+        setTimeout(() => {
+            toast.removeClass('show');
+        }, 3000);
+    }
 });
