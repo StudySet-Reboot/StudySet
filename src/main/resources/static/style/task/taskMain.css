@@ -146,8 +146,12 @@ span.task-name {
     align-items: flex-end;
 }
 
-.task-start-time, .task-end-time {
-    margin-left: 10px;
+.task-end-time {
+    margin-left: 5px;
+}
+
+.task-start-time {
+    margin-right: 5px;
 }
 
 .no-link-style {

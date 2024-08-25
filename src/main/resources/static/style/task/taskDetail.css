@@ -52,7 +52,7 @@ body {
 }
 
 .user-frame:hover {
-    background-color: rgba(255, 117, 123, 0.66);
+    background-color: rgba(255, 117, 123, 0.2);
 }
 
 .no-link-style {
@@ -61,6 +61,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%; /* 추가: 부모 요소의 전체 너비 사용 */
 }
 
 .task-item {
@@ -70,10 +71,18 @@ body {
     justify-content: space-between;
     text-decoration: none;
     color: inherit;
+    width: 100%; /* 추가: 부모 요소의 전체 너비 사용 */
+}
+
+.task-details {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1; /* 추가: 전체 너비를 사용하도록 설정 */
 }
 
 .user-title {
-    flex: 1;
+    flex: 1; /* 추가: 공간을 최대한 활용하도록 설정 */
     margin-right: 20px;
     white-space: nowrap;
 }
@@ -85,4 +94,25 @@ body {
     margin-left: 20px;
     min-width: 120px;
     text-align: right;
+}
+
+.submit-button-wrapper {
+    margin-left: auto; /* 오른쪽 끝으로 밀어내기 */
+}
+
+.submit-button {
+    display: inline-block;
+    padding: 8px 13px;
+    background-color: rgba(255, 132, 139, 0.88);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+.submit-button:hover {
+    background-color: #f46e73;
 }
