@@ -26,12 +26,8 @@
         </div>
 
         <!-- 과제 제출 -->
-        <input type="hidden" id="groupId" name="groupId" th:value="${group.id}">
         <div class="taskSubmit">
-            <form action="/groups/task/submitTask" method="post" enctype="multipart/form-data">
-                <input type="hidden" id="taskId" name="taskId" th:value="${task.id}">
-                <input type="hidden" id="userId" name="userId" th:value="${user.id}">
-
+            <form action="#" method="post" enctype="multipart/form-data">
                 <!-- 과제 내용 -->
                 <div class="form-group">
                     <label for="content">과제 내용:</label>
