@@ -87,14 +87,6 @@ body {
     white-space: nowrap;
 }
 
-.submit-date {
-    font-size: 14px;
-    color: rgba(255, 117, 123, 0.62);
-    flex-shrink: 0;
-    min-width: 120px;
-    text-align: right;
-}
-
 .task-end-time {
     font-size: 14px;
     color: #666;

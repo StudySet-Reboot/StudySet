@@ -30,19 +30,7 @@
                 <a th:href="@{/groups/{taskId}/{id}/userTask(taskId=${task.id}, id=${user.id})}" class="no-link-style task-item">
                     <div class="task-details">
                         <span class="user-title" th:text="${user.name}"></span>
-
-                        <!-- 제출 상태 표시 -->
-                        <div th:if="${taskSubmissionMap.containsKey(user.id)}">
-                            <!-- 날짜 출력 -->
-                            <span class="submit-date" th:text="${taskSubmissionMap[user.id].updatedDate}"></span>
-                        </div>
-                        <div th:if="${!taskSubmissionMap.containsKey(user.id)}">
-                            <span class="submit-date">미제출</span>
-                        </div>
-
-                        <!-- 해당 과제 마감 날짜 표시 -->
                         <span class="task-end-time" th:text="${task.endTimeFormatted}">End Date</span>
-
                         <!-- user.id가 mem.id와 같을 때만 버튼을 보여줌 -->
                         <span th:if="${user.id == loginUser.id}" class="submit-button-wrapper">
                             <a th:href="@{/groups/{groupId}/{taskId}/submitTask(groupId=${group.id}, taskId=${task.id})}" class="submit-button">제출</a>

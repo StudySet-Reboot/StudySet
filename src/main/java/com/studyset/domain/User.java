@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
@@ -13,7 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "member")
 @DynamicUpdate
-@Getter @Setter
+@Getter
 @NoArgsConstructor
 public class User extends BaseEntity{
     @Id

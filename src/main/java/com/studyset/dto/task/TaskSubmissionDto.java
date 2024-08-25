@@ -1,28 +1,28 @@
 package com.studyset.dto.task;
 
-import lombok.*;
-
-import java.time.LocalDate;
+import com.studyset.domain.Task;
+import com.studyset.domain.User;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Data
 @Getter
 @Setter
-@NoArgsConstructor
 public class TaskSubmissionDto {
     private Long id;
-    private Long taskId;
-    private Long userId;
+    private Task task;
+    private User user;
     private String contents;
     private String filePath;
-    private LocalDate updatedDate; // 날짜만 포함
 
     @Builder
-    public TaskSubmissionDto(Long id, Long taskId, Long userId, String contents, String filePath, LocalDate updatedDate) {
+    public TaskSubmissionDto(Long id, Task task, User user, String contents, String filePath) {
         this.id = id;
-        this.taskId = taskId;
-        this.userId = userId;
+        this.task = task;
+        this.user = user;
         this.contents = contents;
         this.filePath = filePath;
-        this.updatedDate = updatedDate;
     }
 }
