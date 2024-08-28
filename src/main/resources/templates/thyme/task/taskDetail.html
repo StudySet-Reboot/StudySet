@@ -27,7 +27,7 @@
     <!-- userList -->
     <div class="frame2">
         <div th:each="user : ${userList}" class="user-frame">
-            <a th:href="@{/groups/{taskId}/{id}/userTask(taskId=${task.id}, id=${user.id})}" class="no-link-style task-item">
+            <a th:href="@{/groups/{groupId}/{taskId}/{userId}/userTask(groupId=${group.id}, taskId=${task.id}, userId=${user.id})}" class="no-link-style task-item">
                 <div class="task-details">
                     <span class="user-title" th:text="${user.name}"></span>
 
@@ -46,7 +46,7 @@
                     <!-- user.id가 mem.id와 같을 때만 버튼을 보여줌 -->
                     <span th:if="${user.id == loginUser.id}" class="submit-button-wrapper">
                             <a th:href="@{/groups/{groupId}/{taskId}/submitTask(groupId=${group.id}, taskId=${task.id})}" class="submit-button">제출</a>
-                        </span>
+                    </span>
                 </div>
             </a>
         </div>
