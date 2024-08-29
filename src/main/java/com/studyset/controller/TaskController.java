@@ -154,15 +154,23 @@ public class TaskController {
     }
 
     // 유저별 과제페이지 이동(=과제 조회)
-    @GetMapping("/{taskId}/{userId}/userTask")
-    public String userTask(@PathVariable Long taskId, @PathVariable Long userId, Model model) {
-        // 추후
+    @GetMapping("/{groupId}/{taskId}/{userId}/userTask")
+    public String userTask(@PathVariable Long taskId, @PathVariable Long userId,
+                           @SessionAttribute("user") User user,
+                           @SessionAttribute("group") GroupDto group,
+                           Model model) {
+        TaskDto taskDto = taskService.getTaskDetailByTaskId(taskId);
+        TaskSubmissionDto taskSubmissionDto = taskSubmissionService.getTaskSubmission(taskId, userId);
 
+        model.addAttribute("task", taskSubmissionDto);
+        model.addAttribute("taskDto", taskDto);
+        model.addAttribute("user", user);
+        model.addAttribute("group", group);
         return "/thyme/task/userTask";
     }
 
     // 파일 다운로드
-    /*@GetMapping("/download/{taskSubmissionId}")
+    @GetMapping("/download/{taskSubmissionId}")
     public ResponseEntity<Resource> downloadFile(@PathVariable Long taskSubmissionId) {
         // taskSubmissionId로 TaskSubmission 조회
         TaskSubmissionDto taskSubmissionDto = taskSubmissionRepository.findById(taskSubmissionId)
@@ -185,5 +193,5 @@ public class TaskController {
         } catch (Exception ex) {
             return ResponseEntity.status(500).build();
         }
-    }*/
+    }
 }
