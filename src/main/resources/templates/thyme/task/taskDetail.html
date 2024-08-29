@@ -26,32 +26,46 @@
 
     <!-- userList -->
     <div class="frame2">
-        <div th:each="user : ${userList}" class="user-frame">
-            <a th:href="@{/groups/{groupId}/{taskId}/{userId}/userTask(groupId=${group.id}, taskId=${task.id}, userId=${user.id})}" class="no-link-style task-item">
-                <div class="task-details">
-                    <span class="user-title" th:text="${user.name}"></span>
+        <div th:each="user : ${userList}"
+             th:classappend="${taskSubmissionMap.containsKey(user.id)} ? 'user-frame submitted' : 'user-frame no-submission'">
 
-                    <!-- 제출 상태 표시 -->
-                    <div th:if="${taskSubmissionMap.containsKey(user.id)}">
-                        <!-- 날짜 출력 -->
+            <!-- 과제를 제출한 경우 -->
+            <div class="task-details">
+                <!-- 제출된 과제에 대한 링크 -->
+                <span th:if="${taskSubmissionMap.containsKey(user.id)}" class="task-info">
+                    <a th:href="@{/groups/{groupId}/{taskId}/{userId}/userTask(groupId=${group.id}, taskId=${task.id}, userId=${user.id})}"
+                       class="no-link-style">
+                        <span class="user-title" th:text="${user.name}"></span>
                         <span class="submit-date" th:text="${taskSubmissionMap[user.id].updatedDate}"></span>
-                    </div>
-                    <div th:if="${!taskSubmissionMap.containsKey(user.id)}">
-                        <span class="submit-date">미제출</span>
-                    </div>
-
-                    <!-- 해당 과제 마감 날짜 표시 -->
-                    <span class="task-end-time" th:text="${task.endTimeFormatted}">End Date</span>
-
-                    <!-- user.id가 mem.id와 같을 때만 버튼을 보여줌 -->
-                    <span th:if="${user.id == loginUser.id}" class="submit-button-wrapper">
-                            <a th:href="@{/groups/{groupId}/{taskId}/submitTask(groupId=${group.id}, taskId=${task.id})}" class="submit-button">제출</a>
+                        <span class="task-end-time" th:text="${task.endTimeFormatted}">End Date</span>
+                    </a>
+                    <!-- 제출 버튼: 로그인 유저일 때만 표시되며, 항상 자리를 차지 -->
+                    <span class="submit-button-wrapper">
+                        <a th:if="${user.id == loginUser.id}"
+                           th:href="@{/groups/{groupId}/{taskId}/submitTask(groupId=${group.id}, taskId=${task.id})}"
+                           class="submit-button">제출</a>
+                        <span th:unless="${user.id == loginUser.id}" class="submit-button-placeholder"></span>
                     </span>
-                </div>
-            </a>
+                </span>
+
+                <!-- 과제를 제출하지 않은 경우 -->
+                <span th:if="${!taskSubmissionMap.containsKey(user.id)}" class="task-info">
+                    <a class="no-link-style">
+                        <span class="user-title" th:text="${user.name}"></span>
+                        <span class="submit-date">미제출</span>
+                        <span class="task-end-time" th:text="${task.endTimeFormatted}">End Date</span>
+                    </a>
+                    <!-- 제출 버튼: 로그인 유저일 때만 표시되며, 항상 자리를 차지 -->
+                    <span class="submit-button-wrapper">
+                        <a th:if="${user.id == loginUser.id}"
+                           th:href="@{/groups/{groupId}/{taskId}/submitTask(groupId=${group.id}, taskId=${task.id})}"
+                           class="submit-button">제출</a>
+                        <span th:unless="${user.id == loginUser.id}" class="submit-button-placeholder"></span>
+                    </span>
+                </span>
+            </div>
         </div>
     </div>
 </div>
-
 </body>
 </html>
