@@ -33,7 +33,9 @@
             <div th:if="${taskList != null and not #lists.isEmpty(taskList)}" class="list">
                 <div th:each="task : ${taskList}" class="list-item">
                     <div class="task-details">
-                        <a th:href="@{/groups/{groupId}/{taskId}/taskDetail(groupId=${group.id}, taskId=${task.id})}" class="no-link-style task-item">
+                        <a th:href="@{/groups/{groupId}/{taskId}/taskDetail(groupId=${group.id}, taskId=${task.id})}"
+                           class="no-link-style task-item"
+                           th:attr="data-start-time=${task.startTimeFormatted}">
                             <span class="task-name" th:text="${task.taskName}">Task Name</span>
                             <div class="task-time">
                                 <span class="task-start-time" th:text="${task.startTimeFormatted}">Start Date</span>

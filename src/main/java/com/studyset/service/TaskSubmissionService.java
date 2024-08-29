@@ -48,4 +48,15 @@ public class TaskSubmissionService {
         List<TaskSubmission> taskSubmissionList = taskSubmissionRepository.findByTaskId(taskId);
         return taskSubmissionList.stream().map(TaskSubmission::toDto).collect(Collectors.toList());
     }
+
+    // 과제ID로 과제 조회
+    public TaskSubmissionDto getTaskSubmission (Long taskId, Long userId) {
+        TaskSubmission taskSubmission;
+        try {
+            taskSubmission = taskSubmissionRepository.findByTaskIdAndUserId(taskId, userId);
+        } catch(TaskNotExist taskNotExist) {
+            throw new TaskNotExist();
+        }
+        return taskSubmission.toDto();
+    }
 }

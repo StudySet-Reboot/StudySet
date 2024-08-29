@@ -11,4 +11,7 @@ public interface TaskSubmissionRepository extends JpaRepository<TaskSubmission, 
     // 특정 과제의 그룹원 과제 조회
     @Query("SELECT ts FROM TaskSubmission ts WHERE ts.task.id = :taskId")
     List<TaskSubmission> findByTaskId(@Param("taskId") Long taskId);
+
+    @Query("SELECT ts FROM TaskSubmission ts WHERE ts.task.id = :taskId AND ts.user.id = :userId")
+    TaskSubmission findByTaskIdAndUserId(@Param("taskId") Long taskId, @Param("userId") Long userId);
 }
