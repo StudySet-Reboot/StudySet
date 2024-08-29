@@ -18,12 +18,12 @@
                 <div class="taskName" th:text="${taskDto.taskName}"></div>
                 <div class="task-end-time" th:text="${task.updatedDate}"></div>
             </div>
-            <!-- 수정 버튼 -->
+            <!-- 수정 및 삭제 버튼 -->
             <span th:if="${user.id == task.userId}" class="submit-button-wrapper">
                 <a href="#" class="submit-button">수정</a>
+                <a href="#" class="submit-button">삭제</a>
             </span>
         </div>
-
 
         <!-- 과제 설명 -->
         <div class="frame">
