@@ -1,5 +1,6 @@
 package com.studyset.controller;
 
+import com.studyset.api.request.schedule.TimeAdjustRequest;
 import com.studyset.domain.User;
 import com.studyset.dto.group.GroupDto;
 import com.studyset.service.ScheduleService;
@@ -8,9 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.stream.IntStream;
 
@@ -38,8 +41,14 @@ public class ScheduleController {
         model.addAttribute("weekOfMonth", weekOfMonth);
 
         //user의 가능 시간 찾아서
-        int[][] availableTime = scheduleService.getUsersAvailableTime();
+        boolean[][] availableTime = scheduleService.getUsersAvailableTime(user, groupId);
         model.addAttribute("times", availableTime);
         return "/thyme/group/schedule/timetable";
+    }
+
+    @PostMapping("/groups/{groupId}/timetables")
+    public String submitTimeTable(@PathVariable Long groupId, @SessionAttribute User user, @RequestBody TimeAdjustRequest timeAdjustRequest){
+        scheduleService.addTimeSlots(user, groupId, timeAdjustRequest);
+        return "redirect:/groups/"+groupId+"/timetables";
     }
 }
