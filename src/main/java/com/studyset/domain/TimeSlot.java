@@ -1,7 +1,11 @@
 package com.studyset.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
+
+@NoArgsConstructor
 @Entity
 public class TimeSlot{
     @Id
@@ -14,10 +18,34 @@ public class TimeSlot{
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @Column(nullable = false)
-    private int dayIdx; //요일
-    @Column(nullable = false)
-    private int startTime;
-    @Column(nullable = false)
-    private int endTime;
+    @Column(name = "available_time")
+    private String availTime;
+
+    @Builder
+    public TimeSlot(Group group, User user) {
+        this.group = group;
+        this.user = user;
+    }
+
+    @Transient
+    public boolean[][] getTimeSlots() {
+        boolean[][] timeSlots = new boolean[24][7];
+        for (int hour=0; hour<24; hour++){
+            for(int day=0; day<7; day++) {
+                timeSlots[hour][day] = availTime.charAt(hour*7+day) == '1' ? true : false;
+            }
+        }
+        return timeSlots;
+    }
+
+    @Transient
+    public void setTimeSlots(boolean[][] timeslotList) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int hour=0; hour<24; hour++) {
+            for (int day = 0; day < 7; day++) {
+                stringBuilder.append(timeslotList[hour][day] ? '1' : '0');
+            }
+        }
+        this.availTime = stringBuilder.toString();
+    }
 }

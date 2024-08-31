@@ -78,4 +78,5 @@ class ScheduleServiceTest {
         assertEquals(eventList.size(), 1);
         assertEquals(eventList.get(0).getTitle(), "schedule Title");
     }
+
 }

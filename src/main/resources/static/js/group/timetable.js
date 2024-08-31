@@ -1,6 +1,6 @@
 $(document).ready(function() {
+    const groupId = $('#groupId').val();
     $('#adjust-calendar-btn').click(function() {
-        var groupId = $('#groupId').val();
         window.location.href = '/groups/' + groupId + '/schedules'; // 새 URL로 이동
     });
 });
@@ -8,10 +8,10 @@ $(document).ready(function() {
 function addChart() {
     var selectedCells = document.querySelectorAll('.highlighted');
     var timelist = { "list": [] };
-
+    const groupId = $('#groupId').val();
     selectedCells.forEach(function(cell) {
-        var time = cell.parentNode.rowIndex - 1; // Adjust for header row
-        var day = cell.cellIndex - 1; // Adjust for hour column
+        var time = cell.parentNode.rowIndex - 1;
+        var day = cell.cellIndex - 1;
         var listdata = { "day": day, "time": time };
         timelist.list.push(listdata);
     });
@@ -21,8 +21,19 @@ function addChart() {
     });
 
     var stringJson = JSON.stringify(timelist);
-    document.getElementsByName('editTime')[0].value = stringJson;
-    document.forms['form'].submit();
+    fetch(`/groups/${groupId}/timetables`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: stringJson
+    }).then(response => {
+        if (response.ok) {
+            window.location.href = `/groups/${groupId}/timetables`;
+        } else {
+            console.error('Failed to submit time table');
+        }
+    });
 }
 
 // jQuery code to handle mouse events for selecting cells
