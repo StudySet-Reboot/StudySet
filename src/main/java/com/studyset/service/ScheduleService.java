@@ -66,4 +66,8 @@ public class ScheduleService {
         return schedule.toEvent();
     }
 
+    public void deleteSchedule(Long scheduleId) {
+        scheduleRepository.deleteById(scheduleId);
+    }
+  
 }

@@ -1,6 +1,7 @@
 package com.studyset.service;
 
 import com.studyset.api.exception.GroupNotExist;
+import com.studyset.api.exception.TaskNotExist;
 import com.studyset.domain.Group;
 import com.studyset.domain.Task;
 import com.studyset.dto.task.TaskDto;
@@ -26,10 +27,17 @@ public class TaskService {
         return taskList.stream().map(Task::toDto).collect(Collectors.toList());
     }
 
+    // 과제 상세 조회
+    public TaskDto getTaskDetailByTaskId(Long taskId) {
+       Task task = taskRepository.findById(taskId)
+               .orElseThrow(() -> new TaskNotExist());
+        return task.toDto();
+    }
+
     // 과제 생성
     @Transactional
     public TaskDto addTask(TaskCreateForm taskForm) {
-        Group group = groupRepository.findById(taskForm.getGroupId())
+        Group group = groupRepository.findGroupById(taskForm.getGroupId())
                 .orElseThrow(() -> new GroupNotExist());
 
         Task task = new Task();
@@ -42,4 +50,7 @@ public class TaskService {
         taskRepository.save(task);
         return task.toDto();
     }
+
+    // 과제 제출
+
 }
