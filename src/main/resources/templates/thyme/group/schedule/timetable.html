@@ -43,7 +43,7 @@
                 <tr>
                     <th th:text="${stat.index}+'~'+${stat.index + 1}"></th>
                     <th:block th:each="day, dayIndex : ${dayList}">
-                        <td class="time-cell"></td>
+                        <td class="time-cell" th:classappend="${day ? 'highlighted' : ''}"></td>
                     </th:block>
                 </tr>
             </th:block>
@@ -51,9 +51,9 @@
         </table>
     </div>
     <div class="time-table-side">
-        <form name="form" action="#" method="POST">
+        <form name="add-time" th:action="@{/groups/{groupId}/timetables(groupId=${session.group.id})}" method="POST">
             <button type="button" class="selected-btn" onclick="addChart()">제출하기</button>
-            <input type="hidden" name="editTime">
+            <input type="hidden" name="timeList">
         </form>
         <!-- member list -->
         <div class="member-list-container" id="member-list">
