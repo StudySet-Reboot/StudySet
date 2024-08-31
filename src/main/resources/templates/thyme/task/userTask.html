@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>userTask.html</title>
+    <link rel="stylesheet" th:href="@{/style/header.css}">
+    <link rel="stylesheet" th:href="@{/style/task/userTask.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css}"/>
+</head>
+<body>
+    <!-- header 삽입 -->
+    <div th:replace="thyme/group/groupHeader :: groupHeader (group=${group})"></div>
+
+    <div class="task">
+        <div class="title">
+            <!-- 과제 정보 -->
+            <div class="task-info">
+                <div class="taskName" th:text="${taskDto.taskName}"></div>
+                <div class="task-end-time" th:text="${task.updatedDate}"></div>
+            </div>
+            <!-- 수정 및 삭제 버튼 -->
+            <span th:if="${user.id == task.userId}" class="submit-button-wrapper">
+                <a href="#" class="submit-button">수정</a>
+                <a href="#" class="submit-button">삭제</a>
+            </span>
+        </div>
+
+        <!-- 과제 설명 -->
+        <div class="frame">
+            <div class="description">
+                <div class="description" th:text="${task.contents}" style="white-space: pre-wrap;"></div>
+            </div>
+        </div>
+
+        <!-- 파일 제출 -->
+        <div class="file">
+            <div class="filePath" th:text="${task.filePath}"></div>
+        </div>
+    </div>
+
+    <!-- 댓글 -->
+    <div class="comment">
+
+    </div>
+
+</body>
+</html>

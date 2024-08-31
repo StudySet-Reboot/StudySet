@@ -43,7 +43,7 @@
 <div id="event-create-modal" class="modal">
     <div class="modal-content">
         <span class="close-btn">&times;</span>
-        <form class="modal-form" id="eventForm" th:action="@{/groups/{groupId}/schedules(groupId=${session.group.id})}" method="post">
+        <form class="modal-form" id="eventForm" method="post">
             <h2>이벤트 생성</h2>
             <label for="is-important" class="custom-label">중요</label>
             <input type="checkbox" name="isImportant" id="is-important">
@@ -64,7 +64,7 @@
 <div id="edit-event-modal" class="modal">
     <div class="modal-content">
         <span class="close-btn">&times;</span>
-        <form class="modal-form" id="editForm" th:action="@{/groups/{groupId}/schedules(groupId=${session.group.id})}" method="post">
+        <form class="modal-form" id="editForm" method="post">
             <h2>이벤트 수정</h2>
             <input type="hidden" id="edit-event-id">
             <label for="edit-is-important" class="custom-label">중요</label>
@@ -77,9 +77,14 @@
             <input type="text" id="edit-event-description" name="description" placeholder="이벤트 설명">
             <label for="edit-event-place" class="custom-label">장소</label>
             <input id="edit-event-place" type="text" name="location" placeholder="장소">
-            <button type="submit">생성</button>
+            <div class="button-group">
+                <button type="submit">수정</button>
+                <button id="del-schedule-btn" type="button">삭제</button>
+            </div>
         </form>
     </div>
 </div>
+
+<div id="error-toast" class="error-toast"></div>
 </body>
 </html>

@@ -10,7 +10,11 @@ spring:
     username: sa
     password:
   thymeleaf:
-      cache: false
+    cache: false
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
   jpa:
     hibernate:
