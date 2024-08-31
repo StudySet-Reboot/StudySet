@@ -21,6 +21,7 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 @Slf4j
 public class ScheduleController {
+
     private final ScheduleService scheduleService;
 
     //스캐줄 캘린더 page
@@ -29,26 +30,4 @@ public class ScheduleController {
         return "/thyme/group/schedule/calendar";
     }
 
-    //스캐줄 조정 Page
-    @GetMapping("/groups/{groupId}/timetables")
-    public String showAdjustPage(@PathVariable Long groupId, @SessionAttribute User user, Model model) {
-        LocalDate today = LocalDate.now();
-        int month = today.getMonthValue();
-        WeekFields weekFields = WeekFields.of(Locale.getDefault());
-        int weekOfMonth = today.get(weekFields.weekOfMonth());
-
-        model.addAttribute("month", month);
-        model.addAttribute("weekOfMonth", weekOfMonth);
-
-        //user의 가능 시간 찾아서
-        boolean[][] availableTime = scheduleService.getUsersAvailableTime(user, groupId);
-        model.addAttribute("times", availableTime);
-        return "/thyme/group/schedule/timetable";
-    }
-
-    @PostMapping("/groups/{groupId}/timetables")
-    public String submitTimeTable(@PathVariable Long groupId, @SessionAttribute User user, @RequestBody TimeAdjustRequest timeAdjustRequest){
-        scheduleService.addTimeSlots(user, groupId, timeAdjustRequest);
-        return "redirect:/groups/"+groupId+"/timetables";
-    }
 }

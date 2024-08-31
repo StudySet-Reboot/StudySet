@@ -66,39 +66,4 @@ public class ScheduleService {
         return schedule.toEvent();
     }
 
-    @Transactional(readOnly = true)
-    public boolean[][] getUsersAvailableTime(User user, Long groupId) {
-        Group group = groupRepository.findGroupById(groupId)
-                .orElseThrow(GroupNotExist::new);
-        TimeSlot timeSlot = timeSlotRepository.findTimeSlotByUserAndGroupId(user, groupId)
-                .orElse(createNewTimeSlot(user, group));
-        return timeSlot.getTimeSlots();
-    }
-
-    @Transactional
-    public void addTimeSlots(User user, Long groupId, TimeAdjustRequest timeAdjustRequest) {
-        Group group = groupRepository.findGroupById(groupId)
-                .orElseThrow(GroupNotExist::new);
-        TimeSlot timeSlot = timeSlotRepository.findTimeSlotByUserAndGroupId(user, groupId)
-                .orElse(createNewTimeSlot(user, group));
-        boolean[][] timeslotList = new boolean[24][7];
-
-        for(TimeSlotData data: timeAdjustRequest.getList()){
-            int day = data.getDay();
-            int time = data.getTime();
-            timeslotList[time][day] = true;
-        }
-        timeSlot.setTimeSlots(timeslotList);
-        timeSlotRepository.save(timeSlot);
-    }
-
-    public TimeSlot createNewTimeSlot(User user, Group group){
-        TimeSlot timeSlot = TimeSlot
-                .builder()
-                .user(user)
-                .group(group)
-                .build();
-        timeSlot.setTimeSlots(new boolean[24][7]);
-        return timeSlot;
-    }
 }
