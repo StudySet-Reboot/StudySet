@@ -61,6 +61,9 @@ $(document).ready(function() {
     $('.close-btn').click(function() {
         $('#event-create-modal').hide();
         $('#edit-event-modal').hide();
+
+        $('#eventForm').trigger('reset');
+        $('#editForm').trigger('reset');
     });
 
     // 모달 외부 클릭 시 닫기
@@ -99,6 +102,7 @@ $(document).ready(function() {
                 });
             }
             $('#event-create-modal').hide();
+            $('#eventForm').trigger('reset');
             calendar.fullCalendar('refetchEvents');
         }).catch(error => {
             console.error(`An error occurred: ${error.message}`);
@@ -139,6 +143,7 @@ $(document).ready(function() {
                 });
             }
             $('#edit-event-modal').hide();
+            $('#editForm').trigger('reset');
             calendar.fullCalendar('refetchEvents');
         }).catch(error => {
             console.error('Error:', error);
@@ -153,6 +158,7 @@ $(document).ready(function() {
                 method: 'DELETE'
             }).then(response => {
                     $('#edit-event-modal').hide();
+                    $('#editForm').trigger('reset');
                     calendar.fullCalendar('refetchEvents');
             }).catch(error => console.error('Error:', error))
         }
