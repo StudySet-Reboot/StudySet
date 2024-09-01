@@ -27,7 +27,7 @@ public class ScheduleController {
     //스캐줄 캘린더 page
     @GetMapping("/groups/{groupId}/schedules")
     public String showSchedule(@PathVariable Long groupId, Model model, @RequestParam(required = false) Integer year, @RequestParam(required = false) Integer month){
-        return "/thyme/group/schedule/calendar";
+        return "/thyme/schedule/calendar";
     }
 
 }
