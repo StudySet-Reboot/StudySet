@@ -1,13 +1,10 @@
 package com.studyset.controller;
 
-import com.studyset.api.exception.TaskNotExist;
-import com.studyset.domain.TaskSubmission;
 import com.studyset.domain.User;
 import com.studyset.dto.group.GroupDto;
 import com.studyset.dto.task.TaskDto;
 import com.studyset.dto.task.TaskSubmissionDto;
 import com.studyset.dto.user.UserDto;
-import com.studyset.repository.TaskSubmissionRepository;
 import com.studyset.service.JoinService;
 import com.studyset.service.TaskService;
 import com.studyset.service.TaskSubmissionService;
@@ -15,26 +12,32 @@ import com.studyset.web.form.TaskCreateForm;
 import com.studyset.web.form.TaskSubmissionForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.nio.file.StandardCopyOption;
-
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Controller()
@@ -45,7 +48,6 @@ public class TaskController {
     private final TaskService taskService;
     private final JoinService joinService;
     private final TaskSubmissionService taskSubmissionService;
-    private final TaskSubmissionRepository taskSubmissionRepository;
     private final Path fileStorageLocation = Paths.get("uploads").toAbsolutePath().normalize();
 
     // 과제 메인페이지 이동
@@ -136,22 +138,28 @@ public class TaskController {
 
     // 파일 제출
     public String saveFile(MultipartFile file) {
-        if (file.isEmpty()) {
-            return null;
-        }
+        if (file.isEmpty()) { return null; }
 
         try {
             if (!Files.exists(fileStorageLocation)) {
                 Files.createDirectories(fileStorageLocation);
             }
 
-            Path targetLocation = fileStorageLocation.resolve(file.getOriginalFilename());
+            String originalFilename = file.getOriginalFilename();
+            // 중복된 파일 덮어쓰기 방지
+            String fileName = UUID.randomUUID().toString() + "_" + StringUtils.cleanPath(originalFilename);
+            Path targetLocation = fileStorageLocation.resolve(fileName);
+            // 실질적인 파일명만 저장 (경로X)
+            String fileNameOnly = targetLocation.getFileName().toString();
+
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            return targetLocation.toString();
+
+            return fileNameOnly;
         } catch (IOException ex) {
-            throw new RuntimeException("Could not store file " + file.getOriginalFilename(), ex);
+            throw new RuntimeException("파일을 저장할 수 없습니다. 다시 시도해 주세요!", ex);
         }
     }
+
 
     // 유저별 과제페이지 이동(=과제 조회)
     @GetMapping("/{groupId}/{taskId}/{userId}/userTask")
@@ -171,27 +179,33 @@ public class TaskController {
 
     // 파일 다운로드
     @GetMapping("/download/{taskSubmissionId}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable Long taskSubmissionId) {
+    public ResponseEntity<?> downloadFile(@PathVariable Long taskSubmissionId) {
         // taskSubmissionId로 TaskSubmission 조회
-        TaskSubmissionDto taskSubmissionDto = taskSubmissionRepository.findById(taskSubmissionId)
-                .orElseThrow(() -> new TaskNotExist()).toDto();
+        TaskSubmissionDto taskSubmissionDto = taskSubmissionService.findTaskSubmission(taskSubmissionId);
 
-        // 저장된 filePath 가져오기
         String filePath = taskSubmissionDto.getFilePath();
-        Path fileLocation = Paths.get(filePath).normalize();
+        Path fileLocation = fileStorageLocation.resolve(filePath).normalize();
 
         try {
             Resource resource = new UrlResource(fileLocation.toUri());
 
-            if (resource.exists()) {
+            if (resource.exists() && resource.isReadable()) {
+                String fileName = fileLocation.getFileName().toString(); // 파일명 가져오기
+                String encodedFileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8.toString()); // URL 인코딩
+                encodedFileName = encodedFileName.replace("+", "%20");
+
                 return ResponseEntity.ok()
-                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                        .contentType(MediaType.parseMediaType(Files.probeContentType(fileLocation)))
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename*=UTF-8''" + encodedFileName)
                         .body(resource);
             } else {
                 return ResponseEntity.notFound().build();
             }
-        } catch (Exception ex) {
-            return ResponseEntity.status(500).build();
+        } catch (MalformedURLException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid file path");
+        } catch (IOException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File reading error");
         }
     }
+
 }
