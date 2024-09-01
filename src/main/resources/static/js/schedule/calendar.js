@@ -84,7 +84,13 @@ $(document).ready(function() {
             description: $('#event-description').val(),
             location: $('#event-place').val()
         };
-
+        if(!scheduleCreate.title){
+            displayErrorToast("제목을 입력해주세요.");
+        }
+        if(scheduleCreate.endDate && scheduleCreate.startDate>scheduleCreate.endDate){
+            displayErrorToast("마감 기한은 시작 기한보다 앞서야 합니다.");
+            return;
+        }
         fetch(`/api/groups/${groupId}/schedules/events`, {
             method: 'POST',
             headers: {
@@ -95,7 +101,7 @@ $(document).ready(function() {
             if (!response.ok) {
                 return response.json().then(errorData => {
                     if (errorData.validation) {
-                        displayErrorToast(errorData.validation);
+                        displayErrorToastWithValidation(errorData.validation);
                     } else {
                         throw new Error(`Error ${response.status}: ${errorData.message}`);
                     }
@@ -125,7 +131,13 @@ $(document).ready(function() {
             description: $('#edit-event-description').val(),
             location: $('#edit-event-place').val()
         };
-
+        if(!scheduleEdit.title){
+            displayErrorToast("제목을 입력해주세요.");
+        }
+        if(scheduleEdit.endDate && scheduleEdit.startDate > scheduleEdit.endDate){
+            displayErrorToast("마감 기한은 시작 기한보다 앞서야 합니다.");
+            return;
+        }
         fetch(`/api/groups/${groupId}/schedules/events/${eventId}`, {
             method: 'PUT',
             headers: {
@@ -136,7 +148,7 @@ $(document).ready(function() {
             if (!response.ok) {
                 return response.json().then(errorData => {
                     if (errorData.validation) {
-                        displayErrorToast(errorData.validation);
+                        displayErrorToastWithValidation(errorData.validation);
                     } else {
                         throw new Error(`Error ${response.status}: ${errorData.message}`);
                     }
@@ -169,16 +181,21 @@ $(document).ready(function() {
     });
 
 
-    function displayErrorToast(validationErrors) {
+    function displayErrorToast(message){
         const toast = $('#error-toast');
-        let message = '';
-        for (const [field, error] of Object.entries(validationErrors)) {
-            message += `${error} `;
-        }
         toast.text(message);
         toast.addClass('show');
         setTimeout(() => {
             toast.removeClass('show');
         }, 3000);
     }
+    function displayErrorToastWithValidation(validationErrors) {
+        const toast = $('#error-toast');
+        let message = '';
+        for (const [field, error] of Object.entries(validationErrors)) {
+            message += `${error} `;
+        }
+        displayErrorToast(message);
+    }
+
 });
