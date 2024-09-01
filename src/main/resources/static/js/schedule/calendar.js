@@ -88,7 +88,7 @@ $(document).ready(function() {
             displayErrorToast("제목을 입력해주세요.");
         }
         if(scheduleCreate.endDate && scheduleCreate.startDate>scheduleCreate.endDate){
-            displayErrorToast("마감 기한은 시작 기한보다 앞서야 합니다.");
+            displayErrorToast("시작일은 종료일보다 앞서야 합니다.");
             return;
         }
         fetch(`/api/groups/${groupId}/schedules/events`, {
@@ -135,7 +135,7 @@ $(document).ready(function() {
             displayErrorToast("제목을 입력해주세요.");
         }
         if(scheduleEdit.endDate && scheduleEdit.startDate > scheduleEdit.endDate){
-            displayErrorToast("마감 기한은 시작 기한보다 앞서야 합니다.");
+            displayErrorToast("시작일은 종료일보다 앞서야 합니다.");
             return;
         }
         fetch(`/api/groups/${groupId}/schedules/events/${eventId}`, {
