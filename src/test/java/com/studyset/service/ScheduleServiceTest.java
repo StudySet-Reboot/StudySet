@@ -1,11 +1,15 @@
 package com.studyset.service;
 
+import com.studyset.api.exception.InvalidEndDateException;
+import com.studyset.controller.ExceptionController;
+import com.studyset.controller.GroupController;
 import com.studyset.domain.Group;
 import com.studyset.domain.Schedule;
 import com.studyset.api.response.schedule.Event;
 import com.studyset.repository.GroupRepository;
 import com.studyset.repository.ScheduleRepository;
 import com.studyset.api.request.schedule.ScheduleCreateForm;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +17,10 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.support.MethodArgumentNotValidException;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -51,6 +59,26 @@ class ScheduleServiceTest {
 
         Schedule schedule = scheduleArgumentCaptor.getValue();
         assertNotNull(schedule);
+    }
+
+    @Test
+    @DisplayName("스캐줄 생성 시 종료시간이 시작시간보다 빠르면 에러 반환")
+    void testAddSchedule_ValidDate() {
+        Group group = new Group();
+        LocalDateTime start = LocalDateTime.now();
+        LocalDateTime end = start.plusDays(1);
+        ScheduleCreateForm scheduleCreateForm = new ScheduleCreateForm();
+        scheduleCreateForm.setTitle("title");
+        scheduleCreateForm.setDescription("schedule Description");
+        scheduleCreateForm.setLocation("schedule Location");
+        scheduleCreateForm.setStartDate(start);
+        scheduleCreateForm.setEndDate(end);
+
+        when(groupRepository.findGroupById(1l)).thenReturn(Optional.of(group));
+
+        assertThrows(InvalidEndDateException.class, () -> {
+            scheduleService.addSchedule(scheduleCreateForm, 1L);
+        });
     }
 
     @Test
