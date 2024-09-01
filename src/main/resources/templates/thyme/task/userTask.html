@@ -34,8 +34,11 @@
 
         <!-- 파일 제출 -->
         <div class="file">
-            <div class="filePath" th:text="${task.filePath}"></div>
+            <a th:href="@{/groups/download/{taskSubmissionId}(taskSubmissionId=${task.id})}"
+               th:text="${task.filePath}">
+            </a>
         </div>
+
     </div>
 
     <!-- 댓글 -->

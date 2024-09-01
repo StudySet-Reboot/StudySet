@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,5 +59,15 @@ public class TaskSubmissionService {
             throw new TaskNotExist();
         }
         return taskSubmission.toDto();
+    }
+
+    // 과제 제출 ID로 제출한 과제 조회
+    public TaskSubmissionDto findTaskSubmission(Long taskSubmissionId) {
+        Optional<TaskSubmission> taskSubmission = taskSubmissionRepository.findById(taskSubmissionId);
+
+        return taskSubmission
+                .map(TaskSubmission::toDto)
+                .orElseThrow(TaskNotExist::new);
+
     }
 }
