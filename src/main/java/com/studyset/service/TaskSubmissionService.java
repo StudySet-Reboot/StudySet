@@ -52,11 +52,9 @@ public class TaskSubmissionService {
 
     // 과제ID로 과제 조회
     public TaskSubmissionDto getTaskSubmission (Long taskId, Long userId) {
-        TaskSubmission taskSubmission;
-        try {
-            taskSubmission = taskSubmissionRepository.findByTaskIdAndUserId(taskId, userId);
-        } catch(TaskNotExist taskNotExist) {
-            throw new TaskNotExist();
+        TaskSubmission taskSubmission = taskSubmissionRepository.findByTaskIdAndUserId(taskId, userId);
+        if (taskSubmission == null) {
+            return null;
         }
         return taskSubmission.toDto();
     }

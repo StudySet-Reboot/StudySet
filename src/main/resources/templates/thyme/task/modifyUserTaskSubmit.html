@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ModifyUserTaskSubmit</title>
+    <link rel="stylesheet" th:href="@{/style/header.css}">
+    <link rel="stylesheet" th:href="@{/style/task/userTaskSubmit.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css}"/>
+</head>
+<body>
+<!-- header 삽입 -->
+<div th:replace="thyme/group/groupHeader :: groupHeader (group=${group})"></div>
+
+<div class="task">
+    <!-- 과제 제목 -->
+    <div class="title">
+        <div class="taskName" th:text="${taskDto.taskName}"></div>
+        <div class="task-end-time" th:text="${taskDto.endTimeFormatted}"></div>
+    </div>
+
+    <!-- 과제 설명 -->
+    <div class="frame">
+        <div class="description">
+            <div class="description" th:text="${task.contents}" style="white-space: pre-wrap;"></div>
+        </div>
+    </div>
+
+    <!-- 과제 제출 -->
+    <input type="hidden" id="groupId" name="groupId" th:value="${group.id}">
+    <div class="taskSubmit">
+        <form action="/groups/task/submitTask" method="post" enctype="multipart/form-data">
+            <input type="hidden" id="taskId" name="taskId" th:value="${taskDto.id}">
+            <input type="hidden" id="userId" name="userId" th:value="${user.id}">
+
+            <!-- 과제 내용 -->
+            <div class="form-group">
+                <label for="content">과제 내용:</label>
+                <textarea id="content" name="content" rows="10" cols="50" placeholder="과제 내용을 입력하세요..." required></textarea>
+            </div>
+
+            <!-- 파일 첨부 -->
+            <div class="form-group">
+                <label for="file">첨부 파일:</label>
+                <input type="file" id="file" name="file" accept=".pdf,.doc,.docx,.txt" />
+            </div>
+
+            <!-- 제출 버튼 -->
+            <div class="form-group submit-button-container">
+                <button type="submit" class="submit-button">수정하기</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
