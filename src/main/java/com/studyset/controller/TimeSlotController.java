@@ -34,7 +34,7 @@ public class TimeSlotController {
         //user의 가능 시간 찾아서
         boolean[][] availableTime = timeSlotService.getUsersAvailableTime(user, groupId);
         model.addAttribute("times", availableTime);
-        return "/thyme/group/schedule/timetable";
+        return "/thyme/schedule/timetable";
     }
 
     @PostMapping("/groups/{groupId}/timetables")

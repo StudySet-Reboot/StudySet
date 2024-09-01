@@ -15,7 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
-    <script th:src="@{/js/group/calendar.js}"></script>
+    <script th:src="@{/js/schedule/calendar.js}"></script>
 </head>
 <body>
 <!-- 헤더 삽입 -->
@@ -48,7 +48,7 @@
             <label for="is-important" class="custom-label">중요</label>
             <input type="checkbox" name="isImportant" id="is-important">
             <label for="event-name" class="custom-label">제목</label>
-            <input type="text" id="event-name" name="title" placeholder="이벤트 제목을 입력하세요" required>
+            <input type="text" id="event-name" name="title" placeholder="이벤트 제목을 입력하세요">
             <label for="start-time" class="custom-label">날짜/시간</label>
             <input type="datetime-local" name="startDate" id="start-time" class="custom-datetime-local"> ~ <input type="datetime-local" id="end-time" name="endDate" class="custom-datetime-local">
             <label for="event-description" class="custom-label">설명</label>

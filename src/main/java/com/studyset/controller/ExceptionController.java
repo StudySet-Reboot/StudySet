@@ -1,8 +1,6 @@
 package com.studyset.controller;
 
-import com.studyset.api.exception.AlreadyJoin;
-import com.studyset.api.exception.DuplicateGroup;
-import com.studyset.api.exception.GroupNotExist;
+import com.studyset.api.exception.*;
 import com.studyset.api.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -36,7 +34,6 @@ public class ExceptionController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(GroupNotExist.class)
     public ResponseEntity<ErrorResponse> notExistGroupRequest(GroupNotExist e){
-        log.error("error!!!" + e.getMessage());
         int statusCode = e.statusCode();
         ErrorResponse body = ErrorResponse.builder()
                 .code(String.valueOf(statusCode))
@@ -78,5 +75,19 @@ public class ExceptionController {
 
         return ResponseEntity.status(statusCode)
                 .body(body);
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(InvalidEndDateException.class)
+    public ResponseEntity<ErrorResponse> invalidRequestHandler(InvalidEndDateException e) {
+        log.error(e.getMessage());
+        ErrorResponse response = ErrorResponse.builder()
+                .code("400")
+                .message(e.getMessage())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(response);
     }
 }
