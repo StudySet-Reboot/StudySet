@@ -1,6 +1,7 @@
 package com.studyset.service;
 
 import com.studyset.api.exception.GroupNotExist;
+import com.studyset.api.exception.InvalidEndDateException;
 import com.studyset.api.request.schedule.ScheduleEditRequest;
 import com.studyset.api.request.schedule.TimeAdjustRequest;
 import com.studyset.domain.Group;
@@ -18,6 +19,7 @@ import org.hibernate.mapping.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.YearMonth;
@@ -31,12 +33,16 @@ import static com.studyset.api.request.schedule.TimeAdjustRequest.*;
 @RequiredArgsConstructor
 @Slf4j
 public class ScheduleService {
+
     private final ScheduleRepository scheduleRepository;
     private final GroupRepository groupRepository;
-    private final TimeSlotRepository timeSlotRepository;
 
     @Transactional
     public void addSchedule(ScheduleCreateForm scheduleCreateForm, long groupId) {
+        if (scheduleCreateForm.getEndDate() != null &&
+                scheduleCreateForm.getStartDate().isAfter(scheduleCreateForm.getEndDate())) {
+            throw new InvalidEndDateException();
+        }
         Group group = groupRepository.findGroupById(groupId)
                 .orElseThrow(GroupNotExist::new);
         Schedule schedule = scheduleCreateForm.toEntity();
@@ -59,6 +65,10 @@ public class ScheduleService {
 
     @Transactional
     public Event editSchedule(Long scheduleId, ScheduleEditRequest scheduleEditRequest) {
+        if (scheduleEditRequest.getEndDate() != null &&
+                scheduleEditRequest.getStartDate().isAfter(scheduleEditRequest.getEndDate())) {
+            throw new InvalidEndDateException();
+        }
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(IllegalArgumentException::new);
         schedule.edit(scheduleEditRequest);
