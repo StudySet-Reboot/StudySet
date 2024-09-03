@@ -180,7 +180,6 @@ public class TaskController {
         }
     }
 
-
     // 유저별 과제페이지 이동(=과제 조회)
     @GetMapping("/{groupId}/{taskId}/{userId}/userTask")
     public String userTask(@PathVariable Long taskId, @PathVariable Long userId,
@@ -195,6 +194,25 @@ public class TaskController {
         model.addAttribute("user", user);
         model.addAttribute("group", group);
         return "/thyme/task/userTask";
+    }
+
+    // 과제 수정 페이지 이동
+    @GetMapping("/{groupId}/{taskId}/modifyTask")
+    public String showModifyTask(@PathVariable Long taskId,
+                                            @SessionAttribute("user") User user,
+                                            @SessionAttribute("group") GroupDto group,
+                                            Model model) {
+        TaskSubmissionDto taskSubmissionDto = taskSubmissionService.getTaskSubmission(taskId, user.getId());
+        TaskDto taskDto = taskService.getTaskDetailByTaskId(taskId);
+
+        // 유저의 제출물에 대한 정보
+        model.addAttribute("task", taskSubmissionDto);
+        // 과제에 대한 정보
+        model.addAttribute("taskDto", taskDto);
+        model.addAttribute("user", user);
+        model.addAttribute("group", group);
+
+        return "/thyme/task/modifyUserTaskSubmit";
     }
 
     // 파일 다운로드

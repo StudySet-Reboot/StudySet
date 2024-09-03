@@ -1,13 +1,16 @@
 package com.studyset.service;
 
 import com.studyset.api.exception.GroupNotExist;
+import com.studyset.api.exception.InvalidEndDateException;
 import com.studyset.api.exception.TaskNotExist;
 import com.studyset.domain.Group;
 import com.studyset.domain.Task;
 import com.studyset.dto.task.TaskDto;
+import com.studyset.dto.task.TaskSubmissionDto;
 import com.studyset.repository.GroupRepository;
 import com.studyset.repository.TaskRepository;
 import com.studyset.web.form.TaskCreateForm;
+import com.studyset.web.form.TaskEditForm;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,6 +42,11 @@ public class TaskService {
     public TaskDto addTask(TaskCreateForm taskForm) {
         Group group = groupRepository.findGroupById(taskForm.getGroupId())
                 .orElseThrow(() -> new GroupNotExist());
+
+        if (taskForm.getEndTime() != null &&
+            taskForm.getStartTime().isAfter(taskForm.getEndTime())) {
+            throw new InvalidEndDateException();
+        }
 
         Task task = new Task();
         task.setTaskName(taskForm.getTaskName());
