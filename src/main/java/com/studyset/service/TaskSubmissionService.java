@@ -9,12 +9,14 @@ import com.studyset.dto.task.TaskSubmissionDto;
 import com.studyset.repository.TaskRepository;
 import com.studyset.repository.TaskSubmissionRepository;
 import com.studyset.repository.UserRepository;
+import com.studyset.web.form.TaskEditForm;
 import com.studyset.web.form.TaskSubmissionForm;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,6 +45,30 @@ public class TaskSubmissionService {
         return taskSubmission.toDto();
     }
 
+    // 과제 수정
+    @Transactional
+    public TaskSubmissionDto editTask(TaskEditForm taskEditForm) {
+        // 기존 제출물 조회
+        TaskSubmission existingSubmission = taskSubmissionRepository.findByTaskIdAndUserId(taskEditForm.getTaskId(), taskEditForm.getUserId());
+
+        if (existingSubmission != null) {
+            // 기존 제출물 업데이트
+            existingSubmission.setContents(taskEditForm.getContent());
+            if (taskEditForm.getFilePath() != null) {
+                existingSubmission.setFilePath(taskEditForm.getFilePath());
+            }
+            taskSubmissionRepository.save(existingSubmission);
+        }
+        return existingSubmission.toDto();
+    }
+
+    // 과제 삭제
+    public void deleteTask(Long taskId, Long userId) {
+        TaskSubmission existingSubmission = taskSubmissionRepository.findByTaskIdAndUserId(taskId, userId);
+        Long taskSubmissionId = existingSubmission.toDto().getId();
+        taskSubmissionRepository.deleteById(taskSubmissionId);
+    }
+
     // 그룹원의 과제 제출 목록 조회
     public List<TaskSubmissionDto> getTaskSubmissionById(Long taskId) {
         List<TaskSubmission> taskSubmissionList = taskSubmissionRepository.findByTaskId(taskId);
@@ -51,12 +77,20 @@ public class TaskSubmissionService {
 
     // 과제ID로 과제 조회
     public TaskSubmissionDto getTaskSubmission (Long taskId, Long userId) {
-        TaskSubmission taskSubmission;
-        try {
-            taskSubmission = taskSubmissionRepository.findByTaskIdAndUserId(taskId, userId);
-        } catch(TaskNotExist taskNotExist) {
-            throw new TaskNotExist();
+        TaskSubmission taskSubmission = taskSubmissionRepository.findByTaskIdAndUserId(taskId, userId);
+        if (taskSubmission == null) {
+            return null;
         }
         return taskSubmission.toDto();
+    }
+
+    // 과제 제출 ID로 제출한 과제 조회
+    public TaskSubmissionDto findTaskSubmission(Long taskSubmissionId) {
+        Optional<TaskSubmission> taskSubmission = taskSubmissionRepository.findById(taskSubmissionId);
+
+        return taskSubmission
+                .map(TaskSubmission::toDto)
+                .orElseThrow(TaskNotExist::new);
+
     }
 }
