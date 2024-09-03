@@ -9,6 +9,7 @@ import com.studyset.dto.task.TaskSubmissionDto;
 import com.studyset.repository.TaskRepository;
 import com.studyset.repository.TaskSubmissionRepository;
 import com.studyset.repository.UserRepository;
+import com.studyset.web.form.TaskEditForm;
 import com.studyset.web.form.TaskSubmissionForm;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +43,30 @@ public class TaskSubmissionService {
 
         taskSubmissionRepository.save(taskSubmission);
         return taskSubmission.toDto();
+    }
+
+    // 과제 수정
+    @Transactional
+    public TaskSubmissionDto editTask(TaskEditForm taskEditForm) {
+        // 기존 제출물 조회
+        TaskSubmission existingSubmission = taskSubmissionRepository.findByTaskIdAndUserId(taskEditForm.getTaskId(), taskEditForm.getUserId());
+
+        if (existingSubmission != null) {
+            // 기존 제출물 업데이트
+            existingSubmission.setContents(taskEditForm.getContent());
+            if (taskEditForm.getFilePath() != null) {
+                existingSubmission.setFilePath(taskEditForm.getFilePath());
+            }
+            taskSubmissionRepository.save(existingSubmission);
+        }
+        return existingSubmission.toDto();
+    }
+
+    // 과제 삭제
+    public void deleteTask(Long taskId, Long userId) {
+        TaskSubmission existingSubmission = taskSubmissionRepository.findByTaskIdAndUserId(taskId, userId);
+        Long taskSubmissionId = existingSubmission.toDto().getId();
+        taskSubmissionRepository.deleteById(taskSubmissionId);
     }
 
     // 그룹원의 과제 제출 목록 조회

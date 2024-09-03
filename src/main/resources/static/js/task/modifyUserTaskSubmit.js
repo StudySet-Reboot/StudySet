@@ -9,25 +9,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
             fetch('/groups/task/modifyTask', {
                 method: 'PUT',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
+                body: formData
             })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('과제 수정을 완료했습니다.');
-                        const redirectUrl = `/groups/${data.groupId}/${data.taskId}/${data.userId}/userTask`;
-                        window.location.href = redirectUrl;
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
                     } else {
-                        alert('수정 실패: ' + data.errorMessage);
-
+                        throw new Error('과제 제출에 실패했습니다.');
                     }
+                })
+                .then(data => {
+                    alert("과제 수정이 완료되었습니다.");
+                    console.log('Server response:', data);
+                    const redirectUrl = `/groups/${data.groupId}/${data.taskId}/${data.userId}/userTask`;
+                    window.location.href = redirectUrl;
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('서버와의 통신 오류가 발생했습니다.');
+                    alert("문제가 발생했습니다: " + error.message);
                 });
         });
     }
