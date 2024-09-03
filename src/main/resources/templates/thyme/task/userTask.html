@@ -8,6 +8,11 @@
     <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css}"/>
 </head>
 <body>
+    <script>
+        var taskId = [[${taskDto.id}]];
+        var userId = [[${user.id}]];
+        var groupId = [[${group.id}]];
+    </script>
     <!-- header 삽입 -->
     <div th:replace="thyme/group/groupHeader :: groupHeader (group=${group})"></div>
 
@@ -20,8 +25,8 @@
             </div>
             <!-- 수정 및 삭제 버튼 -->
             <span th:if="${user.id == task.userId}" class="submit-button-wrapper">
-                <a href="#" class="submit-button">수정</a>
-                <a href="#" class="submit-button">삭제</a>
+                <a th:href="@{/groups/{groupId}/{taskId}/modifyTask(groupId=${group.id}, taskId=${taskDto.id})}" class="submit-button">수정</a>
+                <a href="#" id="deleteTaskButton" class="submit-button">삭제</a>
             </span>
         </div>
 
@@ -34,14 +39,17 @@
 
         <!-- 파일 제출 -->
         <div class="file">
-            <div class="filePath" th:text="${task.filePath}"></div>
+            <a th:href="@{/groups/download/{taskSubmissionId}(taskSubmissionId=${task.id})}"
+               th:text="${task.filePath}">
+            </a>
         </div>
+
     </div>
 
     <!-- 댓글 -->
     <div class="comment">
 
     </div>
-
+    <script th:src="@{/js/task/userTask.js}" defer></script>
 </body>
 </html>
