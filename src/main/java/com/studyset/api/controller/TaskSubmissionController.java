@@ -32,7 +32,6 @@ import java.util.UUID;
 @Slf4j
 public class TaskSubmissionController {
     private final TaskSubmissionService taskSubmissionService;
-    private final TaskService taskService;
     private final Path fileStorageLocation = Paths.get("uploads").toAbsolutePath().normalize();
 
     // 과제 수정
