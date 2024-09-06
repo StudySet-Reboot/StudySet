@@ -94,6 +94,34 @@ body {
     margin-bottom: 5px;
     font-size: 14px;
     color: rgba(102, 102, 102, 0.87);
+    display: flex;
+    align-items: center;
+}
+
+.writterContainer {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+}
+
+/* 작성자 */
+.comment-author {
+    color: rgba(255, 117, 123, 0.52);
+    margin-right: 20px;
+}
+
+/* 댓글 내용 */
+.comment-content {
+    color: rgba(102, 102, 102, 0.87);
+}
+
+/* 시간 */
+.commentTime {
+    color: rgba(136, 136, 136, 0.78);
+    font-size: 0.9em;
+    margin-left: 10px;
+    white-space: nowrap;
+    font-style: italic;
 }
 
 .comment-form {
@@ -101,15 +129,8 @@ body {
     padding: 10px;
     display: flex;
     justify-content: center;
-    width: 95%;
-    margin: 0 auto auto auto; /* margin-top: auto 삭제, 간결한 표현 */
-}
-
-.comment-form form {
     width: 80%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin: 0 auto auto auto; /* margin-top: auto 삭제, 간결한 표현 */
 }
 
 .anonymous {

@@ -12,6 +12,7 @@
         var taskId = [[${taskDto.id}]];
         var userId = [[${user.id}]];
         var groupId = [[${group.id}]];
+        var submission_id = [[${task.id}]];
     </script>
     <!-- header 삽입 -->
     <div th:replace="thyme/group/groupHeader :: groupHeader (group=${group})"></div>
@@ -49,27 +50,26 @@
     <div class="comment-container">
         <!-- 댓글 리스트 -->
         <div class="comments">
-            <!--<div th:each="comm : ${commList}" class="comment-box">
-                <div class="memo" th:text="${memo.contents}"></div>
-            </div>-->
-            <div class="comment-box">
-                <div>
-                    훌륭해요! 혹시 제 과제에 대한 피드백도 가능할까요?<br>
-                    훌륭해요! 혹시 제 과제에 대한 피드백도 가능할까요?
+            <div th:each="comm : ${commentList}" class="comment-box">
+                <div class="writterContainer">
+                    <span th:if="${comm.anonymous}" class="comment-author">익명</span>
+                    <span th:if="${!comm.anonymous}" th:text="${comm.user.name}" class="comment-author"></span>
+                    <span class="comment-content" th:text="${comm.contents}"></span>
+                </div>
+                <div class="time">
+                    <span class="commentTime" th:text="${comm.updatedDate}"></span>
                 </div>
             </div>
         </div>
 
         <!-- 댓글 작성 -->
         <div class="comment-form">
-            <form>
-                <label>
-                    <input type="checkbox" name="anonymous" class="anonymous">
-                    <span class="label-text">익명</span>
-                </label>
-                <input type="text" name="contents" class="writeComm" rows="1" placeholder="댓글을 작성하세요..." required>
-                <button class="add-comment" type="submit">➚</button>
-            </form>
+            <label>
+                <input type="checkbox" name="anonymous" class="anonymous">
+                <span class="label-text">익명</span>
+            </label>
+            <input type="text" name="contents" class="writeComm" rows="1" placeholder="댓글을 작성하세요..." required>
+            <button class="add-comment" type="submit">➚</button>
         </div>
     </div>
 
