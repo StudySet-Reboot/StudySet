@@ -1,6 +1,7 @@
 package com.studyset.domain;
 
 import com.studyset.dto.task.CommentDto;
+import java.time.format.DateTimeFormatter;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import lombok.Setter;
 public class Comment extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "memo_id")
+    @Column(name = "comment_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,11 +30,14 @@ public class Comment extends BaseEntity{
     private boolean anonymous;
 
     public CommentDto toDto() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd HH:mm");
+
         return CommentDto.builder()
-                .userId(user.getId())
+                .user(user)
                 .submission_id(taskSubmission.getId())
                 .contents(contents)
                 .anonymous(anonymous)
+                .updatedDate(getUpdatedDate().format(formatter))
                 .build();
     }
 }

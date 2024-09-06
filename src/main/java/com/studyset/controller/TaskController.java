@@ -2,9 +2,13 @@ package com.studyset.controller;
 
 import com.studyset.domain.User;
 import com.studyset.dto.group.GroupDto;
+import com.studyset.dto.task.CommentDto;
 import com.studyset.dto.task.TaskDto;
 import com.studyset.dto.task.TaskSubmissionDto;
 import com.studyset.dto.user.UserDto;
+import com.studyset.repository.CommentRepository;
+import com.studyset.repository.UserRepository;
+import com.studyset.service.CommentService;
 import com.studyset.service.JoinService;
 import com.studyset.service.TaskService;
 import com.studyset.service.TaskSubmissionService;
@@ -49,6 +53,9 @@ public class TaskController {
     private final JoinService joinService;
     private final TaskSubmissionService taskSubmissionService;
     private final Path fileStorageLocation = Paths.get("uploads").toAbsolutePath().normalize();
+    private final CommentService commentService;
+    private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
 
     // 과제 메인페이지 이동
     @GetMapping("/{groupId}/task")
@@ -188,9 +195,11 @@ public class TaskController {
                            Model model) {
         TaskDto taskDto = taskService.getTaskDetailByTaskId(taskId);
         TaskSubmissionDto taskSubmissionDto = taskSubmissionService.getTaskSubmission(taskId, userId);
+        List<CommentDto> commentList = commentService.getCommentBySubmissionId(taskSubmissionDto.getId());
 
         model.addAttribute("task", taskSubmissionDto);
         model.addAttribute("taskDto", taskDto);
+        model.addAttribute("commentList", commentList);
         model.addAttribute("user", user);
         model.addAttribute("group", group);
         return "/thyme/task/userTask";
