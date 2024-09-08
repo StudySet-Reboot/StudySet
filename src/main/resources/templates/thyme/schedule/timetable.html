@@ -42,7 +42,7 @@
                 <tr>
                     <th th:text="${stat.index}+'~'+${stat.index + 1}"></th>
                     <th:block th:each="day, dayIndex : ${dayList}">
-                        <td class="time-cell-show"
+                        <td class="time-cell"
                             th:style="'opacity: ' + (${day} / 1.8) + ';'"
                             th:classappend="${day != 0 ? 'highlighted' : ''}">
                     </th:block>
@@ -57,9 +57,12 @@
         <div class="member-list-container" id="member-list">
             멤버 리스트
             <div class="member-list">
+                <span>
+                    <input type="radio" th:name="'selectedUser'" th:value="all" onchange="selectUser()" th:text="전체">
+                </span>
                 <th:block th:each="user : ${userList}">
                     <span>
-                        <input type="radio" th:text="${user.getName()}" onchange="selectUser()">
+                        <input type="radio" th:name="'selectedUser'" th:value="${user.getId()}" th:text="${user.getName()}" onchange="selectUser()">
                     </span>
                 </th:block>
             </div>
@@ -68,5 +71,7 @@
 </div>
 
 <input type="hidden" id="groupId" name="groupId" th:value="${session.group.id}" />
+<input type="hidden" id="numOfGroupMember" name="groupId" th:value="${userList.size()}" />
+
 </body>
 </html>
