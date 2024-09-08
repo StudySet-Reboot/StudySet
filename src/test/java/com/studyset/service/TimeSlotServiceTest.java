@@ -55,7 +55,7 @@ class TimeSlotServiceTest {
         when(timeSlotRepository.findTimeSlotByUserAndGroupId(user, testGroupId))
                 .thenReturn(Optional.of(timeSlot));
 
-        boolean[][] result = timeSlotService.getUsersAvailableTime(user, testGroupId);
+        int[][] result = timeSlotService.getUsersAvailableTime(user, testGroupId);
 
         assertNotNull(result);
         verify(timeSlotRepository, times(1)).findTimeSlotByUserAndGroupId(user, testGroupId);
@@ -71,7 +71,7 @@ class TimeSlotServiceTest {
         when(timeSlotRepository.findTimeSlotByUserAndGroupId(user, testGroupId))
                 .thenReturn(Optional.empty());
 
-        boolean[][] result = timeSlotService.getUsersAvailableTime(user, testGroupId);
+        int[][] result = timeSlotService.getUsersAvailableTime(user, testGroupId);
         assertNotNull(result);
         assertEquals(false, result[1][1]);
     }
@@ -94,7 +94,7 @@ class TimeSlotServiceTest {
 
         verify(timeSlotRepository, times(1)).save(timeSlot);
 
-        boolean[][] savedTimeSlots = timeSlot.getTimeSlots();
+        int[][] savedTimeSlots = timeSlot.getTimeSlots();
         assertTrue(savedTimeSlots[1][0]);
         assertTrue(savedTimeSlots[2][1]);
     }

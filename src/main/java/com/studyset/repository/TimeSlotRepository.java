@@ -11,4 +11,6 @@ public interface TimeSlotRepository extends JpaRepository<TimeSlot, Long> {
     public Optional<TimeSlot> findTimeSlotByUserAndGroupId(User user, Long groupId);
 
     public void deleteAllByUserAndGroupId(User user, Long groupId);
+
+    public List<TimeSlot> findTimeSlotByGroupId(Long groupId);
 }
