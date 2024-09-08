@@ -35,18 +35,13 @@ function addChart() {
         body: stringJson
     }).then(response => {
         if (response.ok) {
-            window.location.href = `/groups/${groupId}/timetables`;
+            window.location.href = `/groups/${groupId}/timetables/view`;
         } else {
             console.error('Failed to submit time table');
         }
     });
 }
 
-$(function () {
-
-})
-
-// jQuery code to handle mouse events for selecting cells
 $(function() {
     var isMouseDown = false;
     $("#time-table td").mousedown(function() {
@@ -65,3 +60,50 @@ $(function() {
         isMouseDown = false;
     });
 });
+
+function selectUser() {
+    const groupId = $('#groupId').val();
+    const selectedUserId = document.querySelector('input[name="selectedUser"]:checked').value;
+    console.log(selectedUserId);
+    fetchUserSchedule(groupId, selectedUserId);
+}
+
+function fetchUserSchedule(groupId, userId) {
+    const url = `/groups/${groupId}/timetables?userId=${userId !== 'all' ? userId : ''}`;
+
+    fetch(url)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((availableTimes) => {
+            renderTable(availableTimes);
+        })
+        .catch(error => console.error('Error fetching user schedule:', error));
+}
+
+
+function renderTable(availableTimes) {
+    const timeTableBody = document.querySelector('.time-table tbody');
+    const numOfGroupMember = document.querySelector('#numOfGroupMember').value;
+    timeTableBody.innerHTML = '';
+    for (let hour = 0; hour < 24; hour++) {
+        const row = document.createElement('tr');
+        const timeCell = document.createElement('th');
+        timeCell.textContent = `${hour}~${hour + 1}`;
+        row.appendChild(timeCell);
+
+        for (let day = 0; day < 7; day++) {
+            const dayCell = document.createElement('td');
+            dayCell.classList.add('time-cell');
+            if (availableTimes[hour][day]) {
+                dayCell.classList.add('highlighted');
+                dayCell.style.opacity = availableTimes[hour][day] / numOfGroupMember;
+            }
+            row.appendChild(dayCell);
+        }
+        timeTableBody.appendChild(row); // 새 행을 테이블에 추가
+    }
+}
