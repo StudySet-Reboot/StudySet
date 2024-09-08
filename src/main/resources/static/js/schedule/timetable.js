@@ -3,6 +3,12 @@ $(document).ready(function() {
     $('#adjust-calendar-btn').click(function() {
         window.location.href = '/groups/' + groupId + '/schedules'; // 새 URL로 이동
     });
+
+    $('#user-table-btn').click(function () {
+        window.location.href = '/groups/' + groupId + '/schedules/adjust';
+    })
+
+
 });
 
 function addChart() {
@@ -35,6 +41,10 @@ function addChart() {
         }
     });
 }
+
+$(function () {
+
+})
 
 // jQuery code to handle mouse events for selecting cells
 $(function() {

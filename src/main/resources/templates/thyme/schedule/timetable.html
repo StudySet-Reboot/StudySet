@@ -24,7 +24,7 @@
     <!-- time table -->
     <div class="time-table-container">
         <h6>※참석 가능한 시간에 색칠해주세요</h6>
-        <table id="time-table">
+        <table class="time-table" id="time-table-show">
             <thead>
             <tr>
                 <th style="border-top-left-radius: 25px;">시간(시)</th>
@@ -38,12 +38,13 @@
             </tr>
             </thead>
             <tbody>
-            <!-- 시간과 요일 데이터를 반복해서 표시 -->
             <th:block th:each="dayList, stat : ${times}">
                 <tr>
                     <th th:text="${stat.index}+'~'+${stat.index + 1}"></th>
                     <th:block th:each="day, dayIndex : ${dayList}">
-                        <td class="time-cell" th:classappend="${day ? 'highlighted' : ''}"></td>
+                        <td class="time-cell-show"
+                            th:style="'opacity: ' + (${day} / 1.8) + ';'"
+                            th:classappend="${day != 0 ? 'highlighted' : ''}">
                     </th:block>
                 </tr>
             </th:block>
@@ -51,15 +52,16 @@
         </table>
     </div>
     <div class="time-table-side">
-        <form name="add-time" th:action="@{/groups/{groupId}/timetables(groupId=${session.group.id})}" method="POST">
-            <button type="button" class="selected-btn" onclick="addChart()">제출하기</button>
-            <input type="hidden" name="timeList">
-        </form>
+        <button type="submit" id="user-table-btn" class="selected-btn">내 스캐줄 추가</button>
         <!-- member list -->
         <div class="member-list-container" id="member-list">
             멤버 리스트
             <div class="member-list">
-
+                <th:block th:each="user : ${userList}">
+                    <span>
+                        <input type="radio" th:text="${user.getName()}" onchange="selectUser()">
+                    </span>
+                </th:block>
             </div>
         </div>
     </div>
