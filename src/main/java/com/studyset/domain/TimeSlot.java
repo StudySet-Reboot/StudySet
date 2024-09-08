@@ -2,11 +2,13 @@ package com.studyset.domain;
 
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
 @NoArgsConstructor
 @Entity
+@Getter
 public class TimeSlot{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,11 +30,11 @@ public class TimeSlot{
     }
 
     @Transient
-    public boolean[][] getTimeSlots() {
-        boolean[][] timeSlots = new boolean[24][7];
+    public int[][] getTimeSlots() {
+        int[][] timeSlots = new int[24][7];
         for (int hour=0; hour<24; hour++){
             for(int day=0; day<7; day++) {
-                timeSlots[hour][day] = availTime.charAt(hour*7+day) == '1' ? true : false;
+                timeSlots[hour][day] = availTime.charAt(hour * 7 + day) - '0';
             }
         }
         return timeSlots;
