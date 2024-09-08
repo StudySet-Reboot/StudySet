@@ -13,14 +13,13 @@ body {
     width: 80%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     margin: 0 auto;
+    height: 215px;
 }
 
 .title {
     padding: 20px;
     color: rgba(0, 0, 0, 0.63);
-    text-align: left;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -47,7 +46,6 @@ body {
 }
 
 .submit-button {
-    display: inline-block;
     padding: 8px 13px;
     background-color: rgba(255, 132, 139, 0.88);
     color: white;
@@ -73,6 +71,116 @@ body {
 }
 
 /* 댓글 */
-.frame {
-    padding: 20px;
+.comment-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.comments {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin: 30px auto 20px;
+    overflow-y: auto;
+    height: 320px;
+    flex-grow: 1;
+}
+
+.comment-box {
+    border: 1px solid rgba(255, 132, 139, 0.18);
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: rgba(102, 102, 102, 0.87);
+    display: flex;
+    align-items: center;
+}
+
+.writterContainer {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+}
+
+/* 작성자 */
+.comment-author {
+    color: rgba(255, 117, 123, 0.52);
+    margin-right: 20px;
+}
+
+.comment-author2 {
+    color: rgb(244, 110, 115);
+    margin-left: -20px;
+    margin-right: 20px;
+}
+
+/* 댓글 내용 */
+.comment-content {
+    color: rgba(102, 102, 102, 0.87);
+}
+
+/* 시간 */
+.commentTime {
+    color: rgba(136, 136, 136, 0.78);
+    font-size: 0.9em;
+    margin-left: 10px;
+    white-space: nowrap;
+    font-style: italic;
+}
+
+.comment-form {
+    background-color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    margin: 0 auto auto auto; /* margin-top: auto 삭제, 간결한 표현 */
+}
+
+.anonymous {
+    margin-right: 5px;
+}
+
+.label-text {
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.writeComm {
+    margin-right: 5px;
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.add-comment {
+    background-color: #ff6f61;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+/* 스크롤바 스타일 */
+.comments::-webkit-scrollbar {
+    width: 7px;
+}
+
+.comments::-webkit-scrollbar-track {
+    background: rgba(255, 132, 139, 0.04);
+    border-radius: 10px;
+}
+
+.comments::-webkit-scrollbar-thumb {
+    background: rgba(255, 132, 139, 0.4);
+    border-radius: 10px;
+}
+
+.comments::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 117, 123, 0.66);
 }

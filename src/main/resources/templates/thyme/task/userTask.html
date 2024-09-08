@@ -10,8 +10,10 @@
 <body>
     <script>
         var taskId = [[${taskDto.id}]];
+        var taskUserId = [[${task.userId}]];
         var userId = [[${user.id}]];
         var groupId = [[${group.id}]];
+        var submission_id = [[${task.id}]];
     </script>
     <!-- header 삽입 -->
     <div th:replace="thyme/group/groupHeader :: groupHeader (group=${group})"></div>
@@ -46,10 +48,36 @@
 
     </div>
 
-    <!-- 댓글 -->
-    <div class="comment">
+    <div class="comment-container">
+        <!-- 댓글 리스트 -->
+        <div class="comments">
+            <div th:each="comm : ${commentList}" class="comment-box">
+                <div class="writterContainer">
+                    <span th:if="${comm.anonymous}" class="comment-author">익명</span>
+                    <span th:if="${!comm.anonymous}"
+                          th:text="${usersMap[comm.user_id]?.name}"
+                          class="comment-author"></span>
+                    <!-- comm.userId와 user.userId가 같은 경우 "제출자" 출력 -->
+                    <span th:if="${!comm.anonymous && (comm.user_id == task.userId)}" class="comment-author2">(제출자)</span>
+                    <span class="comment-content" th:text="${comm.contents}"></span>
+                </div>
+                <div class="time">
+                    <span class="commentTime" th:text="${comm.updatedDate}"></span>
+                </div>
+            </div>
+        </div>
 
+        <!-- 댓글 작성 -->
+        <div class="comment-form">
+            <label>
+                <input type="checkbox" name="anonymous" class="anonymous">
+                <span class="label-text">익명</span>
+            </label>
+            <input type="text" name="contents" class="writeComm" rows="1" placeholder="댓글을 작성하세요..." required>
+            <button class="add-comment" type="submit">➚</button>
+        </div>
     </div>
+
     <script th:src="@{/js/task/userTask.js}" defer></script>
 </body>
 </html>
