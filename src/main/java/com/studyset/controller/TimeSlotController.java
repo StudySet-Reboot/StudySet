@@ -24,20 +24,23 @@ public class TimeSlotController {
 
     private final TimeSlotService timeSlotService;
     private final JoinService joinService;
+
     //스캐줄 조정 Main Page
-    @GetMapping("/groups/{groupId}/timetables")
-    public String showAdjustPage(@PathVariable Long groupId, @SessionAttribute User user, Model model) {
+    @GetMapping("/groups/{groupId}/timetables/view")
+    public String showAdjustPage(@PathVariable Long groupId, Model model) {
         LocalDate today = LocalDate.now();
         int month = today.getMonthValue();
         WeekFields weekFields = WeekFields.of(Locale.getDefault());
         int weekOfMonth = today.get(weekFields.weekOfMonth());
-
         model.addAttribute("month", month);
         model.addAttribute("weekOfMonth", weekOfMonth);
+
         int[][] availableTime = timeSlotService.getGroupAvailableTime(groupId);
         model.addAttribute("times", availableTime);
+
         List<UserDto> userDtoList = joinService.getUserByGroupId(groupId);
         model.addAttribute("userList", userDtoList);
+
         return "/thyme/schedule/timetable";
     }
 
@@ -53,12 +56,14 @@ public class TimeSlotController {
         int month = today.getMonthValue();
         WeekFields weekFields = WeekFields.of(Locale.getDefault());
         int weekOfMonth = today.get(weekFields.weekOfMonth());
-
         model.addAttribute("month", month);
         model.addAttribute("weekOfMonth", weekOfMonth);
+
         //user의 가능 시간 찾아서
-        int[][] availableTime = timeSlotService.getUsersAvailableTime(user, groupId);
+        int[][] availableTime = timeSlotService.getAvailableTime(user.getId(), groupId);
         model.addAttribute("times", availableTime);
+
         return "/thyme/schedule/adjustTable";
     }
+
 }
