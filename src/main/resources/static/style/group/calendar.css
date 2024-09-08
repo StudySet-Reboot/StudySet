@@ -73,7 +73,7 @@ body {
 }
 
 table td.highlighted {
-    background-color: rgba(255, 117, 123, 0.1);
+    background-color: rgb(255, 186, 186);
 }
 
 .button-container {
@@ -252,11 +252,6 @@ table td.highlighted {
 .time-table td {
     height: 8px;
     border-right: 1px solid #8f8f8f;
-}
-
-/* 하이라이트 셀 스타일 */
-td.highlighted {
-    background-color: rgba(0, 0, 0, 0.1);
 }
 
 /* 버튼 스타일 */
