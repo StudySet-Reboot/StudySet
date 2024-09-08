@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface TimeSlotRepository extends JpaRepository<TimeSlot, Long> {
     public Optional<TimeSlot> findTimeSlotByUserAndGroupId(User user, Long groupId);
 
+    public Optional<TimeSlot> findTimeSlotByUserIdAndGroupId(Long userId, Long groupId);
     public void deleteAllByUserAndGroupId(User user, Long groupId);
 
     public List<TimeSlot> findTimeSlotByGroupId(Long groupId);
