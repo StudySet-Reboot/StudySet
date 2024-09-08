@@ -86,10 +86,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 작성자 이름
                 const authorSpan = document.createElement('span');
                 authorSpan.className = 'comment-author';
+                contentWrapper.appendChild(authorSpan);
+
                 if (data.newComment.anonymous) {
                     authorSpan.textContent = '익명';
                 } else {
-                    authorSpan.textContent = data.newComment.user.name;
+                    authorSpan.textContent = data.newComment.userName; // 서버에서 user_name을 받아옴
+
+                    // 만약 comm.user_id가 task.userId와 같으면 " (제출자)" 추가
+                    if (userId === taskUserId) {
+                        const submitterSpan = document.createElement('span');
+                        submitterSpan.className = 'comment-author2';
+                        submitterSpan.textContent = ' (제출자)';
+                        contentWrapper.appendChild(submitterSpan);
+                    }
                 }
 
                 // 내용
@@ -103,7 +113,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 commentTimeSpan.textContent = data.newComment.updatedDate;
 
                 // 작성자와 댓글 내용을 포함하는 컨테이너에 추가
-                contentWrapper.appendChild(authorSpan);
                 contentWrapper.appendChild(commentSpan);
 
                 // 댓글 컨테이너에 추가

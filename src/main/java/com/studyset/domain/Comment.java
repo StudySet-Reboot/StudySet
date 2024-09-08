@@ -33,7 +33,7 @@ public class Comment extends BaseEntity{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd HH:mm");
 
         return CommentDto.builder()
-                .user(user)
+                .user_id(user.getId())
                 .submission_id(taskSubmission.getId())
                 .contents(contents)
                 .anonymous(anonymous)
