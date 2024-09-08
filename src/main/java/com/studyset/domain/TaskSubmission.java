@@ -2,13 +2,14 @@ package com.studyset.domain;
 
 import com.studyset.dto.task.TaskSubmissionDto;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.mapping.Join;
 
 @Entity
 @NoArgsConstructor
-@Setter
+@Setter @Getter
 public class TaskSubmission extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
