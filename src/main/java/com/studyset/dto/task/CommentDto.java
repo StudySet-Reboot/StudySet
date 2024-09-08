@@ -1,22 +1,20 @@
 package com.studyset.dto.task;
 
-import com.studyset.domain.User;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDate;
-
 @Data
 public class CommentDto {
-    private User user;
+    private Long user_id;
     private Long submission_id;
     private String contents;
     private boolean anonymous;
     private String updatedDate; // 날짜만 포함
+    private String userName;
 
     @Builder
-    public CommentDto(User user, Long submission_id, String contents, boolean anonymous, String updatedDate) {
-        this.user = user;
+    public CommentDto(Long user_id, Long submission_id, String contents, boolean anonymous, String updatedDate) {
+        this.user_id = user_id;
         this.submission_id = submission_id;
         this.contents = contents;
         this.anonymous = anonymous;

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller()
 @RequestMapping("/groups")
@@ -33,6 +34,9 @@ public class CommentController {
     @ResponseBody
     public ResponseEntity<Map<String, Object>> addComment(@RequestBody CommentForm comment) {
         CommentDto newComment = commentService.addComment(comment);
+        // 새로운 유저의 이름을 포함해 응답
+        Optional<User> user = userRepository.findById(newComment.getUser_id());
+        newComment.setUserName(user.get().getName());
 
         Map<String, Object> response = new HashMap<>();
         response.put("newComment", newComment);

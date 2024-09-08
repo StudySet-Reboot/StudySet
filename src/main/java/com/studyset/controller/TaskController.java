@@ -8,10 +8,7 @@ import com.studyset.dto.task.TaskSubmissionDto;
 import com.studyset.dto.user.UserDto;
 import com.studyset.repository.CommentRepository;
 import com.studyset.repository.UserRepository;
-import com.studyset.service.CommentService;
-import com.studyset.service.JoinService;
-import com.studyset.service.TaskService;
-import com.studyset.service.TaskSubmissionService;
+import com.studyset.service.*;
 import com.studyset.web.form.TaskCreateForm;
 import com.studyset.web.form.TaskSubmissionForm;
 import lombok.RequiredArgsConstructor;
@@ -52,10 +49,9 @@ public class TaskController {
     private final TaskService taskService;
     private final JoinService joinService;
     private final TaskSubmissionService taskSubmissionService;
+    private final UserService userService;
     private final Path fileStorageLocation = Paths.get("uploads").toAbsolutePath().normalize();
     private final CommentService commentService;
-    private final UserRepository userRepository;
-    private final CommentRepository commentRepository;
 
     // 과제 메인페이지 이동
     @GetMapping("/{groupId}/task")
@@ -196,11 +192,17 @@ public class TaskController {
         TaskDto taskDto = taskService.getTaskDetailByTaskId(taskId);
         TaskSubmissionDto taskSubmissionDto = taskSubmissionService.getTaskSubmission(taskId, userId);
         List<CommentDto> commentList = commentService.getCommentBySubmissionId(taskSubmissionDto.getId());
+        // 댓글 작성자 userId로 User 정보 조회
+        List<Long> userIds = commentList.stream()
+                .map(CommentDto::getUser_id)
+                .collect(Collectors.toList());
+        Map<Long, User> usersMap = userService.findUsersByIds(userIds);  // userId로 User 정보 조회
 
-        model.addAttribute("task", taskSubmissionDto);
-        model.addAttribute("taskDto", taskDto);
-        model.addAttribute("commentList", commentList);
-        model.addAttribute("user", user);
+        model.addAttribute("task", taskSubmissionDto);  // 특정 과제에 대한 제출물
+        model.addAttribute("taskDto", taskDto);         // 특정 과제
+        model.addAttribute("commentList", commentList); // 댓글 리스트
+        model.addAttribute("usersMap", usersMap);   // 댓글 작성자 리스트
+        model.addAttribute("user", user);   // 현재 로그인한 유저
         model.addAttribute("group", group);
         return "/thyme/task/userTask";
     }

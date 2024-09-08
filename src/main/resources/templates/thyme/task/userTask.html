@@ -10,6 +10,7 @@
 <body>
     <script>
         var taskId = [[${taskDto.id}]];
+        var taskUserId = [[${task.userId}]];
         var userId = [[${user.id}]];
         var groupId = [[${group.id}]];
         var submission_id = [[${task.id}]];
@@ -53,7 +54,11 @@
             <div th:each="comm : ${commentList}" class="comment-box">
                 <div class="writterContainer">
                     <span th:if="${comm.anonymous}" class="comment-author">익명</span>
-                    <span th:if="${!comm.anonymous}" th:text="${comm.user.name}" class="comment-author"></span>
+                    <span th:if="${!comm.anonymous}"
+                          th:text="${usersMap[comm.user_id]?.name}"
+                          class="comment-author"></span>
+                    <!-- comm.userId와 user.userId가 같은 경우 "제출자" 출력 -->
+                    <span th:if="${!comm.anonymous && (comm.user_id == task.userId)}" class="comment-author2">(제출자)</span>
                     <span class="comment-content" th:text="${comm.contents}"></span>
                 </div>
                 <div class="time">
