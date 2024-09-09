@@ -177,7 +177,7 @@ $(document).ready(function() {
     });
 
     $('#adjust-schedule-btn').click(function() {
-        window.location.href = '/groups/' + groupId + '/timetables';
+        window.location.href = '/groups/' + groupId + '/timetables/view';
     });
 
 
