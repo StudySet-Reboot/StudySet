@@ -21,7 +21,7 @@ import java.util.UUID;
 @RequestMapping("/groups")
 @RequiredArgsConstructor
 @Slf4j
-public class RestTaskSubmissionController {
+public class TaskSubmissionRestController {
     private final TaskSubmissionService taskSubmissionService;
     private final Path fileStorageLocation = Paths.get("uploads").toAbsolutePath().normalize();
 
