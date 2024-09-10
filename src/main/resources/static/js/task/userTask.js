@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 새 댓글 추가
                 const newCommContainer = document.createElement('div');
                 newCommContainer.className = 'comment-box';
+                newCommContainer.dataset.commentId = data.newComment.id; // data-comment-id 속성 설정
 
                 // 댓글 컨테이너
                 const contentWrapper = document.createElement('div');
@@ -112,12 +113,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 commentTimeSpan.className = 'commentTime';
                 commentTimeSpan.textContent = data.newComment.updatedDate;
 
+                // 댓글 삭제 여부
+                const deleteWrapper = document.createElement('div');
+                deleteWrapper.className = 'delete';
+                deleteWrapper.dataset.commentId = data.newComment.id; // 삭제 시 사용할 commentId 설정
+
+                // 로그인한 사용자와 댓글 작성자의 user_id를 비교하여 삭제 버튼 생성
+                if (data.newComment.user_id === userId) {
+                    const deleteButton = document.createElement('span');
+                    deleteButton.id = 'deleteCommentButton';
+                    deleteButton.className = 'comment-delete';
+                    deleteButton.textContent = '✘';
+
+                    // 삭제 버튼에 이벤트 추가 (이벤트 리스너를 통해 댓글 삭제 기능 구현)
+                    deleteButton.addEventListener('click', function() {
+                        // 삭제 로직 처리
+                        deleteComment(data.newComment.id);
+                    });
+
+                    deleteWrapper.appendChild(deleteButton);
+                }
+
                 // 작성자와 댓글 내용을 포함하는 컨테이너에 추가
                 contentWrapper.appendChild(commentSpan);
 
                 // 댓글 컨테이너에 추가
                 newCommContainer.appendChild(contentWrapper);
                 newCommContainer.appendChild(commentTimeSpan);
+                newCommContainer.appendChild(deleteWrapper);
 
                 // 댓글 리스트에 새 댓글 추가
                 comments.appendChild(newCommContainer);
@@ -139,4 +162,40 @@ document.addEventListener('DOMContentLoaded', function() {
             addComment(this);
         });
     });
+
+    /* 댓글 삭제 */
+    document.addEventListener('click', function(event) {
+        // 삭제 버튼을 눌렀을 때만 처리
+        const deleteCommentButton = event.target.closest('#deleteCommentButton');
+
+        if (deleteCommentButton) {
+            // 해당 댓글의 ID (commentId)를 추출 (부모 요소의 data-comment-id 속성 사용)
+            const commentBox = deleteCommentButton.closest('.comment-box'); // 댓글 전체를 포함하는 .comment-box 요소 찾기
+            const commentId = commentBox.dataset.commentId; // 여기서 commentId 추출
+            console.log('삭제할 댓글 ID:', commentId);
+
+            // 서버로 DELETE 요청 전송
+            if (commentId) {
+                fetch(`/groups/userTask/${commentId}/deleteComment`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            // 댓글이 성공적으로 삭제되면 뷰에서 해당 댓글 요소 제거
+                            commentBox.remove();
+                        } else {
+                            alert('댓글 삭제에 실패했습니다.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting comment:', error);
+                        alert('댓글 삭제 중 오류가 발생했습니다.');
+                    });
+            }
+        }
+    });
+
 });
