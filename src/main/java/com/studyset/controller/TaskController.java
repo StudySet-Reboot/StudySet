@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,8 @@ public class TaskController {
     public String taskMain(@SessionAttribute("group") GroupDto group, Model model) {
         List<TaskDto> taskList = taskService.getTaskByGroupId(group.getId());
 
+        // endTime을 기준으로 정렬
+        taskList.sort(Comparator.comparing(TaskDto::getEndTime, Comparator.nullsLast(Comparator.naturalOrder())));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         for (TaskDto task : taskList) {
