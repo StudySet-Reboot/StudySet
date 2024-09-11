@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // 서버로 DELETE 요청 전송
             if (commentId) {
-                fetch(`/groups/userTask/${commentId}/deleteComment`, {
+                fetch(`/groups/userTask/${commentId}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
