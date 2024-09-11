@@ -31,7 +31,7 @@ class TaskRestControllerTest {
 
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new TaskSubmissionController(taskSubmissionService))
+        mockMvc = MockMvcBuilders.standaloneSetup(new TaskSubmissionRestController(taskSubmissionService))
                 .setControllerAdvice(new ExceptionController())
                 .build();
     }

@@ -51,18 +51,22 @@
     <div class="comment-container">
         <!-- 댓글 리스트 -->
         <div class="comments">
-            <div th:each="comm : ${commentList}" class="comment-box">
+            <div th:each="comm : ${commentList}" class="comment-box" th:data-comment-id="${comm.id}">
                 <div class="writterContainer">
                     <span th:if="${comm.anonymous}" class="comment-author">익명</span>
                     <span th:if="${!comm.anonymous}"
                           th:text="${usersMap[comm.user_id]?.name}"
                           class="comment-author"></span>
-                    <!-- comm.userId와 user.userId가 같은 경우 "제출자" 출력 -->
                     <span th:if="${!comm.anonymous && (comm.user_id == task.userId)}" class="comment-author2">(제출자)</span>
                     <span class="comment-content" th:text="${comm.contents}"></span>
                 </div>
                 <div class="time">
                     <span class="commentTime" th:text="${comm.updatedDate}"></span>
+                </div>
+                <div class="delete">
+            <span th:if="${comm.user_id == user.id}" id="deleteCommentButton" class="comment-delete">
+                ✘
+            </span>
                 </div>
             </div>
         </div>

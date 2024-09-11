@@ -130,6 +130,17 @@ body {
     font-style: italic;
 }
 
+/* 댓글 삭제 */
+.comment-delete {
+    margin-left: 10px;
+    color: #f46e73;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: rgba(255, 117, 123, 0.2);
+}
+
 .comment-form {
     background-color: white;
     padding: 10px;
