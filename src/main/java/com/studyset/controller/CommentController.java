@@ -36,7 +36,7 @@ public class CommentController {
     }
 
     // 댓글 삭제
-    @DeleteMapping("/userTask/{commentId}/deleteComment")
+    @DeleteMapping("/userTask/{commentId}")
     public ResponseEntity<Void> deleteComment(@PathVariable Long commentId) {
         log.info("Deleting comment: {}", commentId);
         commentService.deleteComment(commentId);
