@@ -186,6 +186,44 @@ body {
     cursor: pointer;
 }
 
+.modal-form input[type="text"],
+.modal-form input[type="number"],
+.modal-form input[type="date"],
+.modal-form input[type="datetime-local"],
+.modal-form textarea {
+    width: calc(100% - 20px); /* 패딩을 고려하여 너비 조정 */
+    margin: 5px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+
+.custom-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.modal-form button {
+    padding: 10px 20px;
+    background-color: rgba(255, 117, 123, 0.66);
+    color: white;
+    margin: 5px auto 0; /* 상단 15px 마진, 좌우 자동으로 가운데 정렬 */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 20%;
+    text-align: center;
+}
+
+.modal-button-group {
+    margin: auto;
+    padding: 10px;
+    width: 90%;
+}
+
 #searchModalForm, #confirmationStep, #leaveGroupForm {
     display: flex;
     flex-direction: column;
