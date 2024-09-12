@@ -6,16 +6,17 @@ import com.studyset.api.exception.TaskNotExist;
 import com.studyset.domain.Group;
 import com.studyset.domain.Task;
 import com.studyset.dto.task.TaskDto;
-import com.studyset.dto.task.TaskSubmissionDto;
 import com.studyset.repository.GroupRepository;
 import com.studyset.repository.TaskRepository;
 import com.studyset.web.form.TaskCreateForm;
 import com.studyset.web.form.TaskEditForm;
+import com.studyset.web.form.TaskSubmissionEditForm;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,6 +58,27 @@ public class TaskService {
 
         taskRepository.save(task);
         return task.toDto();
+    }
+
+    // 과제 수정
+    @Transactional
+    public TaskDto editTask(TaskEditForm taskForm) {
+        // 기존 과제 정보 조회
+        Optional<Task> taskOptional = taskRepository.findById(taskForm.getId());
+        if (taskOptional.isPresent()) {
+            // 기존 제출물 업데이트
+            Task existingTask = taskOptional.get();
+
+            existingTask.setTaskName(taskForm.getTaskName());
+            existingTask.setStartTime(taskForm.getStartTime());
+            existingTask.setEndTime(taskForm.getEndTime());
+            existingTask.setDescription(taskForm.getDescription());
+
+            taskRepository.save(existingTask);
+            return existingTask.toDto();
+        } else {
+            throw new TaskNotExist();
+        }
     }
 
 }
