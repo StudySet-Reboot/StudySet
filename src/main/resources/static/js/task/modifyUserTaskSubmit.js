@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const formData = new FormData(form);
 
-            fetch('/groups/task/modifyTask', {
+            fetch('/groups/submission/modifySubmission', {
                 method: 'PUT',
                 body: formData
             })

@@ -9,7 +9,7 @@ import com.studyset.dto.task.TaskSubmissionDto;
 import com.studyset.repository.TaskRepository;
 import com.studyset.repository.TaskSubmissionRepository;
 import com.studyset.repository.UserRepository;
-import com.studyset.web.form.TaskEditForm;
+import com.studyset.web.form.TaskSubmissionEditForm;
 import com.studyset.web.form.TaskSubmissionForm;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -47,15 +47,15 @@ public class TaskSubmissionService {
 
     // 과제 수정
     @Transactional
-    public TaskSubmissionDto editTask(TaskEditForm taskEditForm) {
+    public TaskSubmissionDto editTask(TaskSubmissionEditForm taskSubmissionEditForm) {
         // 기존 제출물 조회
-        TaskSubmission existingSubmission = taskSubmissionRepository.findByTaskIdAndUserId(taskEditForm.getTaskId(), taskEditForm.getUserId());
+        TaskSubmission existingSubmission = taskSubmissionRepository.findByTaskIdAndUserId(taskSubmissionEditForm.getTaskId(), taskSubmissionEditForm.getUserId());
 
         if (existingSubmission != null) {
             // 기존 제출물 업데이트
-            existingSubmission.setContents(taskEditForm.getContent());
-            if (taskEditForm.getFilePath() != null) {
-                existingSubmission.setFilePath(taskEditForm.getFilePath());
+            existingSubmission.setContents(taskSubmissionEditForm.getContent());
+            if (taskSubmissionEditForm.getFilePath() != null) {
+                existingSubmission.setFilePath(taskSubmissionEditForm.getFilePath());
             }
             taskSubmissionRepository.save(existingSubmission);
         }

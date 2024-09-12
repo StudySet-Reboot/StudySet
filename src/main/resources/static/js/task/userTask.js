@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (confirmation) {
                 // 사용자가 확인을 클릭한 경우에만 삭제 요청을 보냄
-                fetch(`/groups/task/${taskId}/${userId}/deleteTask`, {
+                fetch(`/groups/submission/${taskId}/${userId}/deleteSubmission`, {
                     method: 'DELETE'
                 })
                     .then(response => {
