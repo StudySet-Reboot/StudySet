@@ -1,10 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Main.html</title>
+    <link rel="stylesheet" th:href="@{/style/header.css}">
+    <link rel="stylesheet" th:href="@{/style/group/groupMain.css}">
+    <link rel="stylesheet" th:href="@{/style/dues/dues.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css}"/>
+    <script th:src="@{/js/dues/dues.js}" defer></script>
 </head>
 <body>
-$END$
+<div th:replace="thyme/group/groupHeader :: groupHeader (group=${session.group})"></div>
+<div class="outer-frame">
+    <div class="frame">
+        <div class="groupName" th:text="${session.group.groupName}"></div>
+        <div class="category" th:text="${session.group.category}"></div>
+        <div class="description" th:text="${session.group.description}"></div>
+    </div>
+    <div class="btn">
+        <a id="create-modal-btn">납부 내역 추가</a>
+    </div>
+</div>
+
+<!-- 일정 & 진행상황 frame -->
+<div class="container">
+    <div class="frame2">
+        <div class="schedule">
+
+        </div>
+    </div>
+</div>
+
+<div id="create-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <form class="modal-form" id="create-modal-form" action="/groups/task/create" method="post">
+            <h2>납부 내역 추가</h2>
+            <label class="custom-label">회원명</label>
+            <input type="text" name="userName" required>
+            <label class="custom-label" for="dues-amount">납부 금액</label>
+            <input type="number" id="dues-amount" name="dues-amount" required/>
+            <label class="custom-label">납부 일자</label>
+            <input type="date" name="startTime" required>
+            <button class="btn2" type="submit">생성</button>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>
