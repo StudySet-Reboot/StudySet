@@ -24,54 +24,6 @@ body {
     text-align: center;
 }
 
-/* 버튼 스타일  */
-.button-container {
-    text-align: right;
-    width: 30%;
-    margin: 20px auto auto;
-}
-
-.selected-btn {
-    padding: 10px 30px;
-    background-color: rgba(255, 117, 123, 0.66);
-    color: white;
-    border: 1.5px solid rgba(255, 117, 123, 0.66);
-    border-radius: 18px;
-    cursor: pointer;
-    font-size: 15px;
-    min-width: 100px;
-    font-family: 'TheJamsil5Bold', sans-serif;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 버튼에 살짝 그림자 추가 */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 호버 시 부드러운 전환 */
-}
-
-.unselected-btn {
-    padding: 10px 30px;
-    background-color: #d3d3d3;
-    color: #7f8c8d;
-    border: 1.5px solid #bdc3c7;
-    border-radius: 18px;
-    cursor: pointer;
-    font-size: 15px;
-    min-width: 100px;
-    font-family: 'TheJamsil5Bold', sans-serif;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.selected-btn:hover {
-    background-color: #ff6b81;
-    border: 3px solid;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
-}
-
-.unselected-btn:hover {
-    background-color: #ff6b81;
-    border: 3px solid #ff6b81;
-    color: #636e72;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-}
-
 table td.highlighted {
     background-color: rgb(255, 186, 186);
 }
