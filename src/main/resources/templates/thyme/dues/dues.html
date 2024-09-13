@@ -27,102 +27,12 @@
     <div class="frame2">
         <div class="list-container">
                 <div class="list">
-                    <div class="list-item">
+                    <div th:each="dues: ${duesList}" class="list-item">
                         <div class="list-item-details">
                             <a class="no-link-style">
-                                <span class="list-item-left">회원명</span>
-                                <span class="list-item-middle">100,000</span>
-                                <span class="list-item-right">Date</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="list-item">
-                        <div class="list-item-details">
-                            <a class="no-link-style">
-                                <span class="list-item-left">회원명</span>
-                                <span class="list-item-middle">100,000</span>
-                                <span class="list-item-right">Date</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="list-item">
-                        <div class="list-item-details">
-                            <a class="no-link-style">
-                                <span class="list-item-left">회원명</span>
-                                <span class="list-item-middle">100,000</span>
-                                <span class="list-item-right">Date</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="list-item">
-                        <div class="list-item-details">
-                            <a class="no-link-style">
-                                <span class="list-item-left">회원명</span>
-                                <span class="list-item-middle">100,000</span>
-                                <span class="list-item-right">Date</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="list-item">
-                        <div class="list-item-details">
-                            <a class="no-link-style">
-                                <span class="list-item-left">회원명</span>
-                                <span class="list-item-middle">100,000</span>
-                                <span class="list-item-right">Date</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="list-item">
-                        <div class="list-item-details">
-                            <a class="no-link-style">
-                                <span class="list-item-left">회원명</span>
-                                <span class="list-item-middle">100,000</span>
-                                <span class="list-item-right">Date</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="list-item">
-                        <div class="list-item-details">
-                            <a class="no-link-style">
-                                <span class="list-item-left">회원명</span>
-                                <span class="list-item-middle">100,000</span>
-                                <span class="list-item-right">Date</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="list-item">
-                        <div class="list-item-details">
-                            <a class="no-link-style">
-                                <span class="list-item-left">회원명</span>
-                                <span class="list-item-middle">100,000</span>
-                                <span class="list-item-right">Date</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="list-item">
-                        <div class="list-item-details">
-                            <a class="no-link-style">
-                                <span class="list-item-left">회원명</span>
-                                <span class="list-item-middle">100,000</span>
-                                <span class="list-item-right">Date</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="list-item">
-                        <div class="list-item-details">
-                            <a class="no-link-style">
-                                <span class="list-item-left">회원명</span>
-                                <span class="list-item-middle">100,000</span>
-                                <span class="list-item-right">Date</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="list-item">
-                        <div class="list-item-details">
-                            <a class="no-link-style">
-                                <span class="list-item-left">회원명</span>
-                                <span class="list-item-middle">100,000</span>
-                                <span class="list-item-right">Date</span>
+                                <span class="list-item-left" th:text="${dues.getUserName()}"/>
+                                <span class="list-item-middle" th:text="${#numbers.formatCurrency(dues.price)}"/>
+                                <span class="list-item-right" th:text="${dues.duesDate}"/>
                             </a>
                         </div>
                     </div>
@@ -134,22 +44,24 @@
 <div id="create-modal" class="modal">
     <div class="modal-content">
         <span class="close-btn">&times;</span>
-        <form class="modal-form" id="create-modal-form" action="/groups/task/create" method="post">
+        <form class="modal-form" id="create-modal-form" th:object="${duesForm}" th:action="@{/groups/{groupId}/dues(groupId=${groupId})}" method="post">
             <h2>납부 내역 추가</h2>
             <label class="custom-label">회원명</label>
-            <select name="userId">
-                <option value="">-- 선택 --</option>
-                <option th:each="val : ${userList}" th:value="${val?.getId()}"
-                        th:utext="${val?.name}">
+            <select name="userId" th:field="*{userId}" required>
+                <option th:each="val : ${userList}"
+                        th:value="${val?.getId()}"
+                        th:text="${val?.name}">
+                </option>
             </select>
             <label class="custom-label" for="dues-amount">납부 금액</label>
-            <input type="number" id="dues-amount" name="dues-amount" required/>
+            <input type="number" id="dues-amount" name="price" th:field="*{price}" required/>
             <label class="custom-label">납부 일자</label>
-            <input type="date" name="startTime" required>
-            <button class="btn2" type="submit">생성</button>
+            <input type="date" name="duesDate" th:field="*{duesDate}" required>
+            <button class="button" type="submit">생성</button>
         </form>
     </div>
 </div>
+
 
 </body>
 </html>
