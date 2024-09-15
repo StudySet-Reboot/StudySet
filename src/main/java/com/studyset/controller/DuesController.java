@@ -20,8 +20,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class DuesController {
+
     private final DuesService duesService;
     private final JoinService joinService;
+
     @GetMapping("/groups/{groupId}/dues")
     public String getDeusPage(@PathVariable Long groupId, Model model, @PageableDefault(size = 20) Pageable pageable) {
         List<UserDto> userList = joinService.getUserByGroupId(groupId);
@@ -34,8 +36,13 @@ public class DuesController {
 
     @PostMapping("/groups/{groupId}/dues")
     public String addDues(@PathVariable Long groupId, @ModelAttribute DuesForm duesForm, Model model){
-        log.info(String.valueOf(duesForm.getUserId()));
         duesService.addDues(groupId, duesForm);
         return "redirect:/groups/"+groupId+"/dues";
+    }
+
+    @GetMapping("/groups/{groupId}/payment")
+    public String getPaymentPage(@PathVariable Long groupId, Model model){
+
+        return "thyme/dues/payment";
     }
 }
