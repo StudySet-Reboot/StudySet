@@ -33,12 +33,11 @@
         <div class="headerMenu">
             <nav>
                 <ul>
-                    <li><a th:href="@{|/groups/${group.id}}">홈</a></li>
-                    <li><a th:href="@{|/groups/${group.id}/schedules|}">일정</a></li>
+                    <li><a th:href="@{/groups/{id}(id=${group.id})}">홈</a></li>
+                    <li><a th:href="@{/groups/{id}/schedules(id=${group.id})}">일정</a></li>
                     <li><a th:href="@{/groups/{id}/task(id=${group.id})}">과제</a></li>
                     <li><a th:href="@{/groups/{id}/memo(id=${group.id})}">진행상황</a></li>
-                    <li><a th:href="@{/groupBuying/list/ALL(pageNum=1)}">회비</a></li>
-
+                    <li><a th:href="@{/groups/{id}/dues(id=${group.id})}">회비</a></li>
                     <li>
                         <a th:href="@{/logout}" class="icon-wrapper">
                             <div class="icon">
