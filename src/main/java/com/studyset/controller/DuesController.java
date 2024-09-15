@@ -1,10 +1,13 @@
 package com.studyset.controller;
 
 import com.studyset.dto.dues.DuesDto;
+import com.studyset.dto.dues.PaymentDto;
 import com.studyset.dto.user.UserDto;
 import com.studyset.service.DuesService;
 import com.studyset.service.JoinService;
+import com.studyset.service.PaymentService;
 import com.studyset.web.form.DuesForm;
+import com.studyset.web.form.PaymentForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -23,6 +26,7 @@ public class DuesController {
 
     private final DuesService duesService;
     private final JoinService joinService;
+    private final PaymentService paymentService;
 
     @GetMapping("/groups/{groupId}/dues")
     public String getDeusPage(@PathVariable Long groupId, Model model, @PageableDefault(size = 20) Pageable pageable) {
@@ -40,9 +44,4 @@ public class DuesController {
         return "redirect:/groups/"+groupId+"/dues";
     }
 
-    @GetMapping("/groups/{groupId}/payment")
-    public String getPaymentPage(@PathVariable Long groupId, Model model){
-
-        return "thyme/dues/payment";
-    }
 }
