@@ -18,8 +18,8 @@
         <div class="description" th:text="${session.group.description}"></div>
     </div>
     <div class="button-container">
-        <button class="selected-btn" id="create-modal-btn">납부 내역 추가하기</button>
-        <button class="unselected-btn" id="adjust-schedule-btn">회비 사용 내역</button>
+        <button class="selected-btn" id="show-dues-btn">회비 납부 내역</button>
+        <button class="unselected-btn" id="show-payment-btn">회비 사용 내역</button>
     </div>
 </div>
 
@@ -38,6 +38,11 @@
                     </div>
                 </div>
         </div>
+    </div>
+</div>
+<div class="outer-frame2">
+    <div class="btn2">
+        <a id="create-modal-btn">추가</a>
     </div>
 </div>
 
@@ -61,7 +66,7 @@
         </form>
     </div>
 </div>
-
+<input type="hidden" id="groupId" name="groupId" th:value="${session.group.id}" />
 
 </body>
 </html>
