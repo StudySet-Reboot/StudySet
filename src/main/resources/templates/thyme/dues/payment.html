@@ -1,10 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>StudySet</title>
+  <link rel="stylesheet" th:href="@{/style/header.css}">
+  <link rel="stylesheet" th:href="@{/style/group/groupMain.css}">
+  <link rel="stylesheet" th:href="@{/style/dues/dues.css}">
+  <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css}"/>
+  <script th:src="@{/js/dues/dues.js}" defer></script>
 </head>
 <body>
-$END$
+<div th:replace="thyme/group/groupHeader :: groupHeader (group=${session.group})"></div>
+<div class="outer-frame">
+  <div class="frame">
+    <div class="groupName" th:text="${session.group.groupName}"></div>
+    <div class="category" th:text="${session.group.category}"></div>
+    <div class="description" th:text="${session.group.description}"></div>
+  </div>
+  <div class="button-container">
+    <button class="unselected-btn" id="show-dues-btn">회비 납부 내역</button>
+    <button class="selected-btn" id="show-payment-btn">회비 사용 내역</button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="frame2">
+    <div class="list-container">
+      <div class="list">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="outer-frame2">
+  <div class="btn2">
+    <a id="create-modal-btn">추가</a>
+  </div>
+</div>
+
+<div id="create-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <form class="modal-form" id="create-modal-form" th:object="${duesForm}" th:action="@{/groups/{groupId}/dues(groupId=${groupId})}" method="post">
+      <h2>사용 내역 추가</h2>
+      <label class="custom-label">사용 일자</label>
+      <input type="date" name="paymentDate" required>
+      <label class="custom-label">사용 금액</label>
+      <input type="number" name="paymentDate" required>
+      <label class="custom-label">사용 내역</label>
+      <textarea rows="5" placeholder="납부 내역 상세를 작성해주세요"></textarea>
+      <button class="button" type="submit">생성</button>
+    </form>
+  </div>
+</div>
+<input type="hidden" id="groupId" name="groupId" th:value="${session.group.id}" />
 </body>
 </html>
