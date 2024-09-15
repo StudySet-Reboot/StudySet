@@ -25,7 +25,8 @@ public class Group extends BaseEntity{
     @Column(columnDefinition = "char(6)")
     private String code;
     @Builder
-    public Group(String groupName, GroupCategory category, String description, String code) {
+    public Group(Long id, String groupName, GroupCategory category, String description, String code) {
+        this.id = id;
         this.groupName = groupName;
         this.category = category;
         this.description = description;
