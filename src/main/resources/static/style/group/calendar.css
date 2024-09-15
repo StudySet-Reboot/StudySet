@@ -24,54 +24,6 @@ body {
     text-align: center;
 }
 
-/* 버튼 스타일  */
-.button-container {
-    text-align: right;
-    width: 30%;
-    margin: 20px auto auto;
-}
-
-.selected-btn {
-    padding: 10px 30px;
-    background-color: rgba(255, 117, 123, 0.66);
-    color: white;
-    border: 1.5px solid rgba(255, 117, 123, 0.66);
-    border-radius: 18px;
-    cursor: pointer;
-    font-size: 15px;
-    min-width: 100px;
-    font-family: 'TheJamsil5Bold', sans-serif;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 버튼에 살짝 그림자 추가 */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 호버 시 부드러운 전환 */
-}
-
-.unselected-btn {
-    padding: 10px 30px;
-    background-color: #d3d3d3;
-    color: #7f8c8d;
-    border: 1.5px solid #bdc3c7;
-    border-radius: 18px;
-    cursor: pointer;
-    font-size: 15px;
-    min-width: 100px;
-    font-family: 'TheJamsil5Bold', sans-serif;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.selected-btn:hover {
-    background-color: #ff6b81;
-    border: 3px solid;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
-}
-
-.unselected-btn:hover {
-    background-color: #ff6b81;
-    border: 3px solid #ff6b81;
-    color: #636e72;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-}
-
 table td.highlighted {
     background-color: rgb(255, 186, 186);
 }
@@ -87,96 +39,6 @@ table td.highlighted {
     width: 90%; /* 캘린더 크기를 조정 */
     max-width: 1200px;
     position: relative;
-}
-
-/* Modal styles */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    padding-top: 100px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
-    border-radius: 10px;
-}
-
-.close-btn {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close-btn:hover,
-.close-btn:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.modal-form {
-    padding: 10px;
-}
-
-.modal-form label {
-    display: block;
-    margin: 10px;
-}
-
-.modal-form input[type="text"],
-.modal-form textarea {
-    width: 90%;
-    padding: 10px;
-    margin: auto;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-}
-
-.custom-datetime-local {
-    border: 2px solid rgba(255, 117, 123, 0.66);
-    border-radius: 5px;
-    padding: 10px;
-    background-color: #f8f9fa;
-    font-size: 13px;
-}
-
-.custom-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
-}
-
-.modal-form button {
-    background-color: rgba(255, 117, 123, 0.66);
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin-top: 10px;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-.modal-button-group {
-    margin: auto;
-    padding: 10px;
-    width: 90%;
 }
 
 #del-schedule-btn {
@@ -273,46 +135,6 @@ table td.highlighted {
     background-color: rgba(255, 117, 123, 1);
 }
 
-/* 헤더와 타임테이블 컨테이너의 간격 조정 */
 .header {
     margin-bottom: 20px;
-}
-
-/* Error Toast 스타일 */
-.error-toast {
-    visibility: hidden;
-    min-width: 250px;
-    background-color: #333;
-    color: #ff9b9b;
-    text-align: center;
-    border-radius: 2px;
-    position: fixed;
-    z-index: 1;
-    left: 50%;
-    top: 50%; /* 화면 가운데로 수직 위치 */
-    transform: translate(-50%, -50%); /* 가운데 정렬 */
-    font-size: 17px;
-    white-space: nowrap;
-    padding: 16px;
-    box-shadow: 0px 0px 10px 0px #000;
-}
-
-.error-toast.show {
-    visibility: visible;
-    -webkit-animation: fadeInOut 3s;
-    animation: fadeInOut 3s;
-}
-
-@-webkit-keyframes fadeInOut {
-    0% { opacity: 0; }
-    20% { opacity: 1; }
-    80% { opacity: 1; }
-    100% { opacity: 0; }
-}
-
-@keyframes fadeInOut {
-    0% { opacity: 0; }
-    20% { opacity: 1; }
-    80% { opacity: 1; }
-    100% { opacity: 0; }
 }
