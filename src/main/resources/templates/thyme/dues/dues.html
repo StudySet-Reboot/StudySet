@@ -30,7 +30,7 @@
                     <div th:each="dues: ${duesList}" class="list-item">
                         <div class="list-item-details">
                             <a class="no-link-style">
-                                <span class="list-item-left" th:text="${dues.getUserName()}"/>
+                                <span class="list-item-left" th:text="${dues.userName}"/>
                                 <span class="list-item-middle" th:text="${#numbers.formatCurrency(dues.price)}"/>
                                 <span class="list-item-right" th:text="${dues.duesDate}"/>
                             </a>
