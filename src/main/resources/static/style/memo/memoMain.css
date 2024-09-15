@@ -58,6 +58,10 @@ body {
     display: flex;
     gap: 15px;
     margin-left: 15%;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    flex-wrap: nowrap;
 }
 
 .user-frame {
@@ -70,6 +74,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    flex-shrink: 0;
 }
 
 .user-title {
@@ -127,20 +132,25 @@ button {
 }
 
 /* 스크롤바 스타일 */
+.frame2::-webkit-scrollbar,
 .memo-wrapper::-webkit-scrollbar {
-    width: 7px; /* 스크롤바 너비 */
+    width: 7px;
+    height: 7px;
 }
 
+.frame2::-webkit-scrollbar-track,
 .memo-wrapper::-webkit-scrollbar-track {
     background: rgba(255, 132, 139, 0.04); /* 스크롤바 트랙의 배경색 */
     border-radius: 10px; /* 스크롤바 트랙의 모서리를 둥글게 */
 }
 
+.frame2::-webkit-scrollbar-thumb,
 .memo-wrapper::-webkit-scrollbar-thumb {
     background: rgba(255, 132, 139, 0.4); /* 스크롤바의 색상 */
     border-radius: 10px; /* 스크롤바의 모서리를 둥글게 */
 }
 
+.frame2::-webkit-scrollbar-thumb:hover,
 .memo-wrapper::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 117, 123, 0.66); /* 스크롤바에 마우스를 올렸을 때의 색상 */
 }

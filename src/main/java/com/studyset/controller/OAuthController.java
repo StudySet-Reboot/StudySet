@@ -19,11 +19,4 @@ public class OAuthController {
     public String login() {
         return "thyme/login";
     }
-
-    @GetMapping("/oauth/loginInfo")
-    public String oauthLoginInfo(Authentication authentication){
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        Map<String, Object> attributes = oAuth2User.getAttributes();
-        return attributes.toString();
-    }
 }
