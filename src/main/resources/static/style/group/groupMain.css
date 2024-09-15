@@ -417,6 +417,14 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    width: 30%;
+}
+
+.list-item-middle {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 30%;
 }
 
 .list-item-right {
@@ -424,13 +432,13 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-.list-item-middle {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    width: 30%;
 }
 
+.list-item-delete {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 .list-item .time {
     margin-left: 5px;
 }
