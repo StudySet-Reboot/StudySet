@@ -2,6 +2,7 @@ package com.studyset.domain;
 
 import com.studyset.dto.task.TaskDto;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +27,16 @@ public class Task extends BaseEntity{
     private LocalDate startTime;
     private LocalDate endTime;
     private String description;
+
+    @Builder
+    public Task(Long id, Group group, String taskName, LocalDate startTime, LocalDate endTime, String description) {
+        this.id = id;
+        this.group = group;
+        this.taskName = taskName;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.description = description;
+    }
 
     public TaskDto toDto() {
         return TaskDto.builder()
