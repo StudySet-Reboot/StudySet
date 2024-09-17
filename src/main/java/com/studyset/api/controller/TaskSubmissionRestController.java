@@ -2,7 +2,7 @@ package com.studyset.api.controller;
 
 import com.studyset.dto.task.TaskSubmissionDto;
 import com.studyset.service.TaskSubmissionService;
-import com.studyset.web.form.TaskEditForm;
+import com.studyset.web.form.TaskSubmissionEditForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,21 +26,21 @@ public class TaskSubmissionRestController {
     private final Path fileStorageLocation = Paths.get("uploads").toAbsolutePath().normalize();
 
     // 과제 수정
-    @PutMapping("/task/modifyTask")
-    public ResponseEntity<TaskSubmissionDto> modifyTask(@ModelAttribute TaskEditForm taskEditForm,
+    @PutMapping("/submission/modifySubmission")
+    public ResponseEntity<TaskSubmissionDto> modifyTask(@ModelAttribute TaskSubmissionEditForm taskSubmissionEditForm,
                                                         @RequestParam(value = "file", required = false) MultipartFile file) {
-        log.info("Editing task: {}", taskEditForm.getTaskId());
+        log.info("제출물 수정: {}", taskSubmissionEditForm.getTaskId());
 
         // 파일이 업로드된 경우에만 파일 경로를 변경
         if (file != null && !file.isEmpty()) {
             String filePath = saveFile(file);
-            taskEditForm.setFilePath(filePath);
+            taskSubmissionEditForm.setFilePath(filePath);
         } else {
             // 업로드된 파일이 없는 경우 기존 파일 경로 유지
-            TaskSubmissionDto dto = taskSubmissionService.getTaskSubmission(taskEditForm.getTaskId(), taskEditForm.getUserId());
-            taskEditForm.setFilePath(dto.getFilePath());
+            TaskSubmissionDto dto = taskSubmissionService.getTaskSubmission(taskSubmissionEditForm.getTaskId(), taskSubmissionEditForm.getUserId());
+            taskSubmissionEditForm.setFilePath(dto.getFilePath());
         }
-        TaskSubmissionDto taskSubmissionDto = taskSubmissionService.editTask(taskEditForm);
+        TaskSubmissionDto taskSubmissionDto = taskSubmissionService.editTask(taskSubmissionEditForm);
         return ResponseEntity.ok(taskSubmissionDto);
     }
 
@@ -69,7 +69,7 @@ public class TaskSubmissionRestController {
     }
 
     // 과제 삭제
-    @DeleteMapping("/task/{taskId}/{userId}/deleteTask")
+    @DeleteMapping("/submission/{taskId}/{userId}/deleteSubmission")
     public ResponseEntity<Void> deleteTask(@PathVariable Long taskId, @PathVariable Long userId) {
         log.info("Deleting task: {} user: {}", taskId, userId);
         taskSubmissionService.deleteTask(taskId, userId);
