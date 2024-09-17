@@ -186,6 +186,13 @@ body {
     text-align: center;
 }
 
+.modal-content form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    text-align: center;
+}
+
 .close-btn, .close-btn2 {
     color: #aaa;
     float: right;
@@ -205,6 +212,7 @@ body {
 .modal-form input[type="number"],
 .modal-form input[type="date"],
 .modal-form input[type="datetime-local"],
+#createModalForm input,
 .modal-form select,
 .modal-form textarea{
     width: calc(100% - 20px);
@@ -225,7 +233,8 @@ body {
     display: block;
 }
 
-.modal-form button {
+.modal-form button,
+#createModalForm button {
     padding: 10px 20px;
     background-color: rgba(255, 117, 123, 0.66);
     color: white;
@@ -274,7 +283,8 @@ body {
     cursor: pointer;
 }
 
-#searchModalForm button:hover {
+#searchModalForm button:hover,
+#createModalForm button:hover {
     background-color: #f46e73;
 }
 
