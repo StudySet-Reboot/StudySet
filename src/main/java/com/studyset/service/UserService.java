@@ -1,6 +1,6 @@
 package com.studyset.service;
 
-import com.studyset.api.exception.UserNotExist;
+import com.studyset.exception.UserNotExist;
 import com.studyset.domain.User;
 import com.studyset.repository.UserJoinGroupRepository;
 import com.studyset.repository.UserRepository;
