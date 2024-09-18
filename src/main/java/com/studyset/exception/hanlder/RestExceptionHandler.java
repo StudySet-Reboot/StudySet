@@ -1,7 +1,6 @@
-package com.studyset.controller;
+package com.studyset.exception;
 
-import com.studyset.api.exception.*;
-import com.studyset.api.response.ErrorResponse;
+import com.studyset.exception.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,29 +10,13 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestControllerAdvice
-public class ExceptionController {
-    @ResponseBody
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> invalidRequestHandler(MethodArgumentNotValidException e) {
-        log.error(e.getMessage());
-        ErrorResponse response = ErrorResponse.builder()
-                .code("400")
-                .message("잘못된 요청입니다.")
-                .build();
-
-        for (FieldError fieldError : e.getFieldErrors()) {
-            response.addValidation(fieldError.getField(), fieldError.getDefaultMessage());
-        }
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(response);
-    }
+public class RestExceptionHandler {
 
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(GroupNotExist.class)
     public ResponseEntity<ErrorResponse> notExistGroupRequest(GroupNotExist e){
+        log.error("Error:: " + e.getMessage());
         int statusCode = e.statusCode();
         ErrorResponse body = ErrorResponse.builder()
                 .code(String.valueOf(statusCode))
@@ -48,8 +31,8 @@ public class ExceptionController {
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(AlreadyJoin.class)
-    public ResponseEntity<ErrorResponse> AlreadyJoinGroup(AlreadyJoin e){
-        log.error("error!!!" + e.getMessage());
+    public ResponseEntity<ErrorResponse> alreadyJoinGroup(AlreadyJoin e){
+        log.error("Error:: " + e.getMessage());
         int statusCode = e.statusCode();
         ErrorResponse body = ErrorResponse.builder()
                 .code(String.valueOf(statusCode))
@@ -64,8 +47,8 @@ public class ExceptionController {
     @ResponseBody
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(DuplicateGroup.class)
-    public ResponseEntity<ErrorResponse> AlreadyExistGroup(DuplicateGroup e){
-        log.error(e.getMessage());
+    public ResponseEntity<ErrorResponse> alreadyExistGroup(DuplicateGroup e){
+        log.error("Error:: " + e.getMessage());
         int statusCode = e.statusCode();
         ErrorResponse body = ErrorResponse.builder()
                 .code(String.valueOf(statusCode))
@@ -81,13 +64,33 @@ public class ExceptionController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(InvalidEndDateException.class)
     public ResponseEntity<ErrorResponse> invalidRequestHandler(InvalidEndDateException e) {
-        log.error(e.getMessage());
+        log.error("Error:: " + e.getMessage());
+        int statusCode = e.statusCode();
         ErrorResponse response = ErrorResponse.builder()
-                .code("400")
+                .code(String.valueOf(statusCode))
                 .message(e.getMessage())
                 .build();
+
+        return ResponseEntity.status(statusCode)
+                .body(response);
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> invalidRequestHandler(MethodArgumentNotValidException e) {
+        log.error("Error:: " + e.getMessage());
+        ErrorResponse response = ErrorResponse.builder()
+                .code("400")
+                .message("잘못된 요청입니다.")
+                .build();
+
+        for (FieldError fieldError : e.getFieldErrors()) {
+            response.addValidation(fieldError.getField(), fieldError.getDefaultMessage());
+        }
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(response);
     }
+
 }
