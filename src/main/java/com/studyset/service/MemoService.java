@@ -1,7 +1,7 @@
 package com.studyset.service;
 
-import com.studyset.api.exception.GroupNotExist;
-import com.studyset.api.exception.UserNotExist;
+import com.studyset.exception.GroupNotExist;
+import com.studyset.exception.UserNotExist;
 import com.studyset.domain.Group;
 import com.studyset.domain.Memo;
 import com.studyset.domain.User;
@@ -13,10 +13,8 @@ import com.studyset.web.form.MemoCreateForm;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
