@@ -1,15 +1,13 @@
 package com.studyset.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.studyset.api.exception.DuplicateGroup;
-import com.studyset.api.exception.GroupCodeError;
-import com.studyset.api.exception.GroupNotExist;
-import com.studyset.domain.Group;
+import com.studyset.exception.DuplicateGroup;
+import com.studyset.exception.GroupNotExist;
 import com.studyset.domain.User;
-import com.studyset.domain.UserJoinGroup;
 import com.studyset.domain.enumerate.GroupCategory;
 import com.studyset.dto.group.GroupDto;
 import com.studyset.dto.user.UserDto;
+import com.studyset.exception.hanlder.RestExceptionHandler;
 import com.studyset.repository.UserJoinGroupRepository;
 import com.studyset.service.GroupService;
 import com.studyset.web.form.GroupCreateForm;
@@ -46,6 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class GroupControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
     @InjectMocks
@@ -62,7 +61,7 @@ class GroupControllerTest {
     @BeforeEach
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(new GroupController(groupService))
-                .setControllerAdvice(new ExceptionController())
+                .setControllerAdvice(new RestExceptionHandler())
                 .build();
     }
 

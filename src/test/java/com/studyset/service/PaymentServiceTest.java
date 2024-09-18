@@ -1,6 +1,6 @@
 package com.studyset.service;
 
-import com.studyset.api.exception.GroupNotExist;
+import com.studyset.exception.GroupNotExist;
 import com.studyset.domain.Group;
 import com.studyset.domain.Payment;
 import com.studyset.dto.dues.PaymentDto;
