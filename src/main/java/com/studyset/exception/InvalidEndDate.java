@@ -1,15 +1,16 @@
 package com.studyset.exception;
 
-public class InvalidEndDateException extends BaseException{
+import com.studyset.exception.response.ErrorCode;
+import org.springframework.http.HttpStatus;
 
-    private static final String message = "시작시간은 종료시간보다 앞서야 합니다.";
+public class InvalidEndDate extends BaseException{
 
-    public InvalidEndDateException() {
-        super(message);
+    public InvalidEndDate() {
+        super(ErrorCode.INVALID_END_DATE);
     }
 
     @Override
-    public int statusCode() {
-        return 400;
+    public HttpStatus statusCode() {
+        return HttpStatus.BAD_REQUEST;
     }
 }

@@ -2,11 +2,11 @@ package com.studyset.api.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.studyset.api.exception.GroupNotExist;
+import com.studyset.exception.GroupNotExist;
 import com.studyset.api.request.schedule.ScheduleCreateForm;
 import com.studyset.api.request.schedule.ScheduleEditRequest;
 import com.studyset.api.response.schedule.Event;
-import com.studyset.controller.ExceptionController;
+import com.studyset.exception.hanlder.RestExceptionHandler;
 import com.studyset.service.ScheduleService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +29,6 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest
@@ -47,7 +46,7 @@ class ScheduleRestControllerTest {
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(new ScheduleRestController(scheduleService))
-                .setControllerAdvice(new ExceptionController())
+                .setControllerAdvice(new RestExceptionHandler())
                 .build();
     }
 

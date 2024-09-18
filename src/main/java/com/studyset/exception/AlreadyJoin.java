@@ -1,14 +1,16 @@
-package com.studyset.api.exception;
+package com.studyset.exception;
+
+import com.studyset.exception.response.ErrorCode;
+import org.springframework.http.HttpStatus;
 
 public class AlreadyJoin extends BaseException{
-    private static final String message = "이미 가입한 그룹입니다";
 
     public AlreadyJoin() {
-        super(message);
+        super(ErrorCode.ALREADY_JOIN_GROUP);
     }
 
     @Override
-    public int statusCode() {
-        return 400;
+    public HttpStatus statusCode() {
+        return HttpStatus.CONFLICT;
     }
 }
