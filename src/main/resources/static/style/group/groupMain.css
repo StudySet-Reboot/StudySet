@@ -177,13 +177,13 @@ body {
 
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
     max-width: 500px;
     border-radius: 10px;
     text-align: center;
+    margin: 150px auto auto;
 }
 
 .modal-content form {
@@ -228,9 +228,10 @@ body {
 }
 
 .custom-label {
+    width: fit-content;
     font-weight: bold;
     margin-bottom: 5px;
-    display: block;
+    /*display: block;*/
 }
 
 .modal-form button,
