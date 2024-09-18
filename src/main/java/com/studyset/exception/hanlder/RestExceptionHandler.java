@@ -1,5 +1,9 @@
-package com.studyset.exception;
+package com.studyset.exception.hanlder;
 
+import com.studyset.exception.AlreadyJoin;
+import com.studyset.exception.DuplicateGroup;
+import com.studyset.exception.GroupNotExist;
+import com.studyset.exception.InvalidEndDate;
 import com.studyset.exception.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -13,18 +17,11 @@ import org.springframework.web.bind.annotation.*;
 public class RestExceptionHandler {
 
     @ResponseBody
-    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(GroupNotExist.class)
     public ResponseEntity<ErrorResponse> notExistGroupRequest(GroupNotExist e){
         log.error("Error:: " + e.getMessage());
-        int statusCode = e.statusCode();
-        ErrorResponse body = ErrorResponse.builder()
-                .code(String.valueOf(statusCode))
-                .message(e.getMessage())
-                .validation(e.getValidation())
-                .build();
-
-        return ResponseEntity.status(statusCode)
+        ErrorResponse body = ErrorResponse.of(e);
+        return ResponseEntity.status(e.statusCode())
                 .body(body);
     }
 
@@ -33,14 +30,8 @@ public class RestExceptionHandler {
     @ExceptionHandler(AlreadyJoin.class)
     public ResponseEntity<ErrorResponse> alreadyJoinGroup(AlreadyJoin e){
         log.error("Error:: " + e.getMessage());
-        int statusCode = e.statusCode();
-        ErrorResponse body = ErrorResponse.builder()
-                .code(String.valueOf(statusCode))
-                .message(e.getMessage())
-                .validation(e.getValidation())
-                .build();
-
-        return ResponseEntity.status(statusCode)
+        ErrorResponse body = ErrorResponse.of(e);
+        return ResponseEntity.status(e.statusCode())
                 .body(body);
     }
 
@@ -49,29 +40,18 @@ public class RestExceptionHandler {
     @ExceptionHandler(DuplicateGroup.class)
     public ResponseEntity<ErrorResponse> alreadyExistGroup(DuplicateGroup e){
         log.error("Error:: " + e.getMessage());
-        int statusCode = e.statusCode();
-        ErrorResponse body = ErrorResponse.builder()
-                .code(String.valueOf(statusCode))
-                .message(e.getMessage())
-                .validation(e.getValidation())
-                .build();
-
-        return ResponseEntity.status(statusCode)
+        ErrorResponse body = ErrorResponse.of(e);
+        return ResponseEntity.status(e.statusCode())
                 .body(body);
     }
 
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(InvalidEndDateException.class)
-    public ResponseEntity<ErrorResponse> invalidRequestHandler(InvalidEndDateException e) {
+    @ExceptionHandler(InvalidEndDate.class)
+    public ResponseEntity<ErrorResponse> invalidRequestHandler(InvalidEndDate e) {
         log.error("Error:: " + e.getMessage());
-        int statusCode = e.statusCode();
-        ErrorResponse response = ErrorResponse.builder()
-                .code(String.valueOf(statusCode))
-                .message(e.getMessage())
-                .build();
-
-        return ResponseEntity.status(statusCode)
+        ErrorResponse response = ErrorResponse.of(e);
+        return ResponseEntity.status(e.statusCode())
                 .body(response);
     }
 

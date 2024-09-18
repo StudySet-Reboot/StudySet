@@ -1,14 +1,16 @@
-package com.studyset.api.exception;
+package com.studyset.exception;
+
+import com.studyset.exception.response.ErrorCode;
+import org.springframework.http.HttpStatus;
 
 public class TaskNotExist extends BaseException{
-    private static final String message = "해당 과제가 존재하지 않습니다";
 
     public TaskNotExist() {
-        super(message);
+        super(ErrorCode.TASK_NOT_FOUND);
     }
 
     @Override
-    public int statusCode() {
-        return 404;
+    public HttpStatus statusCode() {
+        return HttpStatus.NOT_FOUND;
     }
 }

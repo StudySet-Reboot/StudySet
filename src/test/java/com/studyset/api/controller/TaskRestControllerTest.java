@@ -1,6 +1,6 @@
 package com.studyset.api.controller;
 
-import com.studyset.controller.ExceptionController;
+import com.studyset.exception.hanlder.RestExceptionHandler;
 import com.studyset.dto.task.TaskSubmissionDto;
 import com.studyset.service.TaskSubmissionService;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +32,7 @@ class TaskRestControllerTest {
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(new TaskSubmissionRestController(taskSubmissionService))
-                .setControllerAdvice(new ExceptionController())
+                .setControllerAdvice(new RestExceptionHandler())
                 .build();
     }
 

@@ -1,14 +1,16 @@
-package com.studyset.api.exception;
+package com.studyset.exception;
+
+import com.studyset.exception.response.ErrorCode;
+import org.springframework.http.HttpStatus;
 
 public class DuplicateGroup extends BaseException {
-    private static final String message = "이미 존재하는 그룹입니다";
 
     public DuplicateGroup() {
-        super(message);
+        super(ErrorCode.GROUP_ALREADY_EXIST);
     }
 
     @Override
-    public int statusCode() {
-        return 409;
+    public HttpStatus statusCode() {
+        return HttpStatus.CONFLICT;
     }
 }
