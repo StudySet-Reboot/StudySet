@@ -1,4 +1,4 @@
-package com.studyset.api.exception;
+package com.studyset.exception;
 
 public class InvalidEndDateException extends BaseException{
 

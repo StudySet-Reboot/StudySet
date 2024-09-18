@@ -1,14 +1,10 @@
-package com.studyset.api.exception;
+package com.studyset.exception;
 
-import com.studyset.api.response.ErrorResponse;
-import org.springframework.http.HttpStatus;
+import com.studyset.exception.response.ErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -17,16 +13,18 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleUserNotExist(UserNotExist ex) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .code("USER_NOT_EXIST")
-                .message("해당 유저가 없습니다")
+                .message(ex.getMessage())
                 .build();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        return ResponseEntity.status(ex.statusCode()).body(errorResponse);
     }
 
     @ExceptionHandler(GroupCodeError.class)
     @ResponseBody
-    public ResponseEntity<Map<String, String>> handleGroupCodeError(GroupCodeError ex) {
-        Map<String, String> errorResponse = new HashMap<>();
-        errorResponse.put("message", ex.getMessage());
+    public ResponseEntity<ErrorResponse> handleGroupCodeError(GroupCodeError ex) {
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .code(ex.statusCode())
+                .message(ex.getMessage())
+                .build();
         return ResponseEntity.status(ex.statusCode()).body(errorResponse);
     }
 }
