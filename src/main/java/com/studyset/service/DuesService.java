@@ -1,7 +1,7 @@
 package com.studyset.service;
 
-import com.studyset.api.exception.GroupNotExist;
-import com.studyset.api.exception.UserNotExist;
+import com.studyset.exception.GroupNotExist;
+import com.studyset.exception.UserNotExist;
 import com.studyset.domain.Dues;
 import com.studyset.domain.Group;
 import com.studyset.domain.User;

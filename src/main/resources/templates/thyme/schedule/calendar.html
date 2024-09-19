@@ -36,55 +36,57 @@
 <!-- 캘린더 -->
 <div class="cal-container">
     <div id="calendar"></div>
+    <!-- 이벤트 생성 Modal -->
+    <div id="event-create-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <form class="modal-form" id="eventForm" method="post">
+                <h2>이벤트 생성</h2>
+                <label for="is-important" class="custom-label">중요</label>
+                <input type="checkbox" name="isImportant" id="is-important">
+                <label for="event-name" class="custom-label">제목</label>
+                <input type="text" id="event-name" name="title" placeholder="이벤트 제목을 입력하세요">
+                <label for="start-time" class="custom-label">날짜/시간</label>
+                <input type="datetime-local" name="startDate" id="start-time" class="custom-datetime-local"> ~ <input type="datetime-local" id="end-time" name="endDate" class="custom-datetime-local">
+                <label for="event-description" class="custom-label">설명</label>
+                <input type="text" id="event-description" name="description" placeholder="이벤트 설명">
+                <label for="event-place" class="custom-label">장소</label>
+                <input id="event-place" type="text" name="location" placeholder="장소">
+                <button type="submit">생성</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 이벤트 수정 Modal -->
+    <div id="edit-event-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <form class="modal-form" id="editForm" method="post">
+                <h2>이벤트 수정</h2>
+                <span>
+                    <label for="edit-is-important" class="custom-label">중요</label>
+                    <input type="checkbox" name="isImportant" id="edit-is-important" value="true">
+                </span>
+                <input type="hidden" id="edit-event-id">
+                <label for="edit-event-name" class="custom-label">제목</label>
+                <input type="text" id="edit-event-name" name="title" placeholder="이벤트 제목을 입력하세요" required>
+                <label class="custom-label">날짜/시간</label>
+                <input type="datetime-local" name="startDate" id="edit-start-time" class="custom-datetime-local"> ~ <input type="datetime-local" id="edit-end-time" name="endDate" class="custom-datetime-local">
+                <label for="edit-event-description" class="custom-label">설명</label>
+                <input type="text" id="edit-event-description" name="description" placeholder="이벤트 설명">
+                <label for="edit-event-place" class="custom-label">장소</label>
+                <input id="edit-event-place" type="text" name="location" placeholder="장소">
+                <div class="button-group">
+                    <button type="submit">수정</button>
+                    <button id="del-schedule-btn" type="button">삭제</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <input type="hidden" id="groupId" name="groupId" th:value="${session.group.id}" />
 
-<!-- 이벤트 생성 Modal -->
-<div id="event-create-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn">&times;</span>
-        <form class="modal-form" id="eventForm" method="post">
-            <h2>이벤트 생성</h2>
-            <label for="is-important" class="custom-label">중요</label>
-            <input type="checkbox" name="isImportant" id="is-important">
-            <label for="event-name" class="custom-label">제목</label>
-            <input type="text" id="event-name" name="title" placeholder="이벤트 제목을 입력하세요">
-            <label for="start-time" class="custom-label">날짜/시간</label>
-            <input type="datetime-local" name="startDate" id="start-time" class="custom-datetime-local"> ~ <input type="datetime-local" id="end-time" name="endDate" class="custom-datetime-local">
-            <label for="event-description" class="custom-label">설명</label>
-            <input type="text" id="event-description" name="description" placeholder="이벤트 설명">
-            <label for="event-place" class="custom-label">장소</label>
-            <input id="event-place" type="text" name="location" placeholder="장소">
-            <button type="submit">생성</button>
-        </form>
-    </div>
-</div>
-
-<!-- 이벤트 수정 Modal -->
-<div id="edit-event-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn">&times;</span>
-        <form class="modal-form" id="editForm" method="post">
-            <h2>이벤트 수정</h2>
-            <input type="hidden" id="edit-event-id">
-            <label for="edit-is-important" class="custom-label">중요</label>
-            <input type="checkbox" name="isImportant" id="edit-is-important" value="true">
-            <label for="edit-event-name" class="custom-label">제목</label>
-            <input type="text" id="edit-event-name" name="title" placeholder="이벤트 제목을 입력하세요" required>
-            <label>날짜/시간</label>
-            <input type="datetime-local" name="startDate" id="edit-start-time" class="custom-datetime-local"> ~ <input type="datetime-local" id="edit-end-time" name="endDate" class="custom-datetime-local">
-            <label for="edit-event-description" class="custom-label">설명</label>
-            <input type="text" id="edit-event-description" name="description" placeholder="이벤트 설명">
-            <label for="edit-event-place" class="custom-label">장소</label>
-            <input id="edit-event-place" type="text" name="location" placeholder="장소">
-            <div class="button-group">
-                <button type="submit">수정</button>
-                <button id="del-schedule-btn" type="button">삭제</button>
-            </div>
-        </form>
-    </div>
-</div>
 
 <div id="error-toast" class="error-toast"></div>
 </body>

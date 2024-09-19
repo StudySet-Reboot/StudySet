@@ -7,7 +7,7 @@ import com.studyset.domain.TaskSubmission;
 import com.studyset.domain.User;
 import com.studyset.domain.enumerate.GroupCategory;
 import com.studyset.dto.task.CommentDto;
-import com.studyset.repository.CommentRepository;
+import com.studyset.exception.hanlder.RestExceptionHandler;
 import com.studyset.repository.TaskSubmissionRepository;
 import com.studyset.repository.UserRepository;
 import com.studyset.service.CommentService;
@@ -36,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class CommentControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -50,7 +51,7 @@ public class CommentControllerTest {
     @BeforeEach
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(new CommentController(commentService, userRepository))
-                .setControllerAdvice(new ExceptionController())
+                .setControllerAdvice(new RestExceptionHandler())
                 .build();
     }
 
