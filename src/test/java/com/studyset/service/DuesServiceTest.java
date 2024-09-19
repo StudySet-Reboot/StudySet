@@ -1,7 +1,7 @@
 package com.studyset.service;
 
-import com.studyset.api.exception.GroupNotExist;
-import com.studyset.api.exception.UserNotExist;
+import com.studyset.exception.GroupNotExist;
+import com.studyset.exception.UserNotExist;
 import com.studyset.domain.Dues;
 import com.studyset.domain.Group;
 import com.studyset.domain.User;
@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class DuesServiceTest {
+
     @Mock
     private DuesRepository duesRepository;
 

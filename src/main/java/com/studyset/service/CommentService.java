@@ -1,7 +1,7 @@
 package com.studyset.service;
 
-import com.studyset.api.exception.TaskNotExist;
-import com.studyset.api.exception.UserNotExist;
+import com.studyset.exception.TaskNotExist;
+import com.studyset.exception.UserNotExist;
 import com.studyset.domain.Comment;
 import com.studyset.domain.TaskSubmission;
 import com.studyset.domain.User;

@@ -1,11 +1,14 @@
 package com.studyset.service;
 
-import com.studyset.api.exception.*;
 import com.studyset.domain.Group;
 import com.studyset.domain.User;
 import com.studyset.domain.UserJoinGroup;
 import com.studyset.dto.group.GroupDto;
 import com.studyset.dto.user.UserDto;
+import com.studyset.exception.AlreadyJoin;
+import com.studyset.exception.DuplicateGroup;
+import com.studyset.exception.GroupCodeError;
+import com.studyset.exception.GroupNotExist;
 import com.studyset.repository.GroupRepository;
 import com.studyset.repository.UserJoinGroupRepository;
 import com.studyset.web.form.GroupCreateForm;

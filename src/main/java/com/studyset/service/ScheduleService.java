@@ -1,33 +1,23 @@
 package com.studyset.service;
 
-import com.studyset.api.exception.GroupNotExist;
-import com.studyset.api.exception.InvalidEndDateException;
+import com.studyset.exception.GroupNotExist;
+import com.studyset.exception.InvalidEndDate;
 import com.studyset.api.request.schedule.ScheduleEditRequest;
-import com.studyset.api.request.schedule.TimeAdjustRequest;
 import com.studyset.domain.Group;
 import com.studyset.domain.Schedule;
 import com.studyset.api.response.schedule.Event;
-import com.studyset.domain.TimeSlot;
-import com.studyset.domain.User;
 import com.studyset.repository.GroupRepository;
 import com.studyset.repository.ScheduleRepository;
 import com.studyset.api.request.schedule.ScheduleCreateForm;
-import com.studyset.repository.TimeSlotRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.mapping.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.YearMonth;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
-
-import static com.studyset.api.request.schedule.TimeAdjustRequest.*;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +31,7 @@ public class ScheduleService {
     public void addSchedule(ScheduleCreateForm scheduleCreateForm, long groupId) {
         if (scheduleCreateForm.getEndDate() != null &&
                 scheduleCreateForm.getStartDate().isAfter(scheduleCreateForm.getEndDate())) {
-            throw new InvalidEndDateException();
+            throw new InvalidEndDate();
         }
         Group group = groupRepository.findGroupById(groupId)
                 .orElseThrow(GroupNotExist::new);
@@ -67,7 +57,7 @@ public class ScheduleService {
     public Event editSchedule(Long scheduleId, ScheduleEditRequest scheduleEditRequest) {
         if (scheduleEditRequest.getEndDate() != null &&
                 scheduleEditRequest.getStartDate().isAfter(scheduleEditRequest.getEndDate())) {
-            throw new InvalidEndDateException();
+            throw new InvalidEndDate();
         }
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(IllegalArgumentException::new);
