@@ -30,6 +30,12 @@ public class MemoService {
         return memoList.stream().map(Memo::toDto).collect(Collectors.toList());
     }
 
+    // 메모 조회 (그룹원 별 최신 메모)
+    public List<MemoDto> getLatestMemoByGroupId(Long groupId) {
+        List<Memo> memoList = memoRepository.findLatestMemoByGroupId(groupId);
+        return memoList.stream().map(Memo::toDto).collect(Collectors.toList());
+    }
+
     // 메모 작성
     @Transactional
     public MemoDto addMemo(MemoCreateForm memoForm) {

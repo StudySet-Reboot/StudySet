@@ -35,8 +35,41 @@
             <div class="schedule">
 
             </div>
-            <div class="memo">
+            <div class="task">
+                <div th:if="${taskList == null or #lists.isEmpty(taskList)}">
+                    <div class="empty">과제가 없습니다!</div>
+                </div>
+                <div th:if="${taskList != null and not #lists.isEmpty(taskList)}" class="list">
+                    <div th:each="task : ${taskList}" class="list-item">
+                        <div class="task-details">
+                            <a th:href="@{/groups/{groupId}/{taskId}/taskDetail(groupId=${group.id}, taskId=${task.id})}"
+                               class="no-link-style task-item"
+                               th:attr="data-start-time=${task.startTimeFormatted}">
+                                <span class="task-name" th:text="${task.taskName}">Task Name</span>
+                                <div class="task-time">
+                                    <span class="task-start-time" th:text="${task.startTimeFormatted}">Start Date</span>
+                                    <span>&nbsp; :: &nbsp;</span>
+                                    <span class="task-end-time" th:text="${task.endTimeFormatted}">End Date</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dues">
 
+            </div>
+            <div class="memo">
+                <div th:each="user : ${userList}" class="user-frame" th:data-user-id="${mem.id}" th:data-group-id="${group.id}">
+                    <div class="user-title" th:text="${user.name}"></div>
+                    <!-- 메모 출력 -->
+                    <div class="memo-wrapper">
+                        <!-- 그룹원의 id와 메모 작성자의 id가 일치하면 메모 출력 -->
+                        <div th:each="memo : ${memoList}" th:if="${memo.user.id} == ${user.id}" class="note">
+                            <div class="memo" th:text="${memo.contents}"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -14,6 +14,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,6 +30,17 @@ public class TaskService {
     public List<TaskDto> getTaskByGroupId(Long groupId) {
         List<Task> taskList = taskRepository.findByGroupId(groupId);
         return taskList.stream().map(Task::toDto).collect(Collectors.toList());
+    }
+
+    // 현재 날짜 포함 과제 조회
+    public List<TaskDto> getCurrentTasksByGroupId(Long groupId) {
+        LocalDate currentDate = LocalDate.now();
+        List<Task> taskList = taskRepository.findCurrentTasksByGroupId(groupId, currentDate);
+
+        return taskList.stream()
+                .map(Task::toDto)
+                .sorted(Comparator.comparing(TaskDto::getEndTime, Comparator.nullsLast(Comparator.naturalOrder())))
+                .collect(Collectors.toList());
     }
 
     // 과제 상세 조회
