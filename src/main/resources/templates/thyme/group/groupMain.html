@@ -32,11 +32,47 @@
     <!-- 일정 & 진행상황 frame -->
     <div class="container">
         <div class="frame2">
-            <div class="schedule">
+            <div class="card schedule">
+                <h2>이번 주 일정&nbsp;<i class="fa-regular fa-calendar-check"></i></h2>
 
             </div>
-            <div class="memo">
+            <div class="card task">
+                <h2>
+                    <div id="currentDate"></div>
+                    &nbsp;진행 중 과제&nbsp;
+                    <i class="fa-solid fa-list-check"></i>
+                </h2>
+                <div th:if="${taskList == null or #lists.isEmpty(taskList)}">
+                    <div class="empty">과제가 없습니다!</div>
+                </div>
+                <div th:if="${taskList != null and not #lists.isEmpty(taskList)}" class="list">
+                    <div th:each="task : ${taskList}" class="list-item">
+                        <div class="task-details">
+                            <a th:href="@{/groups/{groupId}/{taskId}/taskDetail(groupId=${group.id}, taskId=${task.id})}"
+                               class="no-link-style task-item"
+                               th:attr="data-start-time=${task.startTimeFormatted}">
+                                <span class="task-name" th:text="${task.taskName}">Task Name</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card dues">
+                <h2>이번 주 회비&nbsp;<i class="fa-solid fa-sack-dollar"></i></h2>
 
+            </div>
+            <div class="card memo">
+                <h2>최신 진행상황&nbsp;<i class="fa-regular fa-comments"></i></h2>
+                <div th:each="user : ${userList}" class="user-frame" th:data-user-id="${mem.id}" th:data-group-id="${group.id}">
+                    <div class="user-title" th:text="${user.name}"></div>
+                    <!-- 메모 출력 -->
+                    <div class="memo-wrapper">
+                        <!-- 그룹원의 id와 메모 작성자의 id가 일치하면 메모 출력 -->
+                        <div th:each="memo : ${memoList}" th:if="${memo.user.id} == ${user.id}" class="note">
+                            <div th:text="${memo.contents}"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

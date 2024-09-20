@@ -107,15 +107,178 @@ body {
     width: 100%;
 }
 
+/* 그룹 메인 화면 프레임 */
 .frame2 {
     width: 75%;
     padding: 10px 5px;
-    background-color: rgba(255, 132, 139, 0.07);
     border-radius: 15px;
     height: 500px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* 3개의 열 */
+    grid-template-rows: 1fr 1fr; /* 2개의 행 */
+    gap: 12px;
+}
+
+.card {
+    background-color: rgba(248, 248, 248, 0.4);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.card h2 {
+    margin: 0;
+    font-size: 1rem;
+    color: rgba(102, 102, 102, 0.34);
+    display: flex;
+}
+
+/* 호버 시 카드 애니메이션 */
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.schedule {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    margin-left: 9px;
+    border-left: 5px solid #e7d3f4;
+}
+
+.memo {
+    grid-column: 3 / 4;
+    grid-row: 1 / 3;
+    margin-right: 9px;
+    overflow-y: auto;
+    border-left: 5px solid rgba(255, 117, 123, 0.16);
+}
+
+.user-frame {
+    background-color: rgba(255, 117, 123, 0.16);
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 8px;
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
+}
+
+.user-title {
+    font-size: 1.05em;
+    margin-bottom: 10px;
+}
+
+.memo-wrapper {
+    overflow-y: auto;
+    flex: 1;
+    margin-bottom: 10px; /* 메모와 입력 영역 사이에 여백 추가 */
+}
+
+.note {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px; /* 메모 간의 여백 */
+}
+
+.task {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    border-left: 5px solid rgba(171, 239, 166, 0.56);
+    overflow: hidden;
+}
+
+.list {
+    height: 90%;
+    display: grid;
+    gap: 10px;
+    width: 100%;
+    text-align: center;
+    overflow-y: auto;
+    margin-top: 10px;
+}
+
+.empty {
+    display: flex;
+    justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100px; /* 높이 조정 필요시 */
+    font-size: 1.1em;
+    color: rgba(102, 102, 102, 0.87);
+}
+
+.task-item {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    color: inherit;
+}
+
+.task-details {
+    justify-content: space-between;
+    align-items: center;
+}
+
+span.task-name {
+    margin-right: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.task-time {
+    display: flex;
+    align-items: flex-end;
+}
+
+.task-end-time {
+    margin-left: 5px;
+}
+
+.task-start-time {
+    margin-right: 5px;
+}
+
+.no-link-style {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.dues {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    border-left: 5px solid #b9dbff;
+}
+
+/* 스크롤 스타일 */
+.list::-webkit-scrollbar,
+.memo::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+.list::-webkit-scrollbar-track,
+.memo::-webkit-scrollbar-track {
+    background: rgba(255, 132, 139, 0.04);
+    border-radius: 10px;
+}
+
+.list::-webkit-scrollbar-thumb,
+.memo::-webkit-scrollbar-thumb {
+    background: rgba(3, 10, 87, 0.06);
+    border-radius: 10px;
+}
+
+.list::-webkit-scrollbar-thumb:hover
+.memo::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.18);
 }
 
 /* 토스트 메시지 */
@@ -386,14 +549,6 @@ body {
     overflow-y: scroll;
 }
 
-.list {
-    display: grid;
-    gap: 20px;
-    width: 100%;
-    text-align: center;
-    overflow-y: auto;
-}
-
 .empty-list {
     display: flex;
     justify-content: center;
@@ -405,7 +560,7 @@ body {
 }
 
 .list-item {
-    background-color: rgba(255, 132, 139, 0.13);
+    background-color: rgba(171, 239, 166, 0.56);
     margin: auto;
     padding: 15px;
     margin: 0 auto;
