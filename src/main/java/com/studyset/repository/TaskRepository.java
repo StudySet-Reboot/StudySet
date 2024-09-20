@@ -2,8 +2,10 @@ package com.studyset.repository;
 
 import com.studyset.domain.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,4 +14,10 @@ public interface TaskRepository extends JpaRepository<Task, Long>  {
     List<Task> findByGroupId(@Param("groupId") Long groupId);
     // 특정 과제 조회
     Optional<Task> findById(@Param("taskId") Long taskId);
+    // 현재 날짜 포함 과제 조회
+    @Query("SELECT t FROM Task t WHERE t.group.id = :groupId AND " +
+            "(t.startTime IS NULL OR t.startTime <= :currentDate) AND " +
+            "(t.endTime IS NULL OR t.endTime >= :currentDate)")
+    List<Task> findCurrentTasksByGroupId(@Param("groupId") Long groupId, @Param("currentDate") LocalDate currentDate);
+
 }

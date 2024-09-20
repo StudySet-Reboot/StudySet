@@ -30,4 +30,8 @@ public class TaskDto {
         this.startTime = startTime;
         this.endTime = endTime;
     }
+
+    public TaskDto(String taskName) {
+        this.taskName = taskName;
+    }
 }
