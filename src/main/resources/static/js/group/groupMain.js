@@ -1,4 +1,11 @@
 document.addEventListener("DOMContentLoaded", function() {
+    // 현재 날짜 출력
+    const today = new Date();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+    const day = String(today.getDate()).padStart(2, '0');
+    const dateString = month + '/' + day;
+    document.getElementById('currentDate').textContent = dateString;
+
     // 그룹 코드 확인
     var toast = document.getElementById("toast");
     var btn = document.getElementById("groupCodeBtn");
