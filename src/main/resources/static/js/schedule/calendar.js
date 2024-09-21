@@ -1,3 +1,7 @@
+const currentDate = new Date();
+let currentYear = currentDate.getFullYear();
+let currentMonth = currentDate.getMonth() + 1;
+
 $(document).ready(function() {
     var groupId = $('#groupId').val();
     var calendar = $('#calendar').fullCalendar({
@@ -7,14 +11,29 @@ $(document).ready(function() {
             center: 'title',
             left: 'none'
         },
-        showNonCurrentDates: false, // 이전 달과 다음 달의 날짜 숨기기
+        showNonCurrentDates: false,
         height: 600, // 전체 캘린더 높이 조정
-        events: {
-            url: '/api/groups/'+groupId+'/schedules/events',
-            method: 'GET',
-            failure: function() {
-                console.error('There was an error while fetching events.');
-            }
+        events: function(start, end, timezone, callback) {
+            const url = `/api/groups/${groupId}/schedules/events?year=${currentYear}&month=${currentMonth}`;
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    callback(data); // 이벤트 데이터를 전달
+                })
+                .catch(error => {
+                    console.error('Error fetching events:', error);
+                    callback([]); // 오류 발생 시 빈 배열 반환
+                });
         },
         dayClick: function(date, jsEvent, view) {
             console.log(date.format());
@@ -25,7 +44,7 @@ $(document).ready(function() {
         eventClick: function(info) {
             var eventObj = info;
             $('#edit-event-name').val(eventObj.title);
-            $('#edit-start-time').val(eventObj.start.format()); // 날짜 포맷 지정
+            $('#edit-start-time').val(eventObj.start.format());
             if (eventObj.end) {
                 $('#edit-end-time').val(eventObj.end.format());
             } else {
@@ -35,9 +54,34 @@ $(document).ready(function() {
             $('#edit-event-place').val(eventObj.location || '');
             $('#edit-is-important').prop('checked', eventObj.isImportant || false);
             $('#edit-event-id').val(eventObj.id);
-            // 수정 모달 표시
             $('#edit-event-modal').show();
         }
+    });
+
+    $('.fc-prev-button').click(function () {
+        currentMonth--;
+        if (currentMonth < 1) {
+            currentMonth = 12; // 12월로 설정
+            currentYear--; // 년도 감소
+        }
+        console.log(currentMonth);
+        calendar.fullCalendar('refetchEvents');
+    });
+
+    $('.fc-next-button').click(function () {
+        currentMonth++;
+        if (currentMonth > 12) {
+            currentMonth = 1;
+            currentYear++;
+        }
+        console.log(currentMonth);
+        calendar.fullCalendar('refetchEvents');
+    });
+
+    $('.fc-today-button').click(function () {
+        currentYear = currentDate.getFullYear();
+        currentMonth = currentDate.getMonth() + 1;
+        calendar.fullCalendar('refetchEvents');
     });
 
     // 캘린더 스타일 커스터마이징
@@ -91,6 +135,7 @@ $(document).ready(function() {
             displayErrorToast("시작일은 종료일보다 앞서야 합니다.");
             return;
         }
+
         fetch(`/api/groups/${groupId}/schedules/events`, {
             method: 'POST',
             headers: {
