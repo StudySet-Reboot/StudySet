@@ -628,11 +628,15 @@ span.task-name {
 }
 
 .bg-pink {
-    background: #ff6b81;
+    background-color: #ff6b81;
 }
 
 .bg-soft-pink {
     background-color: rgba(255, 117, 123, 0.16);
+}
+
+.bg-white {
+    background-color: #ffffff;
 }
 
 .border-blue {
