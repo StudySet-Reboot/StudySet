@@ -256,7 +256,40 @@ span.task-name {
     grid-column: 2 / 3;
     grid-row: 2 / 3;
     border-left: 5px solid #b9dbff;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+#total {
+    border-top: 2px solid #ddd;
+    padding-top: 10px;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.card-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+}
+
+.card-item-label {
+    font-weight: bold;
+    color: #555;
+}
+
+.card-item-value {
+    color: #333;
+}
+
 
 /* 스크롤 스타일 */
 .list::-webkit-scrollbar,
