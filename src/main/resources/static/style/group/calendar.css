@@ -41,6 +41,20 @@ table td.highlighted {
     position: relative;
 }
 
+
+.fc-day-header {
+    background-color: #ff859a;
+    height: 30px;
+}
+
+.fc-day-top {
+    margin-left: 5px;
+    margin-right: 0px;
+}
+
+.fc th {
+    vertical-align: middle;
+}
 #del-schedule-btn {
     float: right;
 }
