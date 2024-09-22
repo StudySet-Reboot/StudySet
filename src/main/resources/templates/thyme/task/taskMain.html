@@ -21,7 +21,7 @@
             <div class="description" th:text="${group.description}"></div>
         </div>
         <div class="btn">
-            <a id="createTaskBtn">과제 생성</a>
+            <a id="createTaskBtn" class="bg-green">과제 생성</a>
         </div>
     </div>
 
@@ -32,15 +32,16 @@
                 <div class="empty">생성된 과제가 없습니다. 과제를 생성해보세요!</div>
             </div>
             <div th:if="${taskList != null and not #lists.isEmpty(taskList)}" class="list">
-                <div th:each="task : ${taskList}" class="list-item">
-                    <div class="task-details">
+                <div th:each="task : ${taskList}" class="list-item green">
+                    <div>
                         <a th:href="@{/groups/{groupId}/{taskId}/taskDetail(groupId=${group.id}, taskId=${task.id})}"
                            class="no-link-style task-item"
                            th:attr="data-start-time=${task.startTimeFormatted}">
+                            <i class="fa-solid fa-thumbtack task-name"></i>
                             <span class="task-name" th:text="${task.taskName}">Task Name</span>
                             <div class="task-time">
                                 <span class="task-start-time" th:text="${task.startTimeFormatted}">Start Date</span>
-                                <span>&nbsp; :: &nbsp;</span>
+                                <span class="separator">&nbsp; :: &nbsp;</span>
                                 <span class="task-end-time" th:text="${task.endTimeFormatted}">End Date</span>
                             </div>
                         </a>
@@ -64,7 +65,7 @@
                 <label for="startTime">제출 기한</label>
                 <input type="date" id="startTime" name="startTime" required>
                 <input type="date" id="endTime" name="endTime" required>
-                <button type="submit">생성</button>
+                <button type="submit" class="bg-green">생성</button>
             </form>
         </div>
     </div>
