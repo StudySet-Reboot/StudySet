@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var endTime = new Date(document.getElementById("endTime").value);
 
         // 날짜 유효성 검사
-        if (startTime >= endTime) {
+        if (startTime > endTime) {
             alert("마감 기한은 시작 기한보다 앞서야 합니다.");
             event.preventDefault(); // 폼 제출을 막음
             return;
