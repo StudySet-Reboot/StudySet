@@ -546,6 +546,7 @@ body {
 .list {
     display: grid;
     gap: 20px;
+    grid-auto-rows: min-content;
     text-align: center;
     overflow-y: auto;
     overflow-x: hidden;
@@ -570,7 +571,7 @@ body {
     margin: 0 auto;
     width: 80%;
     border-radius: 10px;
-    box-shadow: 0 2px 7px rgba(171, 239, 166, 0.7);
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.1);
     text-align: center;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
@@ -621,8 +622,8 @@ body {
 }
 
 /* color */
-.bg-green {
-    background-color: rgba(143, 216, 140, 0.89) !important;
+.bg-green, .btn a.bg-green, #createModalForm button.bg-green {
+    background-color: rgba(143, 216, 140, 0.89);
 }
 
 .bg-blue {

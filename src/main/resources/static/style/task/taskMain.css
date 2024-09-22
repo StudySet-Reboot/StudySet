@@ -2,7 +2,7 @@ button {
     font-family: 'TheJamsil5Bold', sans-serif;
 }
 
-.btn a:hover {
+#createTaskBtn:hover, #createModalForm button:hover {
     background-color: rgba(171, 239, 166, 0.78);
 }
 
