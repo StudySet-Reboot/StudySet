@@ -202,6 +202,10 @@ body {
     overflow: hidden;
 }
 
+.task-details {
+    width: 70%;
+}
+
 .empty {
     display: flex;
     justify-content: center;
@@ -210,46 +214,6 @@ body {
     height: 100px; /* 높이 조정 필요시 */
     font-size: 1.1em;
     color: rgba(102, 102, 102, 0.87);
-}
-
-.task-item {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    justify-content: space-between;
-    text-decoration: none;
-    color: inherit;
-}
-
-.task-details {
-    justify-content: space-between;
-    align-items: center;
-}
-
-span.task-name {
-    margin-right: 20px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.task-time {
-    display: flex;
-    align-items: flex-end;
-}
-
-.task-end-time {
-    margin-left: 5px;
-}
-
-.task-start-time {
-    margin-right: 5px;
-}
-
-.no-link-style {
-    color: inherit;
-    text-decoration: none;
-    cursor: pointer;
 }
 
 .dues {
@@ -289,7 +253,6 @@ span.task-name {
 .card-item-value {
     color: #333;
 }
-
 
 /* 스크롤 스타일 */
 .list::-webkit-scrollbar,
@@ -572,6 +535,7 @@ span.task-name {
     transition: all 0.3s ease-in-out;
     color: black;
 }
+
 /* 리스트 스타일 */
 .list-container {
     width: -webkit-fill-available;
@@ -582,9 +546,12 @@ span.task-name {
 .list {
     display: grid;
     gap: 20px;
-    width: 100%;
     text-align: center;
     overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 10px;
+    width: 100%;
+    height: 95%;
 }
 
 .empty-list {
@@ -603,15 +570,17 @@ span.task-name {
     margin: 0 auto;
     width: 80%;
     border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 7px rgba(171, 239, 166, 0.7);
     text-align: center;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
 }
+
 .list-item:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 13px rgba(0, 0, 0, 0.15); /* 기본 색상 */
 }
+
 .list-item-details {
     justify-content: space-between;
     align-items: center;
@@ -653,7 +622,7 @@ span.task-name {
 
 /* color */
 .bg-green {
-    background-color: #ABEFA68E;
+    background-color: rgba(143, 216, 140, 0.89) !important;
 }
 
 .bg-blue {
@@ -675,4 +644,8 @@ span.task-name {
 .border-blue {
     border-left: 10px solid #b9dbff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.list-item.green:hover {
+    box-shadow: 0 6px 13px rgba(171, 239, 166, 0.7);
 }
