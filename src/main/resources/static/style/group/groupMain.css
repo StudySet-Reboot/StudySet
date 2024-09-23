@@ -155,7 +155,7 @@ body {
     grid-column: 1 / 2;
     grid-row: 1 / 3;
     margin-left: 9px;
-    border-left: 5px solid #e7d3f4;
+    border-left: 5px solid rgba(252, 103, 103, 0.63);
 }
 
 .memo {
@@ -651,4 +651,28 @@ body {
 .border-blue {
     border-left: 10px solid #b9dbff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cal-container {
+    margin: auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 1200px;
+    position: relative;
+}
+
+#calendar {
+    width: 100%;
+    height:90%;
+    margin: 0 auto;
+}
+
+.fc-day-grid .fc-row {
+    min-height: 30px;
+}
+
+.fc-day-header {
+    background-color: rgba(252, 103, 103, 0.63);
+    color: black;
+    font-weight: bold; /* 텍스트를 굵게 */
 }
