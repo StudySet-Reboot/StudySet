@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
-    var createTaskBtn = document.getElementById("createTaskBtn");
-    var createModal = document.getElementById("createModal");
-    var closeButtons = document.querySelectorAll(".close-btn");
+    const createTaskBtn = document.getElementById("createTaskBtn");
+    const createModal = document.getElementById("createModal");
+    const closeButtons = document.querySelectorAll(".close-btn");
 
     createTaskBtn.onclick = function() {
         createModal.style.display = "block";
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // 과제 생성 폼 제출
-    var createModalForm = document.getElementById("createModalForm");
+    const createModalForm = document.getElementById("createModalForm");
 
     createModalForm.addEventListener("submit", function (event) {
         event.preventDefault(); // 폼 제출 막음
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         // 유효성 검사를 통과한 경우 폼을 제출
-        var formData = new FormData(createModalForm);
+        const formData = new FormData(createModalForm);
 
         fetch(createModalForm.action, {
             method: 'POST',
@@ -60,15 +60,35 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // 현재가 과제 시작기한보다 앞서면 링크 비활성화
-    var taskLinks = document.querySelectorAll('.task-item');
+    const taskLinks = document.querySelectorAll('.task-item');
 
     taskLinks.forEach(function (link) {
-        var startTime = new Date(link.getAttribute('data-start-time'));
-        var currentTime = new Date();
+        const startTime = new Date(link.getAttribute('data-start-time'));
+        const currentTime = new Date();
 
         if (startTime > currentTime) {
             link.style.pointerEvents = 'none';
             link.style.color = 'gray';
         }
+    });
+
+    // 과제 진행률 계산 후 전송
+    const timelines = document.querySelectorAll('.task-timeline');
+
+    timelines.forEach(function(timeline) {
+        const startTime = new Date(timeline.getAttribute('data-start-time'));
+        const endTime = new Date(timeline.getAttribute('data-end-time'));
+        const currentTime = new Date();
+
+        // 전체 기간
+        const totalDuration = endTime - startTime;
+        // 현재 날짜까지
+        const elapsedDuration = currentTime - startTime;
+
+        // 진행률 계산
+        let progressPercent = (elapsedDuration / totalDuration) * 100;
+        progressPercent = Math.max(0, Math.min(100, progressPercent));
+        const progressBar = timeline.querySelector('.progress-bar');
+        progressBar.style.width = progressPercent + '%';
     });
 });
