@@ -184,7 +184,7 @@ body {
 .memo-wrapper {
     overflow-y: auto;
     flex: 1;
-    margin-bottom: 10px; /* 메모와 입력 영역 사이에 여백 추가 */
+    margin-bottom: 10px;
 }
 
 .note {
@@ -192,18 +192,18 @@ body {
     padding: 10px;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px; /* 메모 간의 여백 */
+    margin-bottom: 10px;
 }
 
 .task {
     grid-column: 2 / 3;
     grid-row: 1 / 2;
-    border-left: 5px solid rgba(171, 239, 166, 0.56);
+    border-left: 5px solid rgba(255, 80, 129, 0.25);
     overflow: hidden;
 }
 
 .task-details {
-    width: 70%;
+    text-align: left;
 }
 
 .empty {
@@ -211,7 +211,7 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100px; /* 높이 조정 필요시 */
+    height: 100px;
     font-size: 1.1em;
     color: rgba(102, 102, 102, 0.87);
 }
@@ -273,7 +273,7 @@ body {
     border-radius: 10px;
 }
 
-.list::-webkit-scrollbar-thumb:hover
+.list::-webkit-scrollbar-thumb:hover,
 .memo::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.18);
 }
@@ -578,7 +578,7 @@ body {
 }
 
 .list-item:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px);
     box-shadow: 0 6px 13px rgba(0, 0, 0, 0.15); /* 기본 색상 */
 }
 
@@ -621,9 +621,15 @@ body {
     margin-left: 5px;
 }
 
+.no-link-style {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 /* color */
-.bg-green, .btn a.bg-green, #createModalForm button.bg-green {
-    background-color: rgba(143, 216, 140, 0.89);
+.bg-taskPink {
+    background-color: rgba(255, 80, 129, 0.25);
 }
 
 .bg-blue {
@@ -645,8 +651,4 @@ body {
 .border-blue {
     border-left: 10px solid #b9dbff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.list-item.green:hover {
-    box-shadow: 0 6px 13px rgba(171, 239, 166, 0.7);
 }
