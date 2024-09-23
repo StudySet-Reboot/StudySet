@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // 현재가 과제 시작기한보다 앞서면 링크 비활성화
-    const taskLinks = document.querySelectorAll('.task-item');
+    const taskLinks = document.querySelectorAll('.task-link');
 
     taskLinks.forEach(function (link) {
         const startTime = new Date(link.getAttribute('data-start-time'));
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (startTime > currentTime) {
             link.style.pointerEvents = 'none';
-            link.style.color = 'gray';
+            link.style.color = '#ccc';
         }
     });
 
