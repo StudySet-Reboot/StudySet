@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Main.html</title>
     <link rel="stylesheet" th:href="@{/style/header.css}">
-    <link rel="stylesheet" th:href="@{/style/task/taskMain.css}">
     <link rel="stylesheet" th:href="@{/style/group/groupMain.css}">
     <link rel="stylesheet" th:href="@{/style/fragments/userSearchResult.css}">
     <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css}"/>
@@ -47,7 +46,7 @@
                     <div class="empty">과제가 없습니다!</div>
                 </div>
                 <div th:if="${taskList != null and not #lists.isEmpty(taskList)}" class="list">
-                    <div th:each="task : ${taskList}" class="list-item green">
+                    <div th:each="task : ${taskList}" class="list-item bg-taskPink">
                         <div class="task-details">
                             <a th:href="@{/groups/{groupId}/{taskId}/taskDetail(groupId=${group.id}, taskId=${task.id})}"
                                class="no-link-style task-item"

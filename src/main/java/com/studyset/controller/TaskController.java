@@ -39,7 +39,7 @@ public class TaskController {
 
         // endTime을 기준으로 정렬
         taskList.sort(Comparator.comparing(TaskDto::getEndTime, Comparator.nullsLast(Comparator.naturalOrder())));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy-MM-dd");
 
         for (TaskDto task : taskList) {
             if (task.getStartTime() != null) {
