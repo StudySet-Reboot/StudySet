@@ -110,6 +110,12 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
     cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.list-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 5px 10px rgba(255, 117, 123, 0.66); /* 기본 색상 */
 }
 
 .no-link-style {
