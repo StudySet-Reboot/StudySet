@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", function() {
-    var joinStudyBtn = document.getElementById("joinStudyBtn");
-    var createStudyBtn = document.getElementById("createStudyBtn");
-    var joinModal = document.getElementById("joinModal");
-    var createModal = document.getElementById("createModal");
-    var closeButtons = document.querySelectorAll(".close-btn");
+    const joinStudyBtn = document.getElementById("joinStudyBtn");
+    const createStudyBtn = document.getElementById("createStudyBtn");
+    const joinModal = document.getElementById("joinModal");
+    const createModal = document.getElementById("createModal");
+    const closeButtons = document.querySelectorAll(".close-btn");
 
     joinStudyBtn.onclick = function() {
         joinModal.style.display = "block";
@@ -29,12 +29,12 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // 스터디 가입 폼 제출
-    var joinModalForm = document.getElementById("joinModalForm");
+    const joinModalForm = document.getElementById("joinModalForm");
     joinModalForm.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        var formData = new FormData(joinModalForm);
-        var urlEncodedData = new URLSearchParams(formData).toString();
+        const formData = new FormData(joinModalForm);
+        const urlEncodedData = new URLSearchParams(formData).toString();
 
         fetch(joinModalForm.action, {
             method: 'POST',
@@ -66,12 +66,12 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // 스터디 생성 폼 제출
-    var createModalForm = document.getElementById("createModalForm");
+    const createModalForm = document.getElementById("createModalForm");
     createModalForm.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        var formData = new FormData(createModalForm);
-        var urlEncodedData = new URLSearchParams(formData).toString();
+        const formData = new FormData(createModalForm);
+        const urlEncodedData = new URLSearchParams(formData).toString();
 
         fetch(createModalForm.action, {
             method: 'POST',

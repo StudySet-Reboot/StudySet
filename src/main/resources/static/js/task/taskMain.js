@@ -26,8 +26,8 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault(); // 폼 제출 막음
 
         // 시작 기한과 마감 기한
-        var startTime = new Date(document.getElementById("startTime").value);
-        var endTime = new Date(document.getElementById("endTime").value);
+        const startTime = new Date(document.getElementById("startTime").value);
+        const endTime = new Date(document.getElementById("endTime").value);
 
         // 날짜 유효성 검사
         if (startTime > endTime) {
@@ -36,16 +36,16 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        // 유효성 검사를 통과한 경우 폼을 제출
+        // 폼 제출
         const formData = new FormData(createModalForm);
 
         fetch(createModalForm.action, {
             method: 'POST',
-            body: formData // FormData를 직접 전송
+            body: formData
         })
             .then(response => {
                 if (response.ok) {
-                    return response.json(); // JSON 응답을 반환
+                    return response.json();
                 } else {
                     throw new Error("알 수 없는 응답 상태 코드: " + response.status);
                 }

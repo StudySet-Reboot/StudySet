@@ -7,16 +7,16 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('currentDate').textContent = dateString;
 
     // 그룹 코드 확인
-    var toast = document.getElementById("toast");
-    var btn = document.getElementById("groupCodeBtn");
-    var groupCodeDisplay = document.getElementById("groupCodeDisplay");
-    var groupCodeDisplayText = document.getElementById("groupCodeDisplayText");
+    const toast = document.getElementById("toast");
+    const btn = document.getElementById("groupCodeBtn");
+    const groupCodeDisplay = document.getElementById("groupCodeDisplay");
+    const groupCodeDisplayText = document.getElementById("groupCodeDisplayText");
 
     btn.onclick = function(event) {
         event.preventDefault();
 
         // 그룹 코드 값을 읽어오기
-        var groupCode = groupCodeDisplay.getAttribute("data-group-code");
+        const groupCode = groupCodeDisplay.getAttribute("data-group-code");
 
         groupCodeDisplayText.innerText = groupCode;
         toast.className = "toast show";
@@ -28,9 +28,9 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     // 그룹원 검색
-    var searchBtn = document.getElementById("searchMemberBtn");
-    var searchModal = document.getElementById("searchModal");
-    var closeButtons = document.querySelectorAll(".close-btn");
+    const searchBtn = document.getElementById("searchMemberBtn");
+    const searchModal = document.getElementById("searchModal");
+    const closeButtons = document.querySelectorAll(".close-btn");
 
     searchBtn.onclick = function() {
         searchModal.style.display = "block";
@@ -49,17 +49,17 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // 그룹원 검색 키워드 제출
-    var searchModalForm = document.getElementById("searchModalForm");
+    const searchModalForm = document.getElementById("searchModalForm");
     searchModalForm.addEventListener("submit", function (event) {
         event.preventDefault(); // 폼의 기본 제출 동작 방지
 
         // 폼 데이터 가져오기
-        var form = event.target;
-        var keyword = form.querySelector("#keyword").value;
-        var groupId = form.querySelector("#groupId").value;
+        const form = event.target;
+        const keyword = form.querySelector("#keyword").value;
+        const groupId = form.querySelector("#groupId").value;
 
         // URL 쿼리 문자열 만들기
-        var url = new URL(form.action, window.location.origin);
+        const url = new URL(form.action, window.location.origin);
         url.searchParams.append('keyword', keyword);
         url.searchParams.append('groupId', groupId);
 
