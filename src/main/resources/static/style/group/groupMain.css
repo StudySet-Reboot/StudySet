@@ -653,14 +653,6 @@ body, button {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/*.cal-container {*/
-/*    margin: auto;*/
-/*    padding: 20px;*/
-/*    width: 90%;*/
-/*    max-width: 1200px;*/
-/*    position: relative;*/
-/*}*/
-
 #calendar {
     margin: 20px 10px 10px;
 }
@@ -668,11 +660,11 @@ body, button {
 .card.schedule .fc-daygrid-day {
     height: 20px !important;
     min-height: 20px !important;
-    max-height: 30px !important;
+    max-height: 50px !important;
 }
 
 .card.schedule .fc {
-    font-size: 10px !important;
+    font-size: 13px !important;
 }
 
 .card.schedule .fc-day-header {
