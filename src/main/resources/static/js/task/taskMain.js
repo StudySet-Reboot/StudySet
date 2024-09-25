@@ -1,24 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const createTaskBtn = document.getElementById("createTaskBtn");
-    const createModal = document.getElementById("createModal");
-    const closeButtons = document.querySelectorAll(".close-btn");
-
-    createTaskBtn.onclick = function() {
-        createModal.style.display = "block";
-    }
-
-    closeButtons.forEach(function(btn) {
-        btn.onclick = function() {
-            btn.parentElement.parentElement.style.display = "none";
-        }
-    });
-
-    window.onclick = function(event) {
-        if (event.target == createModal) {
-            createModal.style.display = "none";
-        }
-    }
-
     // 과제 생성 폼 제출
     const createModalForm = document.getElementById("createModalForm");
 

@@ -39,7 +39,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-
     // 현재 날짜 출력
     const today = new Date();
     const month = String(today.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
@@ -71,17 +70,10 @@ document.addEventListener("DOMContentLoaded", function() {
     // 그룹원 검색
     const searchBtn = document.getElementById("searchMemberBtn");
     const searchModal = document.getElementById("searchModal");
-    const closeButtons = document.querySelectorAll(".close-btn");
 
     searchBtn.onclick = function() {
         searchModal.style.display = "block";
     }
-
-    closeButtons.forEach(function(btn) {
-        btn.onclick = function() {
-            btn.parentElement.parentElement.style.display = "none";
-        }
-    });
 
     window.onclick = function(event) {
         if (event.target == searchModal) {
@@ -129,41 +121,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // 그룹 탈퇴
-    const groupLeaveBtn = document.getElementById('groupLeaveBtn');
     const leaveGroupModal = document.getElementById('leaveGroupModal');
-    const closeBtn = document.querySelector('.close-btn2'); // 여러 개의 닫기 버튼을 선택
-    const confirmationStep = document.getElementById('confirmationStep');
-    const codeStep = document.getElementById('codeStep');
     const leaveGroupForm = document.getElementById('leaveGroupForm');
-
-    // 모달 열기 함수
-    function openLeaveGroupModal() {
-        leaveGroupModal.style.display = "block";
-    }
-
-    // 모달 닫기 함수
-    function closeLeaveGroupModal() {
-        closeBtn.parentElement.parentElement.style.display = "none";
-    }
-
-    // 그룹 탈퇴 버튼 클릭 시 모달 열기
-    groupLeaveBtn.addEventListener('click', function(event) {
-        openLeaveGroupModal();
-    });
-
-    // 모든 닫기 버튼 클릭 시 모달 닫기
-    if (closeBtn) { // closeBtn이 null이 아닐 때만 이벤트 추가
-        closeBtn.addEventListener('click', function () {
-            closeLeaveGroupModal();
-        });
-    }
-
-    // 모달 외부 클릭 시 모달 닫기
-    window.addEventListener('click', function(event) {
-        if (event.target === leaveGroupModal) {
-            closeLeaveGroupModal();
-        }
-    });
 
     // 확인 버튼 클릭 시 코드 입력 단계로 이동
     const confirmLeaveBtn = document.getElementById('confirmLeaveBtn');
@@ -178,7 +137,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const cancelLeaveBtn = document.getElementById('cancelLeaveBtn');
     if (cancelLeaveBtn) {
         cancelLeaveBtn.addEventListener('click', function() {
-            closeLeaveGroupModal();
+            const leaveGroupModal = document.getElementById('leaveGroupModal');
+            leaveGroupModal.style.display = "none";
         });
     }
 
@@ -206,13 +166,9 @@ document.addEventListener("DOMContentLoaded", function() {
         })
             .then(response => {
                 if (response.ok) {
-                    if (response.status === 200) {
-                        alert('그룹 탈퇴가 완료되었습니다.');
-                        closeLeaveGroupModal();
-                        window.location.href = '/users/main';
-                    } else {
-                        alert("알 수 없는 응답 상태 코드: " + response.status);
-                    }
+                    alert('그룹 탈퇴가 완료되었습니다.');
+                    leaveGroupModal.style.display = "none";
+                    window.location.href = '/users/main';
                 } else {
                     return response.json().then(err => {
                         throw new Error(err.message);

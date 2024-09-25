@@ -1,33 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const joinStudyBtn = document.getElementById("joinStudyBtn");
-    const createStudyBtn = document.getElementById("createStudyBtn");
-    const joinModal = document.getElementById("joinModal");
-    const createModal = document.getElementById("createModal");
-    const closeButtons = document.querySelectorAll(".close-btn");
-
-    joinStudyBtn.onclick = function() {
-        joinModal.style.display = "block";
-    }
-
-    createStudyBtn.onclick = function() {
-        createModal.style.display = "block";
-    }
-
-    closeButtons.forEach(function(btn) {
-        btn.onclick = function() {
-            btn.parentElement.parentElement.style.display = "none";
-        }
-    });
-
-    window.onclick = function(event) {
-        if (event.target == joinModal) {
-            joinModal.style.display = "none";
-        }
-        if (event.target == createModal) {
-            createModal.style.display = "none";
-        }
-    }
-
     // 스터디 가입 폼 제출
     const joinModalForm = document.getElementById("joinModalForm");
     joinModalForm.addEventListener("submit", function (event) {

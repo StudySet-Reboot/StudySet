@@ -21,7 +21,7 @@
             <div class="description" th:text="${group.description}"></div>
         </div>
         <div class="btn">
-            <a id="createTaskBtn" class="bg-taskPink">과제 생성</a>
+            <a id="createTaskBtn" class="open-modal-btn bg-taskPink" data-modal="createModal">과제 생성</a>
         </div>
     </div>
 
@@ -78,5 +78,6 @@
             </form>
         </div>
     </div>
+    <script th:src="@{/js/modal/modal.js}"></script>
 </body>
 </html>
