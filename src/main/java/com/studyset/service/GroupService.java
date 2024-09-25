@@ -1,16 +1,17 @@
 package com.studyset.service;
 
-import com.studyset.domain.Group;
-import com.studyset.domain.User;
-import com.studyset.domain.UserJoinGroup;
+import com.studyset.domain.*;
+import com.studyset.dto.dues.DuesInfo;
+import com.studyset.dto.group.GroupDashboard;
 import com.studyset.dto.group.GroupDto;
+import com.studyset.dto.memo.MemoDto;
+import com.studyset.dto.task.TaskDto;
 import com.studyset.dto.user.UserDto;
 import com.studyset.exception.AlreadyJoin;
 import com.studyset.exception.DuplicateGroup;
 import com.studyset.exception.GroupCodeError;
 import com.studyset.exception.GroupNotExist;
-import com.studyset.repository.GroupRepository;
-import com.studyset.repository.UserJoinGroupRepository;
+import com.studyset.repository.*;
 import com.studyset.web.form.GroupCreateForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,8 +30,39 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class GroupService {
+
     private final GroupRepository groupRepository;
     private final UserJoinGroupRepository joinGroupRepository;
+    private final TaskRepository taskRepository;
+    private final MemoRepository memoRepository;
+    private final DuesRepository duesRepository;
+
+    public GroupDashboard getGroupDashboard(Long id) {
+        int year = LocalDate.now().getYear();
+        int month = LocalDate.now().getMonthValue();
+
+        // 현재 과제 목록 가져오기
+        List<TaskDto> taskList = taskRepository.findCurrentTasksByGroupId(id, LocalDate.now())
+                .stream().map(Task::toDto)
+                .toList();
+
+        // 최신 메모 목록 가져오기
+        List<MemoDto> memoList = memoRepository.findLatestMemoByGroupId(id)
+                .stream().map(Memo::toDto)
+                .toList();
+
+        // 이번 달 회비 납부 정보
+        DuesInfo duesInfo = duesRepository.findDuesInfoByGroupIdAndYearAndMonth(id, year, month)
+                .orElse(new DuesInfo(0, 0.0));
+
+        return GroupDashboard.builder()
+                .groupId(id)
+                .duesInfo(duesInfo)
+                .taskList(taskList)
+                .memoList(memoList)
+                .build();
+    }
+
 
     //그룹 생성
     @Transactional
