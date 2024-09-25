@@ -22,7 +22,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -53,7 +52,7 @@ public class GroupService {
 
         // 이번 달 회비 납부 정보
         DuesInfo duesInfo = duesRepository.findDuesInfoByGroupIdAndYearAndMonth(id, year, month)
-                .orElse(new DuesInfo(0, 0.0));
+                .orElse(new DuesInfo(0L, 0.0d));
 
         return GroupDashboard.builder()
                 .groupId(id)
