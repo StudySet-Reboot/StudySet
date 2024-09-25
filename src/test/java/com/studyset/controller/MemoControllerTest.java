@@ -72,8 +72,8 @@ public class MemoControllerTest {
         given(groupRepository.findById(9L)).willReturn(Optional.of(group));
 
         MemoDto mockMemoDto = MemoDto.builder()
-                .user(user)
-                .group(group)
+                .userId(user.getId())
+                .groupId(group.getId())
                 .contents("This is a test memo.")
                 .build();
 
