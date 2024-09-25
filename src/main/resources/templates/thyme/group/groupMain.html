@@ -70,11 +70,11 @@
                     </div>
                     <div class="card-item">
                         <span class="card-item-label">납부 인원:</span>
-                        <span class="card-item-value" th:text="${groupDashboard.duesInfo.paidMemberCount}+'명'">0명</span>
+                        <span class="card-item-value" th:text="${groupDashboard.duesInfo.paidMemberCount}+'명'">0 명</span>
                     </div>
                     <div class="card-item" id="total">
                         <span class="card-item-label">총 납부 금액:</span>
-                        <span class="card-item-value" th:text="${groupDashboard.duesInfo.totalDuesAmount}+'원'">0원</span>
+                        <span th:text="${#numbers.formatCurrency(groupDashboard.duesInfo.totalDuesAmount)}">0 원</span>
                     </div>
                 </div>
             </div>
