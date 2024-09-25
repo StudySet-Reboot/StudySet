@@ -14,21 +14,21 @@
 </head>
 <body>
     <!-- header 삽입 -->
-    <div th:replace="thyme/group/groupHeader :: groupHeader (group=${group})"></div>
+    <div th:replace="thyme/group/groupHeader :: groupHeader (group=${session.group})"></div>
 
     <!-- 그룹 정보 frame -->
     <div class="outer-frame">
         <div class="frame">
-            <div class="groupName" th:text="${group.groupName}"></div>
-            <div class="category" th:text="${group.category}"></div>
-            <div class="description" th:text="${group.description}"></div>
+            <div class="groupName" th:text="${session.group.groupName}"></div>
+            <div class="category" th:text="${session.group.category}"></div>
+            <div class="description" th:text="${session.group.description}"></div>
         </div>
         <div class="btn">
             <a id="groupCodeBtn">그룹 코드 확인</a>
             <a id="searchMemberBtn" data-modal="searchModal" class="open-modal-btn">그룹원 검색</a>
         </div>
         <!-- 데이터 속성을 사용하여 그룹 코드 전달 -->
-        <div id="groupCodeDisplay" class="code-display" th:data-group-code="${group.code}"></div>
+        <div id="groupCodeDisplay" class="code-display" th:data-group-code="${session.group.code}"></div>
         <!-- 토스트 메시지 -->
         <div id="toast" class="toast">그룹 코드: <span id="groupCodeDisplayText">여기에 그룹 코드가 표시됩니다.</span></div>
     </div>
@@ -46,13 +46,13 @@
                     &nbsp;진행 중 과제&nbsp;
                     <i class="fa-solid fa-list-check"></i>
                 </h2>
-                <div th:if="${taskList == null or #lists.isEmpty(taskList)}">
+                <div th:if="${groupDashboard.taskList == null or #lists.isEmpty(groupDashboard.taskList)}">
                     <div class="empty">과제가 없습니다!</div>
                 </div>
-                <div th:if="${taskList != null and not #lists.isEmpty(taskList)}" class="list">
-                    <div th:each="task : ${taskList}" class="list-item bg-taskPink">
+                <div th:if="${groupDashboard.taskList != null and not #lists.isEmpty(groupDashboard.taskList)}" class="list">
+                    <div th:each="task : ${groupDashboard.taskList}" class="list-item bg-taskPink">
                         <div class="task-details">
-                            <a th:href="@{/groups/{groupId}/{taskId}/taskDetail(groupId=${group.id}, taskId=${task.id})}"
+                            <a th:href="@{/groups/{groupId}/{taskId}/taskDetail(groupId=${session.group.id}, taskId=${task.id})}"
                                class="no-link-style task-item"
                                th:attr="data-start-time=${task.startTimeFormatted}">
                                 <span class="task-name" th:text="${task.taskName}">Task Name</span>
@@ -84,14 +84,10 @@
             </div>
             <div class="card memo">
                 <h2>최신 진행상황&nbsp;<i class="fa-regular fa-comments"></i></h2>
-                <div th:each="user : ${userList}" class="user-frame" th:data-user-id="${mem.id}" th:data-group-id="${group.id}">
-                    <div class="user-title" th:text="${user.name}"></div>
-                    <!-- 메모 출력 -->
+                <div th:each="memo : ${groupDashboard.memoList}" class="user-frame">
+                    <div class="user-title" th:text="${memo.userName}"></div>
                     <div class="memo-wrapper">
-                        <!-- 그룹원의 id와 메모 작성자의 id가 일치하면 메모 출력 -->
-                        <div th:each="memo : ${memoList}" th:if="${memo.user.id} == ${user.id}" class="note">
-                            <div th:text="${memo.contents}"></div>
-                        </div>
+                        <div th:text="${memo.contents}"></div>
                     </div>
                 </div>
             </div>
