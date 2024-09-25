@@ -1,10 +1,14 @@
 package com.studyset.controller;
 
 import com.studyset.domain.User;
+import com.studyset.dto.group.GroupDashboard;
 import com.studyset.dto.group.GroupDto;
+import com.studyset.dto.memo.MemoDto;
+import com.studyset.dto.task.TaskDto;
 import com.studyset.dto.user.UserDto;
 import com.studyset.service.GroupService;
 import com.studyset.web.form.GroupCreateForm;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +31,16 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class GroupController {
+
     private final GroupService groupService;
+
+    // 그룹 메인 이동
+    @GetMapping("/groups/{groupId}")
+    public String groupMain(@SessionAttribute("user") User user, @PathVariable Long groupId, Model model, HttpSession session) {
+        GroupDashboard groupDashboard = groupService.getGroupDashboard(groupId);
+        model.addAttribute("groupDashboard", groupDashboard);
+        return "/thyme/group/groupMain";
+    }
 
     //그룹 생성
     @PostMapping("/create")
