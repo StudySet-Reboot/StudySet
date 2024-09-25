@@ -1,4 +1,45 @@
 document.addEventListener("DOMContentLoaded", function() {
+    $(document).ready(function() {
+        var groupId = document.querySelector('#groupId').value;
+        $('#calendar').fullCalendar({
+            initialView: 'dayGridWeek',
+            locale: 'ko',
+            header: {
+                center: 'title',
+                left: 'none',
+                right: 'none'
+            },
+            showNonCurrentDates: false,
+            events: function(start, end, timezone, callback) {
+                const url = `/api/groups/${groupId}/schedules/events`
+                fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        callback(data);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching events:', error);
+                        callback([]);
+                    });
+            },
+            height: 'auto',
+            eventRender: function(event, element) {
+                element.find('.fc-time').remove();
+            }
+        });
+    });
+
+
     // 현재 날짜 출력
     const today = new Date();
     const month = String(today.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
