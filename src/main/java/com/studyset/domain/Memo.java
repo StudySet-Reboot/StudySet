@@ -25,8 +25,8 @@ public class Memo extends BaseEntity{
 
     public MemoDto toDto() {
         return MemoDto.builder()
-                .group(group)
-                .user(user)
+                .groupId(group.getId())
+                .userId(user.getId())
                 .contents(contents)
                 .build();
     }
