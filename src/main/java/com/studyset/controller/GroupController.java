@@ -35,8 +35,11 @@ public class GroupController {
     private final GroupService groupService;
 
     // 그룹 메인 이동
-    @GetMapping("/groups/{groupId}")
+    @GetMapping("/{groupId}")
     public String groupMain(@SessionAttribute("user") User user, @PathVariable Long groupId, Model model, HttpSession session) {
+        GroupDto groupDto = groupService.getGroupById(groupId);
+        session.setAttribute("group", groupDto);
+        model.addAttribute("group", groupDto);
         GroupDashboard groupDashboard = groupService.getGroupDashboard(groupId);
         model.addAttribute("groupDashboard", groupDashboard);
         return "/thyme/group/groupMain";

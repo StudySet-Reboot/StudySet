@@ -14,21 +14,21 @@
 </head>
 <body>
     <!-- header 삽입 -->
-    <div th:replace="thyme/group/groupHeader :: groupHeader (group=${session.group})"></div>
+    <div th:replace="thyme/group/groupHeader :: groupHeader (group=${group})"></div>
 
     <!-- 그룹 정보 frame -->
     <div class="outer-frame">
         <div class="frame">
-            <div class="groupName" th:text="${session.group.groupName}"></div>
-            <div class="category" th:text="${session.group.category}"></div>
-            <div class="description" th:text="${session.group.description}"></div>
+            <div class="groupName" th:text="${group.groupName}"></div>
+            <div class="category" th:text="${group.category}"></div>
+            <div class="description" th:text="${group.description}"></div>
         </div>
         <div class="btn">
             <a id="groupCodeBtn">그룹 코드 확인</a>
             <a id="searchMemberBtn" data-modal="searchModal" class="open-modal-btn">그룹원 검색</a>
         </div>
         <!-- 데이터 속성을 사용하여 그룹 코드 전달 -->
-        <div id="groupCodeDisplay" class="code-display" th:data-group-code="${session.group.code}"></div>
+        <div id="groupCodeDisplay" class="code-display" th:data-group-code="${group.code}"></div>
         <!-- 토스트 메시지 -->
         <div id="toast" class="toast">그룹 코드: <span id="groupCodeDisplayText">여기에 그룹 코드가 표시됩니다.</span></div>
     </div>
@@ -52,7 +52,7 @@
                 <div th:if="${groupDashboard.taskList != null and not #lists.isEmpty(groupDashboard.taskList)}" class="list">
                     <div th:each="task : ${groupDashboard.taskList}" class="list-item bg-taskPink">
                         <div class="task-details">
-                            <a th:href="@{/groups/{groupId}/{taskId}/taskDetail(groupId=${session.group.id}, taskId=${task.id})}"
+                            <a th:href="@{/groups/{groupId}/{taskId}/taskDetail(groupId=${group.id}, taskId=${task.id})}"
                                class="no-link-style task-item"
                                th:attr="data-start-time=${task.startTimeFormatted}">
                                 <span class="task-name" th:text="${task.taskName}">Task Name</span>
@@ -66,19 +66,15 @@
                 <div class="card-content">
                     <div class="card-item">
                         <span class="card-item-label">이번 주 납부 금액:</span>
-                        <span class="card-item-value">0원</span>
+                        <span class="card-item-value"></span>
                     </div>
                     <div class="card-item">
                         <span class="card-item-label">납부 인원:</span>
-                        <span class="card-item-value">0명</span>
-                    </div>
-                    <div class="card-item">
-                        <span class="card-item-label">미납 인원:</span>
-                        <span class="card-item-value">0명</span>
+                        <span class="card-item-value" th:text="${groupDashboard.duesInfo.paidMemberCount}+'명'">0명</span>
                     </div>
                     <div class="card-item" id="total">
                         <span class="card-item-label">총 납부 금액:</span>
-                        <span class="card-item-value">0원</span>
+                        <span class="card-item-value" th:text="${groupDashboard.duesInfo.totalDuesAmount}+'원'">0원</span>
                     </div>
                 </div>
             </div>
