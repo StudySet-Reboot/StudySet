@@ -42,7 +42,7 @@
 </div>
 <div class="outer-frame2">
     <div class="btn2">
-        <a id="create-modal-btn">추가</a>
+        <a id="create-modal-btn" data-modal="create-modal" class="open-modal-btn">추가</a>
     </div>
 </div>
 
@@ -67,6 +67,6 @@
     </div>
 </div>
 <input type="hidden" id="groupId" name="groupId" th:value="${session.group.id}" />
-
+<script th:src="@{/js/modal/modal.js}"></script>
 </body>
 </html>
