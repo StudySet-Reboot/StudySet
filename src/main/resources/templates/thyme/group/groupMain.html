@@ -25,7 +25,7 @@
         </div>
         <div class="btn">
             <a id="groupCodeBtn">그룹 코드 확인</a>
-            <a id="searchMemberBtn">그룹원 검색</a>
+            <a id="searchMemberBtn" data-modal="searchModal" class="open-modal-btn">그룹원 검색</a>
         </div>
         <!-- 데이터 속성을 사용하여 그룹 코드 전달 -->
         <div id="groupCodeDisplay" class="code-display" th:data-group-code="${group.code}"></div>
@@ -101,13 +101,13 @@
     <!-- 그룹 탈퇴 -->
     <div class="outer-frame2">
         <div class="btn2">
-            <a id="groupLeaveBtn">그룹 탈퇴</a>
+            <a id="groupLeaveBtn" data-modal="leaveGroupModal" class="open-modal-btn">그룹 탈퇴</a>
         </div>
     </div>
 
     <div id="leaveGroupModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn2">&times;</span>
+            <span class="close-btn2 close-btn">&times;</span>
             <div id="confirmationStep" class="modal-step">
                 <h2>그룹 탈퇴</h2>
                 <p>그룹을 탈퇴하시겠습니까?</p>
@@ -143,7 +143,7 @@
             </div>
         </div>
     </div>
-
+    <script th:src="@{/js/modal/modal.js}"></script>
     <script th:src="@{/js/group/groupMain.js}"></script>
 </body>
 </html>

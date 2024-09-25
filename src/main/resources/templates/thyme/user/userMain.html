@@ -15,8 +15,8 @@
     <div class="frame1">
         <div class="nickname" th:text="${session.user.name} + '님의 스터디'"></div>
         <div class="btn">
-            <a id="joinStudyBtn">스터디 가입</a>
-            <a id="createStudyBtn">스터디 생성</a>
+            <a id="joinStudyBtn" data-modal="joinModal" class="open-modal-btn">스터디 가입</a>
+            <a id="createStudyBtn" data-modal="createModal" class="open-modal-btn">스터디 생성</a>
         </div>
     </div>
 
@@ -93,6 +93,7 @@
         </div>
     </div>
 
+    <script th:src="@{/js/modal/modal.js}"></script>
     <script th:src="@{/js/user/userMain.js}"></script>
 </body>
 </html>
