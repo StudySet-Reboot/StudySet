@@ -30,7 +30,7 @@
             <!-- 메모 출력 -->
             <div class="memo-wrapper">
                 <!-- 그룹원의 id와 메모 작성자의 id가 일치하면 메모 출력 -->
-                <div th:each="memo : ${memoList}" th:if="${memo.user.id} == ${user.id}" class="note">
+                <div th:each="memo : ${memoList}" th:if="${memo.userId} == ${user.id}" class="note">
                     <div class="memo" th:text="${memo.contents}"></div>
                 </div>
             </div>

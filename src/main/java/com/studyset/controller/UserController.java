@@ -31,10 +31,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
+
     private final GroupService groupService;
-    private final JoinService joinService;
-    private final MemoService memoService;
-    private final TaskService taskService;
 
     // 유저 메인 페이지 및 그룹 조회
     @GetMapping("/users/main")
@@ -54,38 +52,4 @@ public class UserController {
         return "thyme/user/userMain";
     }
 
-    // 그룹 메인 이동
-    @GetMapping("/groups/{groupId}")
-    public String groupMain(@SessionAttribute("user") User user, @PathVariable Long groupId, Model model, HttpSession session) {
-        // 그룹 일정 가져오기
-
-        // 현재 진행 과제 가져오기
-        List<TaskDto> taskList = taskService.getCurrentTasksByGroupId(groupId);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd");
-        for (TaskDto task : taskList) {
-            if (task.getStartTime() != null) {
-                task.setStartTimeFormatted(task.getStartTime().format(formatter));
-            }
-            if (task.getEndTime() != null) {
-                task.setEndTimeFormatted(task.getEndTime().format(formatter));
-            }
-        }
-        model.addAttribute("taskList", taskList);
-
-        // 회비 내역 가져오기
-
-        // 그룹원 최신 메모 가져오기
-        List<UserDto> userList = joinService.getUserByGroupId(groupId);
-        List<MemoDto> memoList = memoService.getLatestMemoByGroupId(groupId);
-        model.addAttribute("mem", user);
-        model.addAttribute("userList", userList);
-        model.addAttribute("memoList", memoList);
-
-        // 그룹 정보
-        GroupDto group = groupService.getGroupById(groupId);
-        model.addAttribute("group", group);
-        session.setAttribute("group", group);
-
-        return "/thyme/group/groupMain";
-    }
 }

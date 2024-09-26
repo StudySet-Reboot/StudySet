@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Main.html</title>
+    <title>StudySet-그룹 홈</title>
     <link rel="stylesheet" th:href="@{/style/header.css}">
     <link rel="stylesheet" th:href="@{/style/group/groupMain.css}">
     <link rel="stylesheet" th:href="@{/style/fragments/userSearchResult.css}">
@@ -46,11 +46,11 @@
                     &nbsp;진행 중 과제&nbsp;
                     <i class="fa-solid fa-list-check"></i>
                 </h2>
-                <div th:if="${taskList == null or #lists.isEmpty(taskList)}">
+                <div th:if="${groupDashboard.taskList == null or #lists.isEmpty(groupDashboard.taskList)}">
                     <div class="empty">과제가 없습니다!</div>
                 </div>
-                <div th:if="${taskList != null and not #lists.isEmpty(taskList)}" class="list">
-                    <div th:each="task : ${taskList}" class="list-item bg-taskPink">
+                <div th:if="${groupDashboard.taskList != null and not #lists.isEmpty(groupDashboard.taskList)}" class="list">
+                    <div th:each="task : ${groupDashboard.taskList}" class="list-item bg-taskPink">
                         <div class="task-details">
                             <a th:href="@{/groups/{groupId}/{taskId}/taskDetail(groupId=${group.id}, taskId=${task.id})}"
                                class="no-link-style task-item"
@@ -66,32 +66,24 @@
                 <div class="card-content">
                     <div class="card-item">
                         <span class="card-item-label">이번 주 납부 금액:</span>
-                        <span class="card-item-value">0원</span>
+                        <span class="card-item-value"></span>
                     </div>
                     <div class="card-item">
                         <span class="card-item-label">납부 인원:</span>
-                        <span class="card-item-value">0명</span>
-                    </div>
-                    <div class="card-item">
-                        <span class="card-item-label">미납 인원:</span>
-                        <span class="card-item-value">0명</span>
+                        <span class="card-item-value" th:text="${groupDashboard.duesInfo.paidMemberCount}+'명'">0 명</span>
                     </div>
                     <div class="card-item" id="total">
                         <span class="card-item-label">총 납부 금액:</span>
-                        <span class="card-item-value">0원</span>
+                        <span th:text="${#numbers.formatCurrency(groupDashboard.duesInfo.totalDuesAmount)}">0 원</span>
                     </div>
                 </div>
             </div>
             <div class="card memo">
                 <h2>최신 진행상황&nbsp;<i class="fa-regular fa-comments"></i></h2>
-                <div th:each="user : ${userList}" class="user-frame" th:data-user-id="${mem.id}" th:data-group-id="${group.id}">
-                    <div class="user-title" th:text="${user.name}"></div>
-                    <!-- 메모 출력 -->
+                <div th:each="memo : ${groupDashboard.memoList}" class="user-frame">
+                    <div class="user-title" th:text="${memo.userName}"></div>
                     <div class="memo-wrapper">
-                        <!-- 그룹원의 id와 메모 작성자의 id가 일치하면 메모 출력 -->
-                        <div th:each="memo : ${memoList}" th:if="${memo.user.id} == ${user.id}" class="note">
-                            <div th:text="${memo.contents}"></div>
-                        </div>
+                        <div th:text="${memo.contents}"></div>
                     </div>
                 </div>
             </div>

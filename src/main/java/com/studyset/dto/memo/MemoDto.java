@@ -1,20 +1,21 @@
 package com.studyset.dto.memo;
 
-import com.studyset.domain.Group;
-import com.studyset.domain.User;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 public class MemoDto {
-    private Group group;
-    private User user;
+
+    private Long groupId;
+    private Long userId;
+    private String userName;
     private String contents;
 
     @Builder
-    public MemoDto(Group group, User user, String contents) {
-        this.group = group;
-        this.user = user;
+    public MemoDto(Long groupId, Long userId, String userName, String contents) {
+        this.groupId = groupId;
+        this.userId = userId;
+        this.userName = userName;
         this.contents = contents;
     }
 }
