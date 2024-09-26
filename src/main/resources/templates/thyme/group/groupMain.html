@@ -83,7 +83,7 @@
                 <div th:each="memo : ${groupDashboard.memoList}" class="user-frame">
                     <div class="user-title" th:text="${memo.userName}"></div>
                     <div class="memo-wrapper">
-                        <div th:text="${memo.contents}"></div>
+                        <div class="note" th:text="${memo.contents}"></div>
                     </div>
                 </div>
             </div>
