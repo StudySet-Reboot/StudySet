@@ -1,4 +1,4 @@
-import { displayErrorToast, displayErrorToastWithValidation } from '../common/toast.js';
+import {displayErrorToast, displayErrorToastWithValidation, showConfirm } from '../common/toast.js';
 
 const currentDate = new Date();
 let currentYear = currentDate.getFullYear();
@@ -210,17 +210,18 @@ $(document).ready(function() {
     });
 
     $('#del-schedule-btn').click(function () {
-        const result = confirm('정말 삭제하시겠습니까?');
-        if(result){
-            const eventId = $('#edit-event-id').val();
-            fetch(`/api/groups/${groupId}/schedules/events/${eventId}`, {
-                method: 'DELETE'
-            }).then(response => {
+        showConfirm(function(result) {
+            if (result) {
+                const eventId = $('#edit-event-id').val();
+                fetch(`/api/groups/${groupId}/schedules/events/${eventId}`, {
+                    method: 'DELETE'
+                }).then(response => {
                     $('#edit-event-modal').hide();
                     $('#editForm').trigger('reset');
                     calendar.fullCalendar('refetchEvents');
-            }).catch(error => console.error('Error:', error))
-        }
+                }).catch(error => console.error('Error:', error));
+            }
+        });
     });
 
     $('#adjust-schedule-btn').click(function() {
