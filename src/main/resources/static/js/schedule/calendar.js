@@ -1,3 +1,5 @@
+import { displayErrorToast, displayErrorToastWithValidation } from '../common/toast.js';
+
 const currentDate = new Date();
 let currentYear = currentDate.getFullYear();
 let currentMonth = currentDate.getMonth() + 1;
@@ -224,23 +226,5 @@ $(document).ready(function() {
     $('#adjust-schedule-btn').click(function() {
         window.location.href = '/groups/' + groupId + '/timetables/view';
     });
-
-
-    function displayErrorToast(message){
-        const toast = $('#error-toast');
-        toast.text(message);
-        toast.addClass('show');
-        setTimeout(() => {
-            toast.removeClass('show');
-        }, 3000);
-    }
-    function displayErrorToastWithValidation(validationErrors) {
-        const toast = $('#error-toast');
-        let message = '';
-        for (const [field, error] of Object.entries(validationErrors)) {
-            message += `${error} `;
-        }
-        displayErrorToast(message);
-    }
 
 });
