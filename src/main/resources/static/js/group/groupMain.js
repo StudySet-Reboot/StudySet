@@ -1,3 +1,4 @@
+import { displayToast, displayErrorToast } from '../common/toast.js';
 document.addEventListener("DOMContentLoaded", function() {
     $(document).ready(function() {
         var groupId = document.querySelector('#groupId').value;
@@ -166,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function() {
         })
             .then(response => {
                 if (response.ok) {
-                    alert('그룹 탈퇴가 완료되었습니다.');
+                    displayToast('그룹 탈퇴가 완료되었습니다.');
                     leaveGroupModal.style.display = "none";
                     window.location.href = '/users/main';
                 } else {
@@ -176,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             })
             .catch(error => {
-                alert(`${error.message}`);
+                displayErrorToast(error.message);
             });
     });
 });
