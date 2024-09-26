@@ -63,10 +63,8 @@
             <span class="close-btn">&times;</span>
             <form class="modal-form" id="editForm" method="post">
                 <h2>이벤트 수정</h2>
-                <span>
-                    <label for="edit-is-important" class="custom-label">중요</label>
-                    <input type="checkbox" name="isImportant" id="edit-is-important" value="true">
-                </span>
+                <label for="edit-is-important" class="custom-label">중요</label>
+                <input type="checkbox" name="isImportant" id="edit-is-important" value="true">
                 <input type="hidden" id="edit-event-id">
                 <label for="edit-event-name" class="custom-label">제목</label>
                 <input type="text" id="edit-event-name" name="title" placeholder="이벤트 제목을 입력하세요" required>
@@ -76,7 +74,7 @@
                 <input type="text" id="edit-event-description" name="description" placeholder="이벤트 설명">
                 <label for="edit-event-place" class="custom-label">장소</label>
                 <input id="edit-event-place" type="text" name="location" placeholder="장소">
-                <div class="button-group">
+                <div class="modal-button-group">
                     <button type="submit">수정</button>
                     <button id="del-schedule-btn" type="button">삭제</button>
                 </div>
