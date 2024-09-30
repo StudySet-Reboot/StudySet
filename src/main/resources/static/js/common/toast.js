@@ -5,9 +5,7 @@ export function displayToast(message){
     const toast = $('#toast');
     toast.text(message);
     toast.addClass('show');
-    setTimeout(() => {
-        toast.removeClass('show');
-    }, 3000);
+    setTimeout(() => toast.removeClass('show'), 3000);
 }
 
 
@@ -15,9 +13,7 @@ export function displayErrorToast(message){
     const toast = $('#error-toast');
     toast.text(message);
     toast.addClass('show');
-    setTimeout(() => {
-        toast.removeClass('show');
-    }, 3000);
+    setTimeout(() => toast.removeClass('show'), 3000);
 }
 
 export function displayErrorToastWithValidation(validationErrors) {
@@ -28,7 +24,6 @@ export function displayErrorToastWithValidation(validationErrors) {
     }
     displayErrorToast(message);
 }
-
 
 export function showConfirm(callback) {
     const modal = document.getElementById("confirm-modal");

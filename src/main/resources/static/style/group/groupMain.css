@@ -289,18 +289,57 @@ body, button {
     border-radius: 2px;
     padding: 16px;
     position: fixed;
-    top: 30px;
+    top: 40%;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
 }
 
-/* 토스트 표시 스타일 */
+/* Error Toast 스타일 */
+.error-toast {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #333;
+    color: #ff9b9b;
+    text-align: center;
+    border-radius: 2px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%); /* 가운데 정렬 */
+    font-size: 17px;
+    white-space: nowrap;
+    padding: 16px;
+    box-shadow: 0px 0px 10px 0px #000;
+}
+
 .toast.show {
     visibility: visible;
     -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s; /* 애니메이션 효과 */
     animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
+
+.error-toast.show {
+    visibility: visible;
+    -webkit-animation: fadeInOut 3s;
+    animation: fadeInOut 3s;
+}
+
+/*.toast-overlay {*/
+/*    visibility: visible;*/
+/*    position: fixed;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    background-color: rgba(0, 0, 0, 0.49);*/
+/*    z-index: 9998;*/
+/*}*/
+
+/*.toast-overlay.show {*/
+/*    display: block;*/
+/*}*/
 
 @-webkit-keyframes fadein {
     from {opacity: 0;}
@@ -470,30 +509,6 @@ body, button {
     display: none;
 }
 
-/* Error Toast 스타일 */
-.error-toast {
-    visibility: hidden;
-    min-width: 250px;
-    background-color: #333;
-    color: #ff9b9b;
-    text-align: center;
-    border-radius: 2px;
-    position: fixed;
-    z-index: 1;
-    left: 50%;
-    top: 50%; /* 화면 가운데로 수직 위치 */
-    transform: translate(-50%, -50%); /* 가운데 정렬 */
-    font-size: 17px;
-    white-space: nowrap;
-    padding: 16px;
-    box-shadow: 0px 0px 10px 0px #000;
-}
-
-.error-toast.show {
-    visibility: visible;
-    -webkit-animation: fadeInOut 3s;
-    animation: fadeInOut 3s;
-}
 
 .button-container {
     text-align: right;
