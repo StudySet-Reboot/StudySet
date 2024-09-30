@@ -1,3 +1,5 @@
+import {displayErrorToast, displayErrorToastWithValidation, showConfirm } from '../common/toast.js';
+
 const currentDate = new Date();
 let currentYear = currentDate.getFullYear();
 let currentMonth = currentDate.getMonth() + 1;
@@ -208,39 +210,22 @@ $(document).ready(function() {
     });
 
     $('#del-schedule-btn').click(function () {
-        const result = confirm('정말 삭제하시겠습니까?');
-        if(result){
-            const eventId = $('#edit-event-id').val();
-            fetch(`/api/groups/${groupId}/schedules/events/${eventId}`, {
-                method: 'DELETE'
-            }).then(response => {
+        showConfirm(function(result) {
+            if (result) {
+                const eventId = $('#edit-event-id').val();
+                fetch(`/api/groups/${groupId}/schedules/events/${eventId}`, {
+                    method: 'DELETE'
+                }).then(response => {
                     $('#edit-event-modal').hide();
                     $('#editForm').trigger('reset');
                     calendar.fullCalendar('refetchEvents');
-            }).catch(error => console.error('Error:', error))
-        }
+                }).catch(error => console.error('Error:', error));
+            }
+        });
     });
 
     $('#adjust-schedule-btn').click(function() {
         window.location.href = '/groups/' + groupId + '/timetables/view';
     });
-
-
-    function displayErrorToast(message){
-        const toast = $('#error-toast');
-        toast.text(message);
-        toast.addClass('show');
-        setTimeout(() => {
-            toast.removeClass('show');
-        }, 3000);
-    }
-    function displayErrorToastWithValidation(validationErrors) {
-        const toast = $('#error-toast');
-        let message = '';
-        for (const [field, error] of Object.entries(validationErrors)) {
-            message += `${error} `;
-        }
-        displayErrorToast(message);
-    }
 
 });
