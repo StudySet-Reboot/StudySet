@@ -1,3 +1,5 @@
+import {displayErrorToast, displayToast} from "../common/toast.js";
+
 document.addEventListener("DOMContentLoaded", function() {
     // 스터디 가입 폼 제출
     const joinModalForm = document.getElementById("joinModalForm");
@@ -18,11 +20,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (response.ok) {
                     if (response.status === 200) {
                         // 성공 응답
-                        alert("성공적으로 그룹에 가입했습니다!");
-                        window.location.href = "/users/main";
+                        displayToast("성공적으로 그룹에 가입했습니다!");
+                        setTimeout(() => window.location.href = "/users/main", 1000);
                     } else {
-                        // 다른 상태 코드 처리 (필요한 경우)
-                        alert("알 수 없는 응답 상태 코드: " + response.status);
+                        displayErrorToast("알 수 없는 응답 상태 코드: " + response.status);
                     }
                 } else {
                     // 에러 응답 (본문 있음)
@@ -32,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             })
             .catch(error => {
-                alert(`${error.message}`);
+                displayErrorToast(`${error.message}`);
             });
     });
 
@@ -54,10 +55,10 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(response => {
                 if (response.ok) {
                     if (response.status === 200) {
-                        alert("그룹이 생성되었습니다!");
-                        window.location.href = "/users/main";
+                        displayToast("그룹이 생성되었습니다!");
+                        setTimeout(() => window.location.href = "/users/main", 1000);
                     } else {
-                        alert("알 수 없는 응답 상태 코드: " + response.status);
+                        displayErrorToast("알 수 없는 응답 상태 코드: " + response.status);
                     }
                 } else {
                     return response.json().then(err => {
@@ -66,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             })
             .catch(error => {
-                alert(`${error.message}`);
+                displayErrorToast(`${error.message}`);
             });
     });
 
