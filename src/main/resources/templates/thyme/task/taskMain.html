@@ -6,8 +6,9 @@
     <link rel="stylesheet" th:href="@{/style/header.css}">
     <link rel="stylesheet" th:href="@{/style/group/groupMain.css}">
     <link rel="stylesheet" th:href="@{/style/task/taskMain.css}">
+    <link rel="stylesheet" th:href="@{/style/common/toast.css}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css}"/>
-    <script th:src="@{/js/task/taskMain.js}" defer></script>
 </head>
 <body>
     <!-- header 삽입 -->
@@ -78,6 +79,11 @@
             </form>
         </div>
     </div>
-    <script th:src="@{/js/modal/modal.js}"></script>
+    <!-- 토스트 메시지 -->
+    <div id="toast" class="toast"></div>
+    <div id="error-toast" class="error-toast"/>
+
+    <script th:src="@{/js/modal/modal.js}" defer></script>
+    <script type="module" th:src="@{/js/task/taskMain.js}" defer></script>
 </body>
 </html>

@@ -25,7 +25,7 @@
     </div>
 
     <!-- userList -->
-    <div class="frame2">
+    <div class="frame frame2">
         <div th:each="user : ${userList}"
              th:classappend="${taskSubmissionMap.containsKey(user.id)} ? 'user-frame submitted' : 'user-frame no-submission'">
 

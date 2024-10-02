@@ -32,33 +32,36 @@ body {
     padding: 20px;
     background-color: rgba(255, 132, 139, 0.13);
     border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* userList */
 .frame2 {
-    padding: 20px;
-    background-color: rgba(255, 132, 139, 0.13);
-    border-radius: 5px;
+    border-radius: 10px;
     margin-top: 30px;
+    overflow-y: auto;
+    max-height: 400px;
 }
 
 .user-frame {
     align-items: center;
     background-color: #fff;
     border: 1px solid rgba(255, 117, 123, 0.66);
-    padding: 11px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    padding: 15px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .submitted:hover {
     background-color: rgba(255, 117, 123, 0.2);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* 기본 상태에서 hover 효과 없게 */
 .no-submission:hover {
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .no-link-style {
@@ -66,7 +69,7 @@ body {
     color: inherit;
     display: flex;
     align-items: center;
-    width: 100%; /* 추가: 부모 요소의 전체 너비 사용 */
+    width: 100%;
 }
 
 .task-item {
@@ -76,7 +79,7 @@ body {
     justify-content: space-between;
     text-decoration: none;
     color: inherit;
-    width: 100%; /* 추가: 부모 요소의 전체 너비 사용 */
+    width: 100%;
 }
 
 .task-details {
@@ -84,7 +87,7 @@ body {
     justify-content: space-between;
     flex-direction: column;
     align-items: flex-start;
-    gap: 15px;
+    gap: 10px;
     flex: 1;
 }
 
@@ -97,6 +100,7 @@ body {
 
 .user-title {
     margin-right: auto;
+    font-weight: bold;
     white-space: nowrap;
 }
 
@@ -122,29 +126,51 @@ body {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: auto; /* Allow wrapper to take space as needed */
+    width: auto;
 }
 
 .submit-button-placeholder {
-    width: 100px; /* Adjust width to match the expected size of the button */
-    height: 2em; /* Adjust height to match the button height */
-    visibility: hidden; /* Hide placeholder but keep space */
+    width: 100px;
+    height: 2em;
+    visibility: hidden;
 }
 
 .submit-button {
     margin-left: 50px;
     display: inline-block;
     padding: 8px 13px;
-    background-color: rgba(255, 132, 139, 0.88);
+    background: linear-gradient(135deg, rgba(255, 132, 139, 0.88), #f46e73); /* 그라데이션 적용 */
     color: white;
     text-decoration: none;
     border-radius: 5px;
     font-size: 14px;
     font-weight: bold;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* 버튼에 부드러운 전환 효과 */
     white-space: nowrap;
 }
 
 .submit-button:hover {
     background-color: #f46e73;
+    transform: scale(1.05);
 }
+
+/*스크롤 스타일*/
+.frame2::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+.frame2::-webkit-scrollbar-track {
+    background: rgba(255, 132, 139, 0.04);
+    border-radius: 10px;
+}
+
+.frame2::-webkit-scrollbar-thumb {
+    background: rgba(3, 10, 87, 0.06);
+    border-radius: 10px;
+}
+
+.frame2::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
