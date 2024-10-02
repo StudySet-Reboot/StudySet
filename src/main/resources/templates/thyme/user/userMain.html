@@ -5,6 +5,7 @@
     <title>StudySet-사용자 홈</title>
     <link rel="stylesheet" th:href="@{/style/header.css}">
     <link rel="stylesheet" th:href="@{/style/user/userMain.css}">
+    <link rel="stylesheet" th:href="@{/style/common/toast.css}">
     <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css}"/>
 </head>
 <body>
@@ -92,8 +93,10 @@
             </form>
         </div>
     </div>
+    <div id="toast" class="toast"/>
+    <div id="error-toast" class="error-toast"/>
 
     <script th:src="@{/js/modal/modal.js}"></script>
-    <script th:src="@{/js/user/userMain.js}"></script>
+    <script type="module" th:src="@{/js/user/userMain.js}"></script>
 </body>
 </html>

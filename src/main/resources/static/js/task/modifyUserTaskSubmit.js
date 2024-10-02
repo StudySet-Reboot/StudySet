@@ -1,3 +1,5 @@
+import {displayErrorToast, displayToast} from "../common/toast.js";
+
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('modifyTaskForm');
 
@@ -19,14 +21,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 })
                 .then(data => {
-                    alert("과제 수정이 완료되었습니다.");
-                    console.log('Server response:', data);
+                    displayToast("과제 수정이 완료되었습니다.");
                     const redirectUrl = `/groups/${data.groupId}/${data.taskId}/${data.userId}/userTask`;
-                    window.location.href = redirectUrl;
+                    setTimeout(() => window.location.href = redirectUrl, 1000);
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert("문제가 발생했습니다: " + error.message);
+                    displayErrorToast("문제가 발생했습니다: " + error.message);
                 });
         });
     }
