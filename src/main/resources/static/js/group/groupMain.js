@@ -51,21 +51,15 @@ document.addEventListener("DOMContentLoaded", function() {
     const toast = document.getElementById("toast");
     const btn = document.getElementById("groupCodeBtn");
     const groupCodeDisplay = document.getElementById("groupCodeDisplay");
-    const groupCodeDisplayText = document.getElementById("groupCodeDisplayText");
+    const toastText = document.getElementById("toastText");
 
     btn.onclick = function(event) {
         event.preventDefault();
 
         // 그룹 코드 값을 읽어오기
         const groupCode = groupCodeDisplay.getAttribute("data-group-code");
-
-        groupCodeDisplayText.innerText = groupCode;
+        displayToast(`그룹코드: ${groupCode}`);
         toast.className = "toast show";
-
-        // 3초 후 토스트 숨김
-        setTimeout(function() {
-            toast.className = toast.className.replace("show", "");
-        }, 3000);
     };
 
     // 그룹원 검색
@@ -167,9 +161,12 @@ document.addEventListener("DOMContentLoaded", function() {
         })
             .then(response => {
                 if (response.ok) {
-                    displayToast('그룹 탈퇴가 완료되었습니다.');
+                    displayErrorToast('그룹 탈퇴가 완료되었습니다.');
                     leaveGroupModal.style.display = "none";
-                    window.location.href = '/users/main';
+
+                    setTimeout(() => {
+                        window.location.href = '/users/main';
+                    }, 1000);
                 } else {
                     return response.json().then(err => {
                         throw new Error(err.message);
