@@ -29,8 +29,6 @@
         </div>
         <!-- 데이터 속성을 사용하여 그룹 코드 전달 -->
         <div id="groupCodeDisplay" class="code-display" th:data-group-code="${group.code}"></div>
-        <!-- 토스트 메시지 -->
-        <div id="toast" class="toast">그룹 코드: <span id="groupCodeDisplayText">여기에 그룹 코드가 표시됩니다.</span></div>
     </div>
 
     <!-- 일정 & 진행상황 frame -->
@@ -135,6 +133,11 @@
             </div>
         </div>
     </div>
+
+    <!-- 토스트 메시지 -->
+    <div id="toast" class="toast"></div>
+    <div id="error-toast" class="error-toast"/>
+
     <script th:src="@{/js/modal/modal.js}"></script>
     <script type="module" th:src="@{/js/group/groupMain.js}"></script>
 </body>
