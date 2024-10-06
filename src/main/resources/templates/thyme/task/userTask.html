@@ -5,6 +5,8 @@
     <title>userTask.html</title>
     <link rel="stylesheet" th:href="@{/style/header.css}">
     <link rel="stylesheet" th:href="@{/style/task/userTask.css}">
+    <link rel="stylesheet" th:href="@{/style/common/toast.css}">
+    <link rel="stylesheet" th:href="@{/style/common/modal.css}">
     <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css}"/>
 </head>
 <body>
@@ -82,6 +84,18 @@
         </div>
     </div>
 
-    <script th:src="@{/js/task/userTask.js}" defer></script>
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <p>정말 과제를 삭제하시겠습니까?</p>
+            <div class="modal-button-group">
+                <button id="confirmYes" class="button">네</button>
+                <button id="confirmNo" class="button">아니오</button>
+            </div>
+        </div>
+    </div>
+    <div id="toast" class="toast"/>
+    <div id="error-toast" class="error-toast"/>
+    <script type="module" th:src="@{/js/task/userTask.js}" defer></script>
 </body>
 </html>

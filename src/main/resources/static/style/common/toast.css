@@ -1,3 +1,19 @@
+/* 토스트 메시지 */
+.toast {
+    visibility: hidden;
+    max-width: 50%;
+    margin: auto;
+    background-color: #f46e73;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
 /* Error Toast 스타일 */
 .error-toast {
     visibility: hidden;
