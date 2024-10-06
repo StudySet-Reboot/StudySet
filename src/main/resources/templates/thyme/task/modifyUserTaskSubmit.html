@@ -5,6 +5,7 @@
     <title>ModifyUserTaskSubmit</title>
     <link rel="stylesheet" th:href="@{/style/header.css}">
     <link rel="stylesheet" th:href="@{/style/task/userTaskSubmit.css}">
+    <link rel="stylesheet" th:href="@{/style/common/toast.css}">
     <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css}"/>
 </head>
 <body>
@@ -59,7 +60,9 @@
         </form>
     </div>
 </div>
-<script th:src="@{/js/task/modifyUserTaskSubmit.js}" defer></script>
+<div id="toast" class="toast"/>
+<div id="error-toast" class="error-toast"/>
+<script type="module" th:src="@{/js/task/modifyUserTaskSubmit.js}" defer></script>
 
 </body>
 </html>
