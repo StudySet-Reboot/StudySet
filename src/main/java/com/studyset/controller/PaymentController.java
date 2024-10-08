@@ -28,7 +28,7 @@ public class PaymentController {
     }
 
     @PostMapping
-    public String addPayment(@PathVariable Long groupId, @ModelAttribute PaymentForm paymentForm, Model model){
+    public String addPayment(@PathVariable Long groupId, @ModelAttribute PaymentForm paymentForm){
         paymentService.addPayment(groupId, paymentForm);
         return "redirect:/groups/"+groupId+"/payments";
     }

@@ -73,7 +73,7 @@ class GroupControllerTest {
         GroupCreateForm groupCreateForm = new GroupCreateForm();
 
         // When
-        groupController.createGroup(user, groupCreateForm, null, model);
+        groupController.createGroup(user, groupCreateForm, null);
 
         // Then
         verify(groupService, times(1)).createGroup(user, groupCreateForm);
