@@ -278,8 +278,6 @@ body, button {
     background: rgba(255, 255, 255, 0.18);
 }
 
-
-
 /*.toast-overlay {*/
 /*    visibility: visible;*/
 /*    position: fixed;*/
@@ -370,7 +368,6 @@ body, button {
 .hidden {
     display: none;
 }
-
 
 .button-container {
     text-align: right;
