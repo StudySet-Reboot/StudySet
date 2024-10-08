@@ -1,8 +1,8 @@
 package com.studyset.repository;
 
 import com.studyset.domain.Comment;
-import com.studyset.domain.Memo;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -15,4 +15,9 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     // 과제 내 특정 댓글 삭제
     @Query("SELECT c FROM Comment c WHERE c.taskSubmission.id = :submission_id AND c.user.id = :userId")
     Comment findByTaskSubmission_IdAndUserId(@Param("submission_id") Long submission_id, @Param("userId") Long userId);
+
+    // 과제 삭제 전 댓글 일괄 삭제
+    @Modifying
+    @Query("DELETE FROM Comment c WHERE c.taskSubmission.id = :submissionId")
+    void deleteBySubmissionId(@Param("submissionId") Long submissionId);
 }

@@ -3,6 +3,7 @@ import {displayErrorToast, showConfirm} from "../common/toast.js";
 document.addEventListener('DOMContentLoaded', function() {
     const deleteButton = document.getElementById('deleteTaskButton');
 
+    /* 과제 제출물 삭제 */
     if (deleteButton) {
         deleteButton.addEventListener('click', function(event) {
             event.preventDefault();
@@ -19,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
 
-            // 사용자에게 삭제 확인 메시지 표시
+            // /* 과제 삭제 */
             // const confirmation = confirm("정말로 이 과제를 삭제하시겠습니까?");
             //
             // if (confirmation) {

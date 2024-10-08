@@ -6,6 +6,7 @@ import com.studyset.domain.Task;
 import com.studyset.domain.TaskSubmission;
 import com.studyset.domain.User;
 import com.studyset.dto.task.TaskSubmissionDto;
+import com.studyset.repository.CommentRepository;
 import com.studyset.repository.TaskRepository;
 import com.studyset.repository.TaskSubmissionRepository;
 import com.studyset.repository.UserRepository;
@@ -25,6 +26,7 @@ public class TaskSubmissionService {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
     private final TaskSubmissionRepository taskSubmissionRepository;
+    private final CommentRepository commentRepository;
 
     // 과제 제출
     @Transactional
@@ -63,9 +65,11 @@ public class TaskSubmissionService {
     }
 
     // 과제 삭제
+    @Transactional
     public void deleteTask(Long taskId, Long userId) {
         TaskSubmission existingSubmission = taskSubmissionRepository.findByTaskIdAndUserId(taskId, userId);
         Long taskSubmissionId = existingSubmission.toDto().getId();
+        commentRepository.deleteBySubmissionId(taskSubmissionId);
         taskSubmissionRepository.deleteById(taskSubmissionId);
     }
 
