@@ -9,6 +9,10 @@ public class UserNotExist extends BaseException{
         super(ErrorCode.USER_NOT_FOUND);
     }
 
+    public UserNotExist(ErrorCode errorCode) {
+        super(errorCode);
+    }
+
     @Override
     public HttpStatus statusCode() {
         return HttpStatus.NOT_FOUND;
