@@ -3,8 +3,6 @@ package com.studyset.controller;
 import com.studyset.domain.User;
 import com.studyset.dto.group.GroupDashboard;
 import com.studyset.dto.group.GroupDto;
-import com.studyset.dto.memo.MemoDto;
-import com.studyset.dto.task.TaskDto;
 import com.studyset.dto.user.UserDto;
 import com.studyset.service.GroupService;
 import com.studyset.web.form.GroupCreateForm;
@@ -21,7 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +33,7 @@ public class GroupController {
 
     // 그룹 메인 이동
     @GetMapping("/{groupId}")
-    public String groupMain(@SessionAttribute("user") User user, @PathVariable Long groupId, Model model, HttpSession session) {
+    public String groupMain(@PathVariable Long groupId, Model model, HttpSession session) {
         GroupDto groupDto = groupService.getGroupById(groupId);
         session.setAttribute("group", groupDto);
         model.addAttribute("group", groupDto);
@@ -48,14 +45,14 @@ public class GroupController {
     //그룹 생성
     @PostMapping("/create")
     @ResponseBody
-    public void createGroup(@SessionAttribute("user") User user, @Valid @ModelAttribute("groupCreateForm") GroupCreateForm groupCreateForm, BindingResult bindingResult, Model model){
+    public void createGroup(@SessionAttribute("user") User user, @Valid @ModelAttribute("groupCreateForm") GroupCreateForm groupCreateForm, BindingResult bindingResult){
         groupService.createGroup(user, groupCreateForm);
     }
 
     //그룹 가입
     @PostMapping("/join")
     @ResponseBody
-    public void joinGroup(@SessionAttribute("user") User user, @RequestParam String groupName, @RequestParam String code, Model model){
+    public void joinGroup(@SessionAttribute("user") User user, @RequestParam String groupName, @RequestParam String code){
         groupService.joinGroup(user, groupName, code);
     }
 
@@ -75,7 +72,7 @@ public class GroupController {
     //그룹원 검색
     @GetMapping("/userSearch")
     public String searchMember(@RequestParam Long groupId, @RequestParam String keyword, Model model) {
-        List<UserDto> userList = groupService.getUserById(groupId, keyword); // 수정 필요
+        List<UserDto> userList = groupService.getUserById(groupId, keyword);
         GroupDto groupDto = groupService.getGroupById(groupId);
         model.addAttribute("userList", userList);
         model.addAttribute("keyword", keyword);
