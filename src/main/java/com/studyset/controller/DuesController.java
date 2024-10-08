@@ -26,10 +26,10 @@ public class DuesController {
 
     private final DuesService duesService;
     private final JoinService joinService;
-    private final PaymentService paymentService;
 
     @GetMapping("/groups/{groupId}/dues")
-    public String getDeusPage(@PathVariable Long groupId, Model model, @PageableDefault(size = 20) Pageable pageable) {
+    public String getDeusPage(@PathVariable Long groupId, Model model,
+                              @PageableDefault(size = 20) Pageable pageable) {
         List<UserDto> userList = joinService.getUserByGroupId(groupId);
         model.addAttribute("userList", userList);
         Page<DuesDto> duesList = duesService.getGroupDuesList(groupId, pageable);
@@ -39,7 +39,8 @@ public class DuesController {
     }
 
     @PostMapping("/groups/{groupId}/dues")
-    public String addDues(@PathVariable Long groupId, @ModelAttribute DuesForm duesForm, Model model){
+    public String addDues(@PathVariable Long groupId,
+                          @ModelAttribute DuesForm duesForm){
         duesService.addDues(groupId, duesForm);
         return "redirect:/groups/"+groupId+"/dues";
     }

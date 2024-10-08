@@ -33,7 +33,9 @@ public class GroupController {
 
     // 그룹 메인 이동
     @GetMapping("/{groupId}")
-    public String groupMain(@PathVariable Long groupId, Model model, HttpSession session) {
+    public String groupMain(@PathVariable Long groupId,
+                            Model model,
+                            HttpSession session) {
         GroupDto groupDto = groupService.getGroupById(groupId);
         session.setAttribute("group", groupDto);
         model.addAttribute("group", groupDto);
@@ -45,7 +47,9 @@ public class GroupController {
     //그룹 생성
     @PostMapping("/create")
     @ResponseBody
-    public void createGroup(@SessionAttribute("user") User user, @Valid @ModelAttribute("groupCreateForm") GroupCreateForm groupCreateForm, BindingResult bindingResult){
+    public void createGroup(@SessionAttribute("user") User user,
+                            @Valid @ModelAttribute("groupCreateForm") GroupCreateForm groupCreateForm,
+                            BindingResult bindingResult){
         groupService.createGroup(user, groupCreateForm);
     }
 
