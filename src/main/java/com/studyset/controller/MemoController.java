@@ -24,13 +24,16 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class MemoController {
+
     private final MemoService memoService;
     private final GroupService groupService;
     private final JoinService joinService;
 
     // 진행상황 메인 이동
     @GetMapping("/{groupId}/memo")
-    public String memoMain(@SessionAttribute("user") User user, @PathVariable Long groupId, Model model) {
+    public String memoMain(@SessionAttribute("user") User user,
+                           @PathVariable Long groupId,
+                           Model model) {
         List<UserDto> userList = joinService.getUserByGroupId(groupId);
         GroupDto groupDto = groupService.getGroupById(groupId);
         List<MemoDto> memoList = memoService.getMemoByGroupId(groupId);

@@ -36,7 +36,9 @@ public class UserController {
 
     // 유저 메인 페이지 및 그룹 조회
     @GetMapping("/users/main")
-    public String userMain(HttpServletRequest request, @PageableDefault(page = 0, size = 10) Pageable pageable, Model model) {
+    public String userMain(HttpServletRequest request,
+                           @PageableDefault(page = 0, size = 10) Pageable pageable,
+                           Model model) {
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
             return "redirect:/login";
