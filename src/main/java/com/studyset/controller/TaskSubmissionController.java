@@ -42,6 +42,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class TaskSubmissionController {
+
     private final TaskService taskService;
     private final TaskSubmissionService taskSubmissionService;
     private final UserService userService;
@@ -50,11 +51,13 @@ public class TaskSubmissionController {
 
     // 과제 제출페이지 이동
     @GetMapping("/{groupId}/{taskId}/submitTask")
-    public String taskSubmit(@PathVariable Long taskId, @SessionAttribute("user") User user, @SessionAttribute("group") GroupDto group, Model model) {
+    public String taskSubmit(@PathVariable Long taskId,
+                             @SessionAttribute("user") User user,
+                             @SessionAttribute("group") GroupDto group,
+                             Model model) {
         // 과제 제출 페이지에 들어오기 전, 과제를 이미 제출했는 지 검증 -> 이미 제출했으면 수정 페이지로 이동
         TaskSubmissionDto taskSubmissionDto = taskSubmissionService.getTaskSubmission(taskId, user.getId());
 
-        // 과제를 제출한 적이 없으면
         if (taskSubmissionDto == null) {
             TaskDto task = taskService.getTaskDetailByTaskId(taskId);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
