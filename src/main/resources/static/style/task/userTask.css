@@ -147,7 +147,7 @@ body, button {
     display: flex;
     justify-content: center;
     width: 80%;
-    margin: 0 auto auto auto; /* margin-top: auto 삭제, 간결한 표현 */
+    margin: 0 auto auto auto;
 }
 
 .anonymous {
