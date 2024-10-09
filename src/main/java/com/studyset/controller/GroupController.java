@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller()
+@Controller
 @RequestMapping("/groups")
 @RequiredArgsConstructor
 @Slf4j
@@ -33,7 +33,9 @@ public class GroupController {
 
     // 그룹 메인 이동
     @GetMapping("/{groupId}")
-    public String groupMain(@PathVariable Long groupId, Model model, HttpSession session) {
+    public String groupMain(@PathVariable Long groupId,
+                            Model model,
+                            HttpSession session) {
         GroupDto groupDto = groupService.getGroupById(groupId);
         session.setAttribute("group", groupDto);
         model.addAttribute("group", groupDto);
@@ -43,22 +45,30 @@ public class GroupController {
     }
 
     //그룹 생성
+    // TODO: 이 메소드의 BindingResult 예외 처리를 개선해야 합니다
     @PostMapping("/create")
     @ResponseBody
-    public void createGroup(@SessionAttribute("user") User user, @Valid @ModelAttribute("groupCreateForm") GroupCreateForm groupCreateForm, BindingResult bindingResult){
+    public void createGroup(@SessionAttribute("user") User user,
+                            @Valid @ModelAttribute("groupCreateForm") GroupCreateForm groupCreateForm,
+                            BindingResult bindingResult){
         groupService.createGroup(user, groupCreateForm);
     }
 
     //그룹 가입
     @PostMapping("/join")
     @ResponseBody
-    public void joinGroup(@SessionAttribute("user") User user, @RequestParam String groupName, @RequestParam String code){
+    public void joinGroup(@SessionAttribute("user") User user,
+                          @RequestParam String groupName,
+                          @RequestParam String code){
         groupService.joinGroup(user, groupName, code);
     }
 
     //그룹 검색
     @GetMapping("/search")
-    public String searchList(@SessionAttribute("user") User user, @RequestParam String keyword, @PageableDefault(size = 10, page = 0) Pageable pageable, Model model) {
+    public String searchList(@SessionAttribute("user") User user,
+                             @RequestParam String keyword,
+                             @PageableDefault(size = 10, page = 0) Pageable pageable,
+                             Model model) {
         Page<GroupDto> searchResults = groupService.searchUserGroup(user, keyword, pageable);
         model.addAttribute("groups", searchResults);
         model.addAttribute("groups", searchResults.getContent());
@@ -71,7 +81,9 @@ public class GroupController {
 
     //그룹원 검색
     @GetMapping("/userSearch")
-    public String searchMember(@RequestParam Long groupId, @RequestParam String keyword, Model model) {
+    public String searchMember(@RequestParam Long groupId,
+                               @RequestParam String keyword,
+                               Model model) {
         List<UserDto> userList = groupService.getUserById(groupId, keyword);
         GroupDto groupDto = groupService.getGroupById(groupId);
         model.addAttribute("userList", userList);
@@ -83,7 +95,9 @@ public class GroupController {
     //그룹 탈퇴
     @PostMapping("/leave")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> leaveGroup(@SessionAttribute("user") User user, @SessionAttribute("group") GroupDto group, @RequestParam String code) {
+    public ResponseEntity<Map<String, Object>> leaveGroup(@SessionAttribute("user") User user,
+                                                          @SessionAttribute("group") GroupDto group,
+                                                          @RequestParam String code) {
         groupService.leaveGroup(user.getId(), group, code);
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);

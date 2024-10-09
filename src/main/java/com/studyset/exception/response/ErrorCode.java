@@ -1,6 +1,10 @@
 package com.studyset.exception.response;
 
+// TODO: 예외 처리 개선 필요
 public enum ErrorCode {
+
+    UNAUTHORIZED_USER("UNAUTHORIZED_USER", "로그인이 필요한 서비스입니다."),
+    FORBIDDEN_USER("USER_NOT_JOINED", "해당 그룹에 접근 권한이 없습니다."),
     USER_NOT_FOUND("USER_NOT_FOUND", "해당 유저가 존재하지 않습니다"),
     GROUP_NOT_FOUND("GROUP_NOT_FOUND", "해당 그룹이 존재하지 않습니다."),
     TASK_NOT_FOUND("TASK_NOT_FOUND", "해당 과제가 존재하지 않습니다."),

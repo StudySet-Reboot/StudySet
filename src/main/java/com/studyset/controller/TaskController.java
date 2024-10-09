@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class TaskController {
+
     private final TaskService taskService;
     private final JoinService joinService;
     private final TaskSubmissionService taskSubmissionService;
@@ -67,13 +68,17 @@ public class TaskController {
 
     // 과제 상세페이지 이동
     @GetMapping("/{groupId}/{taskId}/taskDetail")
-    public String taskDetail(@PathVariable Long taskId, @SessionAttribute("group") GroupDto group, @SessionAttribute("user") User user, Model model) {
+    public String taskDetail(@PathVariable Long taskId,
+                             @SessionAttribute("group") GroupDto group,
+                             @SessionAttribute("user") User user,
+                             Model model) {
         List<UserDto> userList = joinService.getUserByGroupId(group.getId());
         TaskDto task = taskService.getTaskDetailByTaskId(taskId);
         List<TaskSubmissionDto> taskSubmissionList = taskSubmissionService.getTaskSubmissionById(taskId);
 
         // 사용자 ID와 제출 정보를 매핑하기 위한 맵 생성
-        Map<Long, TaskSubmissionDto> userSubmissionMap = taskSubmissionList.stream()
+        Map<Long, TaskSubmissionDto> userSubmissionMap
+                = taskSubmissionList.stream()
                 .collect(Collectors.toMap(ts -> ts.getUserId(), ts -> ts));
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

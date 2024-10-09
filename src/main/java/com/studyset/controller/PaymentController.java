@@ -20,7 +20,9 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @GetMapping
-    public String getPaymentPage(@PathVariable Long groupId, Model model, @PageableDefault(size = 20) Pageable pageable){
+    public String getPaymentPage(@PathVariable Long groupId,
+                                 Model model,
+                                 @PageableDefault(size = 20) Pageable pageable){
         Page<PaymentDto> paymentList = paymentService.getPayments(groupId, pageable);
         model.addAttribute("paymentList", paymentList);
         model.addAttribute("paymentForm", new PaymentForm());
@@ -28,7 +30,8 @@ public class PaymentController {
     }
 
     @PostMapping
-    public String addPayment(@PathVariable Long groupId, @ModelAttribute PaymentForm paymentForm){
+    public String addPayment(@PathVariable Long groupId,
+                             @ModelAttribute PaymentForm paymentForm){
         paymentService.addPayment(groupId, paymentForm);
         return "redirect:/groups/"+groupId+"/payments";
     }

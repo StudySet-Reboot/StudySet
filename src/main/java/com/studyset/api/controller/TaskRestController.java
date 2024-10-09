@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Slf4j
 public class TaskRestController {
+
     private final TaskService taskService;
 
-    // 과제(task) 수정
     @PutMapping("/task/modifyTask")
     public ResponseEntity<TaskDto> modifyTask(@ModelAttribute TaskEditForm taskEditForm) {
         log.info("과제 수정: {}", taskEditForm.getId());
