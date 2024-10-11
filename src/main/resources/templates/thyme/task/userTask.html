@@ -29,7 +29,7 @@
             </div>
             <!-- 수정 및 삭제 버튼 -->
             <span th:if="${user.id == task.userId}" class="submit-button-wrapper">
-                <a th:href="@{/groups/{groupId}/{taskId}/modifyTask(groupId=${group.id}, taskId=${taskDto.id})}" class="submit-button">수정</a>
+                <a th:href="@{/groups/{groupId}/{taskId}/submitOrModifyTask(groupId=${group.id}, taskId=${taskDto.id})}" class="submit-button">수정</a>
                 <a href="#" id="deleteTaskButton" class="submit-button">삭제</a>
             </span>
         </div>

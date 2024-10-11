@@ -5,7 +5,9 @@ import com.studyset.dto.group.GroupDto;
 import com.studyset.dto.task.TaskDto;
 import com.studyset.dto.task.TaskSubmissionDto;
 import com.studyset.dto.user.UserDto;
-import com.studyset.service.*;
+import com.studyset.service.JoinService;
+import com.studyset.service.TaskService;
+import com.studyset.service.TaskSubmissionService;
 import com.studyset.web.form.TaskCreateForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Controller()
+@Controller
 @RequestMapping("/groups")
 @RequiredArgsConstructor
 @Slf4j
@@ -32,24 +32,13 @@ public class TaskController {
     private final TaskService taskService;
     private final JoinService joinService;
     private final TaskSubmissionService taskSubmissionService;
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     // 과제 메인페이지 이동
     @GetMapping("/{groupId}/task")
     public String taskMain(@SessionAttribute("group") GroupDto group, Model model) {
-        List<TaskDto> taskList = taskService.getTaskByGroupId(group.getId());
-
-        // endTime을 기준으로 정렬
-        taskList.sort(Comparator.comparing(TaskDto::getEndTime, Comparator.nullsLast(Comparator.naturalOrder())));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        for (TaskDto task : taskList) {
-            if (task.getStartTime() != null) {
-                task.setStartTimeFormatted(task.getStartTime().format(formatter));
-            }
-            if (task.getEndTime() != null) {
-                task.setEndTimeFormatted(task.getEndTime().format(formatter));
-            }
-        }
+        // endTime 기준으로 과제 정렬
+        List<TaskDto> taskList = sortAndFormatTasks(taskService.getTaskByGroupId(group.getId()));
         model.addAttribute("group", group);
         model.addAttribute("taskList", taskList);
 
@@ -60,9 +49,9 @@ public class TaskController {
     @PostMapping("/task/create")
     public ResponseEntity<Map<String, Object>> addTask(@ModelAttribute TaskCreateForm task) {
         TaskDto newTask = taskService.addTask(task);
-
         Map<String, Object> response = new HashMap<>();
         response.put("newTask", newTask);
+
         return ResponseEntity.ok(response);
     }
 
@@ -81,9 +70,8 @@ public class TaskController {
                 = taskSubmissionList.stream()
                 .collect(Collectors.toMap(ts -> ts.getUserId(), ts -> ts));
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         if (task.getEndTime() != null) {
-            task.setEndTimeFormatted(task.getEndTime().format(formatter));
+            task.setEndTimeFormatted(task.getEndTime().format(DATE_FORMATTER));
         }
 
         model.addAttribute("group", group);
@@ -92,5 +80,19 @@ public class TaskController {
         model.addAttribute("task", task);
         model.addAttribute("taskSubmissionMap", userSubmissionMap);
         return "/thyme/task/taskDetail";
+    }
+
+    private List<TaskDto> sortAndFormatTasks(List<TaskDto> taskList) {
+        taskList.sort(Comparator.comparing(TaskDto::getEndTime, Comparator.nullsLast(Comparator.naturalOrder())));
+
+        taskList.forEach(task -> {
+            if (task.getStartTime() != null) {
+                task.setStartTimeFormatted(task.getStartTime().format(DATE_FORMATTER));
+            }
+            if (task.getEndTime() != null) {
+                task.setEndTimeFormatted(task.getEndTime().format(DATE_FORMATTER));
+            }
+        });
+        return taskList;
     }
 }
