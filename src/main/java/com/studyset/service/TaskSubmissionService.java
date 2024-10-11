@@ -1,11 +1,11 @@
 package com.studyset.service;
 
-import com.studyset.exception.TaskNotExist;
-import com.studyset.exception.UserNotExist;
 import com.studyset.domain.Task;
 import com.studyset.domain.TaskSubmission;
 import com.studyset.domain.User;
 import com.studyset.dto.task.TaskSubmissionDto;
+import com.studyset.exception.TaskNotExist;
+import com.studyset.exception.UserNotExist;
 import com.studyset.repository.CommentRepository;
 import com.studyset.repository.TaskRepository;
 import com.studyset.repository.TaskSubmissionRepository;
@@ -14,10 +14,27 @@ import com.studyset.web.form.TaskSubmissionEditForm;
 import com.studyset.web.form.TaskSubmissionForm;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +44,7 @@ public class TaskSubmissionService {
     private final UserRepository userRepository;
     private final TaskSubmissionRepository taskSubmissionRepository;
     private final CommentRepository commentRepository;
+    private final Path fileStorageLocation = Paths.get("uploads").toAbsolutePath().normalize();
 
     // 과제 제출
     @Transactional
@@ -80,7 +98,7 @@ public class TaskSubmissionService {
     }
 
     // 과제ID로 과제 조회
-    public TaskSubmissionDto getTaskSubmission (Long taskId, Long userId) {
+    public TaskSubmissionDto getTaskSubmission(Long taskId, Long userId) {
         TaskSubmission taskSubmission = taskSubmissionRepository.findByTaskIdAndUserId(taskId, userId);
         if (taskSubmission == null) {
             return null;
@@ -96,5 +114,57 @@ public class TaskSubmissionService {
                 .map(TaskSubmission::toDto)
                 .orElseThrow(TaskNotExist::new);
 
+    }
+
+    // 파일 제출
+    public String saveFile(MultipartFile file) {
+        if (file.isEmpty()) {
+            return null;
+        }
+
+        try {
+            if (!Files.exists(fileStorageLocation)) {
+                Files.createDirectories(fileStorageLocation);
+            }
+
+            String originalFilename = file.getOriginalFilename();
+            // 중복된 파일 덮어쓰기 방지
+            String fileName = UUID.randomUUID().toString() + "_" + StringUtils.cleanPath(originalFilename);
+            Path targetLocation = fileStorageLocation.resolve(fileName);
+            // 실질적인 파일명만 저장 (경로X)
+            String fileNameOnly = targetLocation.getFileName().toString();
+
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+
+            return fileNameOnly;
+        } catch (IOException ex) {
+            throw new RuntimeException("파일을 저장할 수 없습니다. 다시 시도해 주세요!", ex);
+        }
+    }
+
+    // 파일 다운로드
+    public ResponseEntity<?> downloadFile(String filePath) {
+        Path fileLocation = fileStorageLocation.resolve(filePath).normalize();
+
+        try {
+            Resource resource = new UrlResource(fileLocation.toUri());
+
+            if (resource.exists() && resource.isReadable()) {
+                String fileName = fileLocation.getFileName().toString(); // 파일명 가져오기
+                String encodedFileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8.toString()); // URL 인코딩
+                encodedFileName = encodedFileName.replace("+", "%20");
+
+                return ResponseEntity.ok()
+                        .contentType(MediaType.parseMediaType(Files.probeContentType(fileLocation)))
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename*=UTF-8''" + encodedFileName)
+                        .body(resource);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (MalformedURLException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid file path");
+        } catch (IOException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File reading error");
+        }
     }
 }
