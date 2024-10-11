@@ -37,7 +37,7 @@ public class TaskSubmissionController {
     private final CommentService commentService;
 
     // 과제 제출 or 수정 페이지 이동
-    @GetMapping("/{groupId}/{taskId}/submitOrModifyTask")
+    @GetMapping("/{groupId}/tasks/{taskId}/submitOrModifyTask")
     public String taskSubmit(@PathVariable Long taskId,
                              @SessionAttribute("user") User user,
                              @SessionAttribute("group") GroupDto group,
@@ -77,7 +77,7 @@ public class TaskSubmissionController {
     }
 
     // 유저별 과제페이지 이동(=과제 조회)
-    @GetMapping("/{groupId}/{taskId}/{userId}/userTask")
+    @GetMapping("/{groupId}/tasks/{taskId}/{userId}/userTask")
     public String userTask(@PathVariable Long taskId, @PathVariable Long userId,
                            @SessionAttribute("user") User user,
                            @SessionAttribute("group") GroupDto group,
