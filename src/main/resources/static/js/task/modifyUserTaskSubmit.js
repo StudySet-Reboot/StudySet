@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
                 .then(data => {
                     displayToast("과제 수정이 완료되었습니다.");
-                    const redirectUrl = `/groups/${data.groupId}/${data.taskId}/${data.userId}/userTask`;
+                    const redirectUrl = `/groups/${data.groupId}/tasks/${data.taskId}/${data.userId}/usertask`;
                     setTimeout(() => window.location.href = redirectUrl, 1000);
                 })
                 .catch(error => {

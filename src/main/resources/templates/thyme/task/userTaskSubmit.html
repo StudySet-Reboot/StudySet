@@ -14,22 +14,22 @@
 <div class="task">
     <!-- 과제 제목 -->
     <div class="title">
-        <div class="taskName" th:text="${task.taskName}"></div>
-        <div class="task-end-time" th:text="${task.endTimeFormatted}"></div>
+        <div class="taskName" th:text="${taskDto.taskName}"></div>
+        <div class="task-end-time" th:text="${taskDto.endTimeFormatted}"></div>
     </div>
 
     <!-- 과제 설명 -->
     <div class="frame">
         <div class="description">
-            <div class="description" th:text="${task.description}" style="white-space: pre-wrap;"></div>
+            <div class="description" th:text="${taskDto.description}" style="white-space: pre-wrap;"></div>
         </div>
     </div>
 
     <!-- 과제 제출 -->
     <input type="hidden" id="groupId" name="groupId" th:value="${group.id}">
     <div class="taskSubmit">
-        <form action="/groups/task/submitTask" method="post" enctype="multipart/form-data">
-            <input type="hidden" id="taskId" name="taskId" th:value="${task.id}">
+        <form action="/groups/task/submit" method="post" enctype="multipart/form-data">
+            <input type="hidden" id="taskId" name="taskId" th:value="${taskDto.id}">
             <input type="hidden" id="userId" name="userId" th:value="${user.id}">
 
             <!-- 과제 내용 -->

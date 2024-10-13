@@ -35,7 +35,7 @@
             </div>
             <div th:if="${taskList != null and not #lists.isEmpty(taskList)}" class="list">
                 <div th:each="task : ${taskList}" class="list-item task-card">
-                    <a th:href="@{/groups/{groupId}/{taskId}/taskDetail(groupId=${group.id}, taskId=${task.id})}"
+                    <a th:href="@{/groups/{groupId}/{taskId}/task-detail(groupId=${group.id}, taskId=${task.id})}"
                        class="task-link"
                        th:attr="data-start-time=${task.startTimeFormatted}">
                         <div class="card-header">
