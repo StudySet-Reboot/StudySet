@@ -91,19 +91,6 @@ public class GroupService {
     }
 
     /**
-     * 유저가 가입한 모든 그룹 리스트를 페이지로 반환합니다.
-     *
-     * @param user     그룹 목록을 조회할 유저
-     * @param pageable 페이징 정보
-     * @return Page<GroupDto> 객체
-     */
-    public Page<GroupDto> getUserGroupList(User user, Pageable pageable) {
-        Page<Group> groupPage = joinGroupRepository.findGroupsByUserId(user.getId(), pageable);
-        List<GroupDto> dtoList = mapToDto(groupPage);
-        return new PageImpl<>(dtoList, groupPage.getPageable(), groupPage.getTotalElements());
-    }
-
-    /**
      * 그룹 ID를 통해 그룹을 조회하여 DTO로 반환합니다.
      *
      * @param id 그룹 ID
@@ -113,45 +100,6 @@ public class GroupService {
         Optional<Group> optionalGroup = groupRepository.findGroupById(id);
         Group group = optionalGroup.orElseThrow(() -> new GroupNotExist());
         return group.toDto();
-    }
-
-    /**
-     * 유저가 가입한 그룹을 검색하여 페이지로 반환합니다.
-     *
-     * @param user     그룹을 검색할 유저
-     * @param keyword  검색 키워드
-     * @param pageable 페이징 정보
-     * @return Page<GroupDto> 객체
-     */
-    @Transactional(readOnly = true)
-    public Page<GroupDto> searchUserGroup(User user, String keyword, Pageable pageable) {
-        Page<Group> groupPage = joinGroupRepository.findUserGroupBySearch(user.getId(), keyword, pageable);
-        List<GroupDto> dtoList = mapToDto(groupPage);
-        return new PageImpl<>(dtoList, groupPage.getPageable(), groupPage.getTotalElements());
-    }
-
-    /**
-     * 유저를 그룹에 가입시킵니다.
-     *
-     * @param user      가입할 유저
-     * @param groupName 그룹 이름
-     * @param code      그룹 가입 코드
-     */
-    @Transactional
-    public void joinGroup(User user, String groupName, String code) {
-        Group group = groupRepository.findByGroupNameAndCode(groupName, code)
-                .orElseThrow(GroupNotExist::new);
-
-        if (joinGroupRepository.countUserJoinGroupByUserAndGroup(user, group) > 0) {
-            throw new AlreadyJoin();
-        }
-
-        UserJoinGroup userJoinGroup = UserJoinGroup
-                .builder()
-                .user(user)
-                .group(group)
-                .build();
-        joinGroupRepository.save(userJoinGroup);
     }
 
     /**
