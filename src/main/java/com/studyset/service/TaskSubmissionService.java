@@ -40,13 +40,21 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class TaskSubmissionService {
+    
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
     private final TaskSubmissionRepository taskSubmissionRepository;
     private final CommentRepository commentRepository;
     private final Path fileStorageLocation = Paths.get("uploads").toAbsolutePath().normalize();
 
-    // 과제 제출
+    /**
+     * 과제를 제출합니다.
+     *
+     * @param taskSubmissionForm 과제 제출 form 객체
+     * @return 제출된 과제의 DTO
+     * @throws TaskNotExist 과제가 존재하지 않을 경우
+     * @throws UserNotExist 사용자가 존재하지 않을 경우
+     */
     @Transactional
     public TaskSubmissionDto addTaskSubmit(TaskSubmissionForm taskSubmissionForm) {
         Task task = taskRepository.findById(taskSubmissionForm.getTaskId())
@@ -65,7 +73,13 @@ public class TaskSubmissionService {
         return taskSubmission.toDto();
     }
 
-    // 과제 수정
+    /**
+     * 과제를 수정합니다.
+     *
+     * @param taskSubmissionEditForm 과제 제출 수정 form 객체
+     * @return 수정된 과제 제출의 DTO
+     * @throws TaskNotExist 과제가 존재하지 않을 경우
+     */
     @Transactional
     public TaskSubmissionDto editTask(TaskSubmissionEditForm taskSubmissionEditForm) {
         // 기존 제출물 조회
@@ -82,7 +96,12 @@ public class TaskSubmissionService {
         return existingSubmission.toDto();
     }
 
-    // 과제 삭제
+    /**
+     * 과제를 삭제합니다.
+     *
+     * @param taskId 과제 ID
+     * @param userId 사용자 ID
+     */
     @Transactional
     public void deleteTask(Long taskId, Long userId) {
         TaskSubmission existingSubmission = taskSubmissionRepository.findByTaskIdAndUserId(taskId, userId);
@@ -91,13 +110,24 @@ public class TaskSubmissionService {
         taskSubmissionRepository.deleteById(taskSubmissionId);
     }
 
-    // 그룹원의 과제 제출 목록 조회
+    /**
+     * 특정 과제에 대한 그룹원의 제출 목록을 조회합니다.
+     *
+     * @param taskId 과제 ID
+     * @return 과제 제출 목록의 DTO 리스트
+     */
     public List<TaskSubmissionDto> getTaskSubmissionById(Long taskId) {
         List<TaskSubmission> taskSubmissionList = taskSubmissionRepository.findByTaskId(taskId);
         return taskSubmissionList.stream().map(TaskSubmission::toDto).collect(Collectors.toList());
     }
 
-    // 과제ID로 과제 조회
+    /**
+     * 과제 ID로 과제를 조회합니다.
+     *
+     * @param taskId 과제 ID
+     * @param userId 사용자 ID
+     * @return 과제 제출 DTO, 존재하지 않으면 null
+     */
     public TaskSubmissionDto getTaskSubmission(Long taskId, Long userId) {
         TaskSubmission taskSubmission = taskSubmissionRepository.findByTaskIdAndUserId(taskId, userId);
         if (taskSubmission == null) {
@@ -106,7 +136,13 @@ public class TaskSubmissionService {
         return taskSubmission.toDto();
     }
 
-    // 과제 제출 ID로 제출한 과제 조회
+    /**
+     * 과제 제출 ID로 제출한 과제를 조회합니다.
+     *
+     * @param taskSubmissionId 과제 제출 ID
+     * @return 제출한 과제 DTO
+     * @throws TaskNotExist 과제가 존재하지 않을 경우
+     */
     public TaskSubmissionDto findTaskSubmission(Long taskSubmissionId) {
         Optional<TaskSubmission> taskSubmission = taskSubmissionRepository.findById(taskSubmissionId);
 
@@ -116,7 +152,12 @@ public class TaskSubmissionService {
 
     }
 
-    // 파일 제출
+    /**
+     * 파일을 저장합니다.
+     *
+     * @param file 업로드할 파일
+     * @return 저장된 파일의 이름
+     */
     public String saveFile(MultipartFile file) {
         if (file.isEmpty()) {
             return null;
@@ -142,7 +183,12 @@ public class TaskSubmissionService {
         }
     }
 
-    // 파일 다운로드
+    /**
+     * 파일을 다운로드합니다.
+     *
+     * @param filePath 다운로드할 파일 경로
+     * @return 파일 다운로드 응답
+     */
     public ResponseEntity<?> downloadFile(String filePath) {
         Path fileLocation = fileStorageLocation.resolve(filePath).normalize();
 
