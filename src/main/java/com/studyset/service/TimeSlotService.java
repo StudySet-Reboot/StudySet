@@ -23,6 +23,13 @@ public class TimeSlotService {
     private final GroupRepository groupRepository;
     private final TimeSlotRepository timeSlotRepository;
 
+    /**
+     * 특정 사용자의 그룹 내 가능한 시간대 정보를 반환합니다.
+     *
+     * @param userId 시간대를 조회할 사용자의 ID
+     * @param groupId 시간대를 조회할 그룹의 ID
+     * @return 사용자의 시간 슬롯이 포함된 24x7 배열, 사용자가 없는 경우 0으로 채워진 배열 반환
+     */
     @Transactional(readOnly = true)
     public int[][] getAvailableTime(Long userId, Long groupId) {
         if (userId == null) {
@@ -33,6 +40,12 @@ public class TimeSlotService {
         return timeSlot.map(TimeSlot::getTimeSlots).orElse(new int[24][7]);
     }
 
+    /**
+     * 그룹의 전체 멤버가 사용 가능한 시간대 정보를 반환합니다.
+     *
+     * @param groupId 시간대를 조회할 그룹의 ID
+     * @return 그룹의 시간 슬롯이 결합된 24x7 배열
+     */
     @Transactional(readOnly = true)
     public int[][] getGroupAvailableTime(Long groupId) {
         List<TimeSlot> timeSlotList = timeSlotRepository.findTimeSlotByGroupId(groupId);
@@ -40,6 +53,14 @@ public class TimeSlotService {
         return arrTimeslots;
     }
 
+    /**
+     * 사용자의 Time Slot을 추가하거나 수정합니다.
+     *
+     * @param user 시간 슬롯을 추가할 사용자
+     * @param groupId 시간 슬롯을 추가할 그룹의 ID
+     * @param timeAdjustRequest 추가할 시간 슬롯 데이터가 포함된 요청 객체
+     * @throws GroupNotExist 주어진 ID의 그룹이 존재하지 않을 때 발생하는 예외
+     */
     @Transactional
     public void addTimeSlots(User user, Long groupId, TimeAdjustRequest timeAdjustRequest) {
         Group group = groupRepository.findGroupById(groupId)
@@ -57,6 +78,13 @@ public class TimeSlotService {
         timeSlotRepository.save(timeSlot);
     }
 
+    /**
+     * 새로운 사용자의 Time Slot을 생성합니다.
+     *
+     * @param user 시간 슬롯을 생성할 사용자
+     * @param group 시간 슬롯이 속할 그룹
+     * @return 새로 생성된 TimeSlot
+     */
     public TimeSlot createNewTimeSlot(User user, Group group){
         TimeSlot timeSlot = TimeSlot
                 .builder()
@@ -67,6 +95,12 @@ public class TimeSlotService {
         return timeSlot;
     }
 
+    /**
+     * 여러 시간 슬롯을 결합하여 그룹의 사용 가능한 시간대를 생성합니다.
+     *
+     * @param timeSlotList 결합할 TimeSlot 객체 목록
+     * @return 결합된 시간 슬롯이 포함된 24x7 배열
+     */
     private int[][] combineTimeSlots(List<TimeSlot> timeSlotList) {
         int[][] combinedSlots = new int[24][7];
         for (TimeSlot slot : timeSlotList) {
