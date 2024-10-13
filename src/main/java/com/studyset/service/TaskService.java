@@ -26,13 +26,23 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final GroupRepository groupRepository;
 
-    // 과제 조회
+    /**
+     * 그룹의 모든 과제를 조회합니다.
+     *
+     * @param groupId 그룹 ID
+     * @return List<TaskDto> 해당 그룹의 모든 과제 목록
+     */
     public List<TaskDto> getTaskByGroupId(Long groupId) {
         List<Task> taskList = taskRepository.findByGroupId(groupId);
         return taskList.stream().map(Task::toDto).collect(Collectors.toList());
     }
 
-    // 현재 날짜 포함 과제 조회
+    /**
+     * 현재 날짜가 포함된 과제를 조회합니다.
+     *
+     * @param groupId 그룹 ID
+     * @return List<TaskDto> 현재 날짜 포함 과제 목록
+     */
     public List<TaskDto> getCurrentTasksByGroupId(Long groupId) {
         LocalDate currentDate = LocalDate.now();
         List<Task> taskList = taskRepository.findCurrentTasksByGroupId(groupId, currentDate);
@@ -43,14 +53,27 @@ public class TaskService {
                 .collect(Collectors.toList());
     }
 
-    // 과제 상세 조회
+    /**
+     * 과제의 상세 정보를 조회합니다.
+     *
+     * @param taskId 과제 ID
+     * @return TaskDto 해당 과제의 상세 정보
+     * @throws TaskNotExist 해당 과제가 존재하지 않을 경우
+     */
     public TaskDto getTaskDetailByTaskId(Long taskId) {
        Task task = taskRepository.findById(taskId)
                .orElseThrow(() -> new TaskNotExist());
         return task.toDto();
     }
 
-    // 과제 생성
+    /**
+     * 새로운 과제를 생성합니다.
+     *
+     * @param taskForm 과제 생성 form 객체
+     * @return TaskDto 생성된 과제 정보
+     * @throws GroupNotExist 해당 그룹이 존재하지 않을 경우
+     * @throws InvalidEndDate 종료 시간이 시작 시간보다 이전일 경우
+     */
     @Transactional
     public TaskDto addTask(TaskCreateForm taskForm) {
         Group group = groupRepository.findGroupById(taskForm.getGroupId())
@@ -72,7 +95,13 @@ public class TaskService {
         return task.toDto();
     }
 
-    // 과제 수정
+    /**
+     * 기존 과제를 수정합니다.
+     *
+     * @param taskForm 과제 수정 폼
+     * @return TaskDto 수정된 과제 정보
+     * @throws TaskNotExist 해당 과제가 존재하지 않을 경우
+     */
     @Transactional
     public TaskDto editTask(TaskEditForm taskForm) {
         // 기존 과제 정보 조회
