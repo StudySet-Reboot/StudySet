@@ -37,7 +37,7 @@ public class TaskSubmissionController {
     private final CommentService commentService;
 
     // 과제 제출 or 수정 페이지 이동
-    @GetMapping("/{groupId}/tasks/{taskId}/submitOrModifyTask")
+    @GetMapping("/{groupId}/tasks/{taskId}/submit-modify")
     public String taskSubmit(@PathVariable Long taskId,
                              @SessionAttribute("user") User user,
                              @SessionAttribute("group") GroupDto group,
@@ -61,11 +61,11 @@ public class TaskSubmissionController {
     }
 
     // 과제 제출
-    @PostMapping("/task/submitTask")
+    @PostMapping("/task/submit")
     public RedirectView submitTask(@ModelAttribute TaskSubmissionForm taskSubmit,
                                    @SessionAttribute("group") GroupDto group,
                                    @RequestParam("file") MultipartFile file) {
-        String redirectUrl = "/groups/" + group.getId() + "/" + taskSubmit.getTaskId() + "/taskDetail";
+        String redirectUrl = "/groups/" + group.getId() + "/" + taskSubmit.getTaskId() + "/task-detail";
         String filePath = taskSubmissionService.saveFile(file);
         taskSubmit.setFilePath(filePath);
 
@@ -77,7 +77,7 @@ public class TaskSubmissionController {
     }
 
     // 유저별 과제페이지 이동(=과제 조회)
-    @GetMapping("/{groupId}/tasks/{taskId}/{userId}/userTask")
+    @GetMapping("/{groupId}/tasks/{taskId}/{userId}/usertask")
     public String userTask(@PathVariable Long taskId, @PathVariable Long userId,
                            @SessionAttribute("user") User user,
                            @SessionAttribute("group") GroupDto group,
