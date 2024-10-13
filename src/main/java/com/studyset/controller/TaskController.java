@@ -56,7 +56,7 @@ public class TaskController {
     }
 
     // 과제 상세페이지 이동
-    @GetMapping("/{groupId}/{taskId}/taskDetail")
+    @GetMapping("/{groupId}/{taskId}/task-detail")
     public String taskDetail(@PathVariable Long taskId,
                              @SessionAttribute("group") GroupDto group,
                              @SessionAttribute("user") User user,

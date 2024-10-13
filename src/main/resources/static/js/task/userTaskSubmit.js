@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const groupId = document.getElementById('groupId').value;
         const url = `/groups/${groupId}/${taskId}/taskDetail`;
 
-        fetch('/groups/task/submitTask', {
+        fetch('/groups/task/submit', {
             method: 'POST',
             body: formData
         })

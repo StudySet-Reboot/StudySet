@@ -33,7 +33,7 @@
             <div class="task-details">
                 <!-- 제출된 과제에 대한 링크 -->
                 <span th:if="${taskSubmissionMap.containsKey(user.id)}" class="task-info">
-                    <a th:href="@{/groups/{groupId}/tasks/{taskId}/{userId}/userTask(groupId=${group.id}, taskId=${task.id}, userId=${user.id})}"
+                    <a th:href="@{/groups/{groupId}/tasks/{taskId}/{userId}/usertask(groupId=${group.id}, taskId=${task.id}, userId=${user.id})}"
                        class="no-link-style">
                         <span class="user-title" th:text="${user.name}"></span>
                         <span class="submit-date" th:text="${taskSubmissionMap[user.id].updatedDate}"></span>
@@ -42,7 +42,7 @@
                     <!-- 제출 버튼: 로그인 유저일 때만 표시되며, 항상 자리를 차지 -->
                     <span class="submit-button-wrapper">
                         <a th:if="${user.id == loginUser.id}"
-                           th:href="@{/groups/{groupId}/tasks/{taskId}/submitOrModifyTask(groupId=${group.id}, taskId=${task.id})}"
+                           th:href="@{/groups/{groupId}/tasks/{taskId}/submit-modify(groupId=${group.id}, taskId=${task.id})}"
                            class="submit-button">제출</a>
                         <span th:unless="${user.id == loginUser.id}" class="submit-button-placeholder"></span>
                     </span>
@@ -58,7 +58,7 @@
                     <!-- 제출 버튼: 로그인 유저일 때만 표시되며, 항상 자리를 차지 -->
                     <span class="submit-button-wrapper">
                         <a th:if="${user.id == loginUser.id}"
-                           th:href="@{/groups/{groupId}/tasks/{taskId}/submitOrModifyTask(groupId=${group.id}, taskId=${task.id})}"
+                           th:href="@{/groups/{groupId}/tasks/{taskId}/submit-modify(groupId=${group.id}, taskId=${task.id})}"
                            class="submit-button">제출</a>
                         <span th:unless="${user.id == loginUser.id}" class="submit-button-placeholder"></span>
                     </span>
