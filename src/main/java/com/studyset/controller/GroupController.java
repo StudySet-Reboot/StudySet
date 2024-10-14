@@ -51,8 +51,7 @@ public class GroupController {
     @PostMapping("/create")
     @ResponseBody
     public void createGroup(@SessionAttribute("user") User user,
-                            @Valid @ModelAttribute("groupCreateForm") GroupCreateForm groupCreateForm,
-                            BindingResult bindingResult){
+                            @Valid @ModelAttribute("groupCreateForm") GroupCreateForm groupCreateForm){
         groupService.createGroup(user, groupCreateForm);
     }
 
