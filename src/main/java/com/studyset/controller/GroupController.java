@@ -47,7 +47,6 @@ public class GroupController {
     }
 
     //그룹 생성
-    // TODO: 이 메소드의 BindingResult 예외 처리를 개선해야 합니다
     @PostMapping("/create")
     @ResponseBody
     public void createGroup(@SessionAttribute("user") User user,
