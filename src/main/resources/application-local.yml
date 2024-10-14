@@ -1,14 +1,9 @@
 spring:
-  h2:
-    console:
-      enabled: true
-      settings:
-        web-allow-others: true
   datasource:
-    url: jdbc:h2:tcp://localhost/~/ss
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    url: ${TEST_DB_URL}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: ${TEST_DB_PASSWORD}
   thymeleaf:
     cache: false
   servlet:
@@ -17,25 +12,21 @@ spring:
       max-request-size: 10MB
 
   jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
-        default_batch_fetch_size: 1000
+      properties:
+          hibernate.id.new_generator_mappings: false
+      ddl-auto: validate
     show-sql: true
+
 
   security:
     oauth2:
       client:
         registration:
           google:
-            client-id: *****
-            client-secret: ***** 
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
             scope: profile, email
             redirect-uri: "{baseUrl}/login/oauth2/code/google"
             client-name: Google
-
-google:
-  people-api:
-    secret-key: *****
