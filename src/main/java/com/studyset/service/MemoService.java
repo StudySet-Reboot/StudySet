@@ -37,10 +37,10 @@ public class MemoService {
     }
 
     /**
-     * 그룹의 최신 메모를 조회합니다.
+     * 그룹의 가장 최신 메모를 조회합니다.
      *
      * @param groupId 그룹 ID
-     * @return List<MemoDto> 해당 그룹원의 최신 메모 목록
+     * @return List<MemoDto> 해당 그룹의 그룹원 당 최신 메모 목록
      */
     public List<MemoDto> getLatestMemoByGroupId(Long groupId) {
         List<Memo> memoList = memoRepository.findLatestMemoByGroupId(groupId);
@@ -51,7 +51,7 @@ public class MemoService {
      * 새로운 메모를 작성합니다.
      *
      * @param memoForm 메모 작성 폼
-     * @return MemoDto 작된 메모 정보성
+     * @return MemoDto 작성된 메모 정보
      * @throws UserNotExist 해당 사용자가 존재하지 않을 경우
      * @throws GroupNotExist 해당 그룹이 존재하지 않을 경우
      */
