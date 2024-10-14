@@ -52,7 +52,7 @@
                 <div th:if="${groupDashboard.taskList != null and not #lists.isEmpty(groupDashboard.taskList)}" class="list">
                     <div th:each="task : ${groupDashboard.taskList}" class="list-item bg-taskPink">
                         <div class="task-details">
-                            <a th:href="@{/groups/{groupId}/{taskId}/taskDetail(groupId=${group.id}, taskId=${task.id})}"
+                            <a th:href="@{/groups/{groupId}/{taskId}/task-detail(groupId=${group.id}, taskId=${task.id})}"
                                class="no-link-style task-item"
                                th:attr="data-start-time=${task.startTimeFormatted}">
                                 <span class="task-name" th:text="${task.taskName}">Task Name</span>
