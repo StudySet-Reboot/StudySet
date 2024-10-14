@@ -72,13 +72,13 @@ class GroupControllerTest {
 
     @Test
     @DisplayName("그룹 생성 성공하면 생성자도 가입 처리")
-    public void testCreateGroupSuccess() throws Exception {
+    public void testCreateGroupSuccess() {
         // Given
         User user = new User();
         GroupCreateForm groupCreateForm = new GroupCreateForm();
 
         // When
-        groupController.createGroup(user, groupCreateForm, null);
+        groupController.createGroup(user, groupCreateForm);
 
         // Then
         verify(groupService, times(1)).createGroup(user, groupCreateForm);
