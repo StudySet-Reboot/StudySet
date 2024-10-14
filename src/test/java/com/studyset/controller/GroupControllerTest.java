@@ -10,6 +10,7 @@ import com.studyset.dto.user.UserDto;
 import com.studyset.exception.hanlder.RestExceptionHandler;
 import com.studyset.repository.UserJoinGroupRepository;
 import com.studyset.service.GroupService;
+import com.studyset.service.JoinService;
 import com.studyset.web.form.GroupCreateForm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -51,6 +52,10 @@ class GroupControllerTest {
     private GroupController groupController;
     @Mock
     private GroupService groupService;
+
+    @Mock
+    private JoinService joinService;
+
     @Autowired
     private ObjectMapper objectMapper;
     @Mock
@@ -60,7 +65,7 @@ class GroupControllerTest {
 
     @BeforeEach
     public void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new GroupController(groupService))
+        mockMvc = MockMvcBuilders.standaloneSetup(new GroupController(groupService, joinService))
                 .setControllerAdvice(new RestExceptionHandler())
                 .build();
     }
@@ -117,7 +122,7 @@ class GroupControllerTest {
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().isOk());
 
-        verify(groupService).joinGroup(user, "exampleGroup", "123411");
+        verify(joinService).joinGroup(user, "exampleGroup", "123411");
     }
 
     @Test
@@ -135,7 +140,7 @@ class GroupControllerTest {
                 .andExpect(status().isBadRequest())
                 .andDo(print());
 
-        verify(groupService, times(0)).joinGroup(user, "groupName", null);
+        verify(joinService, times(0)).joinGroup(user, "groupName", null);
     }
 
     @Test
@@ -147,7 +152,7 @@ class GroupControllerTest {
         session.setAttribute("user", user);
 
         doThrow(new GroupNotExist())
-                .when(groupService).joinGroup(user, "Test Group", "123132");
+                .when(joinService).joinGroup(user, "Test Group", "123132");
 
         mockMvc.perform(post("/groups/join")
                         .session(session)
@@ -172,7 +177,7 @@ class GroupControllerTest {
         List<GroupDto> groupList = Arrays.asList(groupDto);
         Page<GroupDto> searchResults = new PageImpl<>(groupList, pageable, groupList.size());
 
-        when(groupService.searchUserGroup(any(User.class), eq(keyword), any(Pageable.class))).thenReturn(searchResults);
+        when(joinService.searchUserGroup(any(User.class), eq(keyword), any(Pageable.class))).thenReturn(searchResults);
 
         // When
         String viewName = groupController.searchList(user, keyword, pageable, model);

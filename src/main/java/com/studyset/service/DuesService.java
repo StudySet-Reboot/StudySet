@@ -20,14 +20,29 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 public class DuesService {
+
     private final DuesRepository duesRepository;
     private final GroupRepository groupRepository;
     private final UserRepository userRepository;
 
+    /**
+     * 그룹에 대한 모든 회비 납부 내역을 페이지로 반환합니다.
+     *
+     * @param groupId 그룹의 ID
+     * @param pageable 페이징 정보
+     * @return Page<DuesDto> 회비 납부 내역 목록 DTO
+     */
     public Page<DuesDto> getGroupDuesList(Long groupId, Pageable pageable) {
         return duesRepository.findAllByGroupId(groupId, pageable);
     }
 
+    /**
+     * 회비 납부 내역을 추가합니다.
+     *
+     * @param groupId  회비 납부 내역이 추가될 그룹의 ID
+     * @param duesForm 회비 납부 내역 정보를 담고 있는 form 객체
+     */
+    //TODO: validation 처리 추가 필요
     public void addDues(Long groupId, DuesForm duesForm) {
         Group group = groupRepository.findGroupById(groupId)
                 .orElseThrow(GroupNotExist::new);

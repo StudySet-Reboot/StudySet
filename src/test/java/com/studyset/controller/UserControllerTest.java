@@ -2,6 +2,7 @@ package com.studyset.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studyset.service.GroupService;
+import com.studyset.service.JoinService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +16,15 @@ public class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private GroupService groupService;
+    private JoinService joinService;
     @Autowired
     private ObjectMapper objectMapper;
     @BeforeEach
     public void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new UserController(groupService)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new UserController(joinService)).build();
     }
 
+    //TODO: Test Code 작성 필요
     @Test
     public void test() throws Exception {
         //given

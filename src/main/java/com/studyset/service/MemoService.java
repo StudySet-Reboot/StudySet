@@ -20,23 +20,41 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class MemoService {
+
     private final MemoRepository memoRepository;
     private final UserRepository userRepository;
     private final GroupRepository groupRepository;
 
-    // 메모 조회
+    /**
+     * 그룹의 메모 목록을 조회합니다.
+     *
+     * @param groupId 그룹 ID
+     * @return List<MemoDto> 해당 그룹에 속한 메모 목록
+     */
     public List<MemoDto> getMemoByGroupId(Long groupId) {
         List<Memo> memoList = memoRepository.findByGroupId(groupId);
         return memoList.stream().map(Memo::toDto).collect(Collectors.toList());
     }
 
-    // 메모 조회 (그룹원 별 최신 메모)
+    /**
+     * 그룹의 최신 메모를 조회합니다.
+     *
+     * @param groupId 그룹 ID
+     * @return List<MemoDto> 해당 그룹원의 최신 메모 목록
+     */
     public List<MemoDto> getLatestMemoByGroupId(Long groupId) {
         List<Memo> memoList = memoRepository.findLatestMemoByGroupId(groupId);
         return memoList.stream().map(Memo::toDto).collect(Collectors.toList());
     }
 
-    // 메모 작성
+    /**
+     * 새로운 메모를 작성합니다.
+     *
+     * @param memoForm 메모 작성 폼
+     * @return MemoDto 작된 메모 정보성
+     * @throws UserNotExist 해당 사용자가 존재하지 않을 경우
+     * @throws GroupNotExist 해당 그룹이 존재하지 않을 경우
+     */
     @Transactional
     public MemoDto addMemo(MemoCreateForm memoForm) {
         User user = userRepository.findById(memoForm.getUserId())
