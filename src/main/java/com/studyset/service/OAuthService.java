@@ -24,7 +24,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /*
-    OAuth2 로그인 성공시 DB에 저장
+    OAuth2 로그인 시 사용자 정보를 처리 및 저장
  */
 @Service
 @RequiredArgsConstructor
@@ -32,18 +32,19 @@ public class OAuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2
 
     private static final Logger logger = LoggerFactory.getLogger(OAuthService.class);
     private final UserRepository userRepository;
-    private static final String APPLICATION_NAME = "StudySet";
 
+    /**
+     * 유저 정보를 가져옵니다.
+     * @param userRequest OAuth2 인증 요청 정보
+     * @return OAuth2 로그인 시 생성된 유저 객체
+     * @throws OAuth2AuthenticationException OAuth2 인증 예외
+     */
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2UserService delegate = new DefaultOAuth2UserService();
-        // OAuth에서 가져온 유저 정보
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
-        // OAuth 서비스 이름
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        // OAuth 로그인 시 키(pk)
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
-        // OAuth 서비스의 유저 정보들
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
         // registrationId에 따라 유저 정보를 통해 공통된 UserProfile 객체로 만들어 줌
@@ -59,15 +60,28 @@ public class OAuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2
                 userNameAttributeName);
     }
 
-    private Map customAttribute(Map attributes, String userNameAttributeName, UserDto memberProfile, String registrationId) {
+    /**
+     * 필요한 유저 속성을 커스텀 합니다.
+     * @param attributes OAuth2의 유저 정보
+     * @param userNameAttributeName OAuth 로그인 시 유저 이름
+     * @param userDto OAuth 서비스에 따른 매핑된 사용자 정보 객체
+     * @param registrationId OAuth 서비스 이름
+     * @return 커스터마이징 유저 속성 맵
+     */
+    private Map customAttribute(Map attributes, String userNameAttributeName, UserDto userDto, String registrationId) {
         Map<String, Object> customAttribute = new LinkedHashMap<>();
         customAttribute.put(userNameAttributeName, attributes.get(userNameAttributeName));
         customAttribute.put("provider", registrationId);
-        customAttribute.put("name", memberProfile.getName());
-        customAttribute.put("email", memberProfile.getEmail());
+        customAttribute.put("name", userDto.getName());
+        customAttribute.put("email", userDto.getEmail());
         return customAttribute;
     }
 
+    /**
+     * 유저를 저장하거나 업데이트 합니다.
+     * @param memberProfile 신규 유저 혹은 기존 유저 DTO
+     * @return 저장된 유저
+     */
     private User saveOrUpdate(UserDto memberProfile) {
         User member = userRepository.findByEmailAndProvider(memberProfile.getEmail(), memberProfile.getProvider())
                 .map(m -> {
