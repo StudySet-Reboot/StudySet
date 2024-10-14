@@ -60,9 +60,10 @@ public class RestExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> invalidRequestHandler(MethodArgumentNotValidException e) {
         log.error("Error:: " + e.getMessage());
+
         ErrorResponse response = ErrorResponse.builder()
                 .code("400")
-                .message("잘못된 요청입니다.")
+                .message(e.getFieldError().getDefaultMessage())
                 .build();
 
         for (FieldError fieldError : e.getFieldErrors()) {
