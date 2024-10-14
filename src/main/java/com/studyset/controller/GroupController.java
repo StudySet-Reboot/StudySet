@@ -5,6 +5,7 @@ import com.studyset.dto.group.GroupDashboard;
 import com.studyset.dto.group.GroupDto;
 import com.studyset.dto.user.UserDto;
 import com.studyset.service.GroupService;
+import com.studyset.service.JoinService;
 import com.studyset.web.form.GroupCreateForm;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -30,6 +31,7 @@ import java.util.Map;
 public class GroupController {
 
     private final GroupService groupService;
+    private final JoinService joinService;
 
     // 그룹 메인 이동
     @GetMapping("/{groupId}")
@@ -60,7 +62,7 @@ public class GroupController {
     public void joinGroup(@SessionAttribute("user") User user,
                           @RequestParam String groupName,
                           @RequestParam String code){
-        groupService.joinGroup(user, groupName, code);
+        joinService.joinGroup(user, groupName, code);
     }
 
     //그룹 검색
@@ -69,7 +71,7 @@ public class GroupController {
                              @RequestParam String keyword,
                              @PageableDefault(size = 10, page = 0) Pageable pageable,
                              Model model) {
-        Page<GroupDto> searchResults = groupService.searchUserGroup(user, keyword, pageable);
+        Page<GroupDto> searchResults = joinService.searchUserGroup(user, keyword, pageable);
         model.addAttribute("groups", searchResults);
         model.addAttribute("groups", searchResults.getContent());
         model.addAttribute("totalPages", searchResults.getTotalPages());
