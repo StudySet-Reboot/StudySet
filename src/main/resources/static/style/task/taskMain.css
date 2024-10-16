@@ -2,6 +2,38 @@ button {
     font-family: 'TheJamsil5Bold';
 }
 
+/* 필터 버튼 스타일 */
+.filter-buttons {
+    justify-content: flex-start;
+    align-items: center;
+    display: flex;
+    gap: 13px;
+    width: 75%;
+    margin: 15px auto 0;
+}
+
+.filter-btn {
+    padding: 8px 12px;
+    background-color: #f7dada;
+    border: 0.8px solid #f0a0a0;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.filter-btn:hover {
+    background-color: rgba(255, 80, 129, 0.7);
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.filter-btn.active {
+    background-color: rgba(255, 80, 129, 0.7);
+    color: #fff;
+}
+
 .user-container {
     display: flex;
     justify-content: center;

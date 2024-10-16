@@ -1,6 +1,7 @@
 package com.studyset.repository;
 
 import com.studyset.domain.Task;
+import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,5 +20,13 @@ public interface TaskRepository extends JpaRepository<Task, Long>  {
             "(t.startTime IS NULL OR t.startTime <= :currentDate) AND " +
             "(t.endTime IS NULL OR t.endTime >= :currentDate)")
     List<Task> findCurrentTasksByGroupId(@Param("groupId") Long groupId, @Param("currentDate") LocalDate currentDate);
-
+    // 과제 기간 필터링 조회
+    @Query(value = "SELECT t.id, t.group.id, t.taskName, t.description, t.startTime, t.endTime, " +
+            "CASE " +
+            "WHEN CURRENT_DATE BETWEEN t.startTime AND t.endTime THEN 'ongoing' " +
+            "WHEN CURRENT_DATE < t.startTime THEN 'upcoming' " +
+            "ELSE 'completed' " +
+            "END AS task_status " +
+            "FROM Task t WHERE t.group.id = :groupId")
+    List<Object[]> findAllWithStatus(@Param("groupId") Long groupId);
 }
