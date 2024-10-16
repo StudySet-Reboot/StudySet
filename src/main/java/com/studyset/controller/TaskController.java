@@ -17,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +37,7 @@ public class TaskController {
     @GetMapping("/{groupId}/task")
     public String taskMain(@SessionAttribute("group") GroupDto group, Model model) {
         // endTime 기준으로 과제 정렬
-        List<TaskDto> taskList = sortAndFormatTasks(taskService.getTaskByGroupId(group.getId()));
+        List<TaskDto> taskList = taskService.getAllTasksWithStatus(group.getId());
         model.addAttribute("group", group);
         model.addAttribute("taskList", taskList);
 
@@ -80,19 +79,5 @@ public class TaskController {
         model.addAttribute("task", task);
         model.addAttribute("taskSubmissionMap", userSubmissionMap);
         return "/thyme/task/taskDetail";
-    }
-
-    private List<TaskDto> sortAndFormatTasks(List<TaskDto> taskList) {
-        taskList.sort(Comparator.comparing(TaskDto::getEndTime, Comparator.nullsLast(Comparator.naturalOrder())));
-
-        taskList.forEach(task -> {
-            if (task.getStartTime() != null) {
-                task.setStartTimeFormatted(task.getStartTime().format(DATE_FORMATTER));
-            }
-            if (task.getEndTime() != null) {
-                task.setEndTimeFormatted(task.getEndTime().format(DATE_FORMATTER));
-            }
-        });
-        return taskList;
     }
 }

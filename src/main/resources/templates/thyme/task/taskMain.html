@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>taskMain.html</title>
+    <title>StudySet-과제</title>
+    <link rel="shortcut icon" th:href="@{/favicon_io/apple-touch-icon.png}" type="image/png">
     <link rel="stylesheet" th:href="@{/style/header.css}">
     <link rel="stylesheet" th:href="@{/style/group/groupMain.css}">
     <link rel="stylesheet" th:href="@{/style/task/taskMain.css}">
@@ -27,6 +28,13 @@
         </div>
     </div>
 
+    <!-- 필터 버튼 -->
+    <div class="filter-buttons">
+        <button class="filter-btn" data-filter="upcoming">예정</button>
+        <button class="filter-btn" data-filter="ongoing">진행</button>
+        <button class="filter-btn" data-filter="completed">완료</button>
+    </div>
+
     <!-- 과제 목록 -->
     <div class="user-container">
         <div class="frame2">
@@ -34,7 +42,8 @@
                 <div class="empty">생성된 과제가 없습니다. 과제를 생성해보세요!</div>
             </div>
             <div th:if="${taskList != null and not #lists.isEmpty(taskList)}" class="list">
-                <div th:each="task : ${taskList}" class="list-item task-card">
+                <div th:each="task : ${taskList}" class="list-item task-card"
+                     th:attr="data-task-status=${task.taskStatus}">
                     <a th:href="@{/groups/{groupId}/{taskId}/task-detail(groupId=${group.id}, taskId=${task.id})}"
                        class="task-link"
                        th:attr="data-start-time=${task.startTimeFormatted}">

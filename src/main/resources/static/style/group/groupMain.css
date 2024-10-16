@@ -14,10 +14,7 @@ body, button {
     justify-content: center;
     align-items: center;
     width: 75%;
-    margin-top: 25px;
-    margin-bottom: 8px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 25px auto 8px auto;
 }
 
 .outer-frame2 {
@@ -193,6 +190,9 @@ body, button {
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 10px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 .task {
