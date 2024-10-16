@@ -14,6 +14,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 public class TaskService {
     private final TaskRepository taskRepository;
     private final GroupRepository groupRepository;
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     /**
      * 그룹의 모든 과제를 조회합니다.
@@ -51,6 +53,55 @@ public class TaskService {
                 .map(Task::toDto)
                 .sorted(Comparator.comparing(TaskDto::getEndTime, Comparator.nullsLast(Comparator.naturalOrder())))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 과제의 상태에 따라 필터링 합니다.
+     * @return 조회한 데이터 TaskDto
+     */
+    public List<TaskDto> getAllTasksWithStatus(Long groupId) {
+        List<Object[]> results = taskRepository.findAllWithStatus(groupId);
+
+        List<TaskDto> taskList = results.stream()
+                .map(obj -> TaskDto.builder()
+                        .id(((Number) obj[0]).longValue())
+                        .groupId(((Number) obj[1]).longValue())
+                        .taskName((String) obj[2])
+                        .description((String) obj[3])
+                        .startTime((LocalDate) obj[4])
+                        .endTime((LocalDate) obj[5])
+                        .taskStatus((String) obj[6])
+                        .startTimeFormatted(formatDate((LocalDate) obj[4]))
+                        .endTimeFormatted(formatDate((LocalDate) obj[5]))
+                        .build())
+                .collect(Collectors.toList());
+
+        return sortAndFormatTasks(taskList);
+    }
+
+    /**
+     * LocalDate를 년-월-일 형식으로 포맷팅합니다.
+     * @param date 과제 기한
+     * @return 포맷팅 완료된 날짜 문자열
+     */
+    private String formatDate(LocalDate date) {
+        return date != null ? date.format(DATE_FORMATTER) : null;
+    }
+
+    /**
+     * Task 리스트의 마감기한을 기준으로 오름차순 정렬 후 지정한 양식에 맞게 포맷팅합니다.
+     * @param taskList Task 리스트
+     * @return 정렬 및 포맷이 완료된 Task 리스트
+     */
+    private List<TaskDto> sortAndFormatTasks(List<TaskDto> taskList) {
+        taskList.sort(Comparator.comparing(TaskDto::getEndTime, Comparator.nullsLast(Comparator.naturalOrder())));
+
+        taskList.forEach(task -> {
+            task.setStartTimeFormatted(formatDate(task.getStartTime()));
+            task.setEndTimeFormatted(formatDate(task.getEndTime()));
+        });
+
+        return taskList;
     }
 
     /**

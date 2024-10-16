@@ -60,7 +60,7 @@ public class TaskControllerTest {
 
         TaskDto taskDto = TaskDto.builder()
                 .taskName("example Task")
-                .group(groupDto1.toGroup())
+                .groupId(groupDto1.getId())
                 .description("discription")
                 .endTime(dueDateTime)
                 .build();
