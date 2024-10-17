@@ -4,6 +4,7 @@ import com.studyset.domain.Task;
 import com.studyset.domain.TaskSubmission;
 import com.studyset.domain.User;
 import com.studyset.dto.task.TaskSubmissionDto;
+import com.studyset.exception.TaskDeadlineException;
 import com.studyset.exception.TaskNotExist;
 import com.studyset.exception.UserNotExist;
 import com.studyset.repository.CommentRepository;
@@ -32,6 +33,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -54,6 +56,7 @@ public class TaskSubmissionService {
      * @return 제출된 과제의 DTO
      * @throws TaskNotExist 과제가 존재하지 않을 경우
      * @throws UserNotExist 사용자가 존재하지 않을 경우
+     * @throws TaskDeadlineException 과제의 마감기한이 지났을 경우
      */
     @Transactional
     public TaskSubmissionDto addTaskSubmit(TaskSubmissionForm taskSubmissionForm) {
@@ -62,6 +65,11 @@ public class TaskSubmissionService {
 
         User user = userRepository.findById(taskSubmissionForm.getUserId())
                 .orElseThrow(() -> new UserNotExist());
+
+        // 과제 기한 검증
+        if (task.getEndTime().isBefore(LocalDate.now())) {
+            throw new TaskDeadlineException();
+        }
 
         TaskSubmission taskSubmission = new TaskSubmission();
         taskSubmission.setTask(task);
