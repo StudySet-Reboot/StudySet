@@ -29,7 +29,7 @@
                 <div class="task-end-time" th:text="${task.updatedDate}"></div>
             </div>
             <!-- 수정 및 삭제 버튼 -->
-            <span th:if="${user.id == task.userId}" class="submit-button-wrapper">
+            <span th:if="${user.id == task.userId} and ${taskDto.endTime.isAfter(T(java.time.LocalDate).now())}" class="submit-button-wrapper">
                 <a th:href="@{/groups/{groupId}/tasks/{taskId}/submit-modify(groupId=${group.id}, taskId=${taskDto.id})}" class="submit-button">수정</a>
                 <a href="#" id="deleteTaskButton" class="submit-button">삭제</a>
             </span>
