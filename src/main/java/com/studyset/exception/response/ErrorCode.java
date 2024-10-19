@@ -13,8 +13,8 @@ public enum ErrorCode {
     GROUP_ALREADY_EXIST("GROUP_ALREADY_EXIST", "이미 존재하는 그룹입니다."),
     INVALID_GROUP_CODE("INVALID_GROUP_CODE", "그룹 코드가 일치하지 않습니다."),
     INVALID_END_DATE("INVALID_END_DATE", "시작시간은 종료시간보다 앞서야 합니다."),
+    TASK_DEADLINE_PASSED("TASK_DEADLINE_PASSED", "과제 기한이 종료되었습니다."),
     ;
-
 
     private final String code;
     private final String message;

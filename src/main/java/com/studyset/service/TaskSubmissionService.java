@@ -4,6 +4,7 @@ import com.studyset.domain.Task;
 import com.studyset.domain.TaskSubmission;
 import com.studyset.domain.User;
 import com.studyset.dto.task.TaskSubmissionDto;
+import com.studyset.exception.TaskDeadlineException;
 import com.studyset.exception.TaskNotExist;
 import com.studyset.exception.UserNotExist;
 import com.studyset.repository.CommentRepository;
@@ -32,6 +33,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -52,13 +54,11 @@ public class TaskSubmissionService {
      *
      * @param taskSubmissionForm 과제 제출 form 객체
      * @return 제출된 과제의 DTO
-     * @throws TaskNotExist 과제가 존재하지 않을 경우
      * @throws UserNotExist 사용자가 존재하지 않을 경우
      */
     @Transactional
     public TaskSubmissionDto addTaskSubmit(TaskSubmissionForm taskSubmissionForm) {
-        Task task = taskRepository.findById(taskSubmissionForm.getTaskId())
-                .orElseThrow(() -> new TaskNotExist());
+        Task task = checkTaskDate(taskSubmissionForm.getTaskId());
 
         User user = userRepository.findById(taskSubmissionForm.getUserId())
                 .orElseThrow(() -> new UserNotExist());
@@ -78,7 +78,6 @@ public class TaskSubmissionService {
      *
      * @param taskSubmissionEditForm 과제 제출 수정 form 객체
      * @return 수정된 과제 제출의 DTO
-     * @throws TaskNotExist 과제가 존재하지 않을 경우
      */
     @Transactional
     public TaskSubmissionDto editTask(TaskSubmissionEditForm taskSubmissionEditForm) {
@@ -86,6 +85,7 @@ public class TaskSubmissionService {
         TaskSubmission existingSubmission = taskSubmissionRepository.findByTaskIdAndUserId(taskSubmissionEditForm.getTaskId(), taskSubmissionEditForm.getUserId());
 
         if (existingSubmission != null) {
+            checkTaskDate(taskSubmissionEditForm.getTaskId() );
             // 기존 제출물 업데이트
             existingSubmission.setContents(taskSubmissionEditForm.getContent());
             if (taskSubmissionEditForm.getFilePath() != null) {
@@ -104,10 +104,28 @@ public class TaskSubmissionService {
      */
     @Transactional
     public void deleteTask(Long taskId, Long userId) {
+        checkTaskDate(taskId);
         TaskSubmission existingSubmission = taskSubmissionRepository.findByTaskIdAndUserId(taskId, userId);
         Long taskSubmissionId = existingSubmission.toDto().getId();
         commentRepository.deleteBySubmissionId(taskSubmissionId);
         taskSubmissionRepository.deleteById(taskSubmissionId);
+    }
+
+    /**
+     * id로 Task를 조회해 마감기한을 체크합니다.
+     * @param taskId 과제 ID
+     * @return 마감기한이 지나지 않은 Task
+     * @throws TaskNotExist 과제가 존재하지 않을 경우
+     * @throws TaskDeadlineException 과제의 마감기한이 지났을 경우
+     */
+    public Task checkTaskDate(Long taskId) {
+        // 과제 기한 검증
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new TaskNotExist());
+        if (task.getEndTime().isBefore(LocalDate.now())) {
+            throw new TaskDeadlineException();
+        }
+        return task;
     }
 
     /**
