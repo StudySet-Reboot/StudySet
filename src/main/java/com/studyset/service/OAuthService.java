@@ -35,6 +35,7 @@ public class OAuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2
 
     /**
      * 유저 정보를 가져옵니다.
+     *
      * @param userRequest OAuth2 인증 요청 정보
      * @return OAuth2 로그인 시 생성된 유저 객체
      * @throws OAuth2AuthenticationException OAuth2 인증 예외
@@ -62,6 +63,7 @@ public class OAuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2
 
     /**
      * 필요한 유저 속성을 커스텀 합니다.
+     *
      * @param attributes OAuth2의 유저 정보
      * @param userNameAttributeName OAuth 로그인 시 유저 이름
      * @param userDto OAuth 서비스에 따른 매핑된 사용자 정보 객체
@@ -79,6 +81,7 @@ public class OAuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2
 
     /**
      * 유저를 저장하거나 업데이트 합니다.
+     *
      * @param memberProfile 신규 유저 혹은 기존 유저 DTO
      * @return 저장된 유저
      */

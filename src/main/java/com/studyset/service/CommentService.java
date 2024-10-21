@@ -25,13 +25,25 @@ public class CommentService {
     private final UserRepository userRepository;
     private final TaskSubmissionRepository taskSubmissionRepository;
 
-    // 댓글 조회
+    /**
+     * 제출한 과제의 id로 댓글을 조회합니다.
+     *
+     * @param submissionId 제출한 과제의 id
+     * @return List<CommentDto> 과제에 달린 댓글 목록
+     */
     public List<CommentDto> getCommentBySubmissionId(Long submissionId) {
         List<Comment> commentList = commentRepository.findByTaskSubmission_Id(submissionId);
         return commentList.stream().map(Comment::toDto).collect(Collectors.toList());
     }
 
-    // 댓글 작성
+    /**
+     * 댓글을 작성합니다.
+     *
+     * @param commentForm 댓글 작성 폼
+     * @return 작성된 댓글 정보
+     * @throws UserNotExist 해당 사용자가 존재하지 않을 경우
+     * @throws TaskNotExist 해당 과제가 존재하지 않을 경우
+     */
     @Transactional
     public CommentDto addComment(CommentForm commentForm) {
         User user = userRepository.findById(commentForm.getUserId())
@@ -51,7 +63,11 @@ public class CommentService {
         return comment.toDto();
     }
 
-    // 댓글 삭제
+    /**
+     * 작성한 댓글을 삭제합니다.
+     *
+     * @param commentId 댓글의 id
+     */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void deleteComment(Long commentId) {
         commentRepository.deleteById(commentId);
