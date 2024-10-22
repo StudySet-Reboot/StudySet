@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller()
+@Controller
 @RequestMapping("/groups")
 @RequiredArgsConstructor
 @Slf4j
@@ -29,7 +29,14 @@ public class MemoController {
     private final GroupService groupService;
     private final JoinService joinService;
 
-    // 진행상황 메인 이동
+    /**
+     * 진행상황 메인 페이지로 이동합니다.
+     *
+     * @param user 현재 로그인한 유저
+     * @param groupId 선택 그룹 ID
+     * @param model 뷰에 전달할 데이터 객체
+     * @return 응답 상태와 데이터를 포함한 Map 객체
+     */
     @GetMapping("/{groupId}/memo")
     public String memoMain(@SessionAttribute("user") User user,
                            @PathVariable Long groupId,
@@ -44,8 +51,13 @@ public class MemoController {
         return "thyme/memo/memoMain";
     }
 
-    // 메모 작성
-    @PostMapping("/memo/addMemo")
+    /**
+     * 메모를 작성합니다.
+     *
+     * @param memo 메모 정보가 담긴 폼
+     * @return 응답 상태와 데이터를 포함한 Map 객체
+     */
+    @PostMapping("/memo/add-memo")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> addMemo(@RequestBody MemoCreateForm memo) {
         MemoDto newMemo = memoService.addMemo(memo);

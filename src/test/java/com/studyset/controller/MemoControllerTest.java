@@ -79,7 +79,7 @@ public class MemoControllerTest {
 
         given(memoService.addMemo(form)).willReturn(mockMemoDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/groups/memo/addMemo")
+        mockMvc.perform(MockMvcRequestBuilders.post("/groups/memo/add-memo")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(form)))
                 .andExpect(MockMvcResultMatchers.status().isOk())

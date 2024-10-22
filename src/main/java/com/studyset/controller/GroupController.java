@@ -33,7 +33,14 @@ public class GroupController {
     private final GroupService groupService;
     private final JoinService joinService;
 
-    // 그룹 메인 이동
+    /**
+     * 유저의 그룹 메인 페이지로 이동합니다.
+     *
+     * @param groupId 해당 그룹 ID
+     * @param model 뷰에 전달할 데이터 객체
+     * @param session http 세션 객체
+     * @return 반환할 뷰 경로
+     */
     @GetMapping("/{groupId}")
     public String groupMain(@PathVariable Long groupId,
                             Model model,
@@ -46,7 +53,12 @@ public class GroupController {
         return "/thyme/group/groupMain";
     }
 
-    //그룹 생성
+    /**
+     * 스터디 그룹을 생성합니다.
+     *
+     * @param user 현재 로그인한 유저
+     * @param groupCreateForm 그룹 생성 정보가 담긴 폼
+     */
     @PostMapping("/create")
     @ResponseBody
     public void createGroup(@SessionAttribute("user") User user,
@@ -54,7 +66,13 @@ public class GroupController {
         groupService.createGroup(user, groupCreateForm);
     }
 
-    //그룹 가입
+    /**
+     * 스터디 그룹에 가입합니다.
+     *
+     * @param user 현재 로그인한 유저
+     * @param groupName 가입할 그룹명
+     * @param code 가입할 그룹 코드
+     */
     @PostMapping("/join")
     @ResponseBody
     public void joinGroup(@SessionAttribute("user") User user,
@@ -63,7 +81,15 @@ public class GroupController {
         joinService.joinGroup(user, groupName, code);
     }
 
-    //그룹 검색
+    /**
+     * 스터디 그룹을 검색합니다.
+     *
+     * @param user 현재 로그인한 유저
+     * @param keyword 검색 키워드
+     * @param pageable 페이징 처리
+     * @param model 뷰에 전달할 데이터 객체
+     * @return 반환할 뷰 경로
+     */
     @GetMapping("/search")
     public String searchList(@SessionAttribute("user") User user,
                              @RequestParam String keyword,
@@ -79,7 +105,14 @@ public class GroupController {
         return "/thyme/user/userMain";
     }
 
-    //그룹원 검색
+    /**
+     * 특정 그룹 내 그룹원을 검색합니다.
+     *
+     * @param groupId 특정 그룹 ID
+     * @param keyword 그룹원 검색 키워드
+     * @param model 뷰에 전달할 데이터 객체
+     * @return 반환할 뷰 경로
+     */
     @GetMapping("/userSearch")
     public String searchMember(@RequestParam Long groupId,
                                @RequestParam String keyword,
@@ -92,7 +125,14 @@ public class GroupController {
         return "thyme/fragments/userSearchResult :: userSearchResult";
     }
 
-    //그룹 탈퇴
+    /**
+     * 스터디 그룹을 탈퇴합니다.
+     *
+     * @param user 현재 로그인한 유저
+     * @param group 탈퇴할 스터디 그룹
+     * @param code 탈퇴 시 입력한 코드
+     * @return 응답 상태와 데이터를 포함한 Map 객체
+     */
     @PostMapping("/leave")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> leaveGroup(@SessionAttribute("user") User user,
