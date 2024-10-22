@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // 메모를 서버에 전송
         try {
-            const response = await fetch('/groups/memo/addMemo', {
+            const response = await fetch('/groups/memo/add-memo', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
