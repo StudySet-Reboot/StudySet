@@ -33,7 +33,13 @@ public class TaskController {
     private final TaskSubmissionService taskSubmissionService;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    // 과제 메인페이지 이동
+    /**
+     * 그룹의 과제 메인페이지로 이동합니다.
+     *
+     * @param group 접속한 스터디 그룹
+     * @param model 뷰에 전달할 데이터 객체
+     * @return 반환할 뷰 경로
+     */
     @GetMapping("/{groupId}/task")
     public String taskMain(@SessionAttribute("group") GroupDto group, Model model) {
         // endTime 기준으로 과제 정렬
@@ -44,7 +50,12 @@ public class TaskController {
         return "/thyme/task/taskMain";
     }
 
-    // 과제 생성
+    /**
+     * 과제를 생성합니다.
+     *
+     * @param task 생성할 과제 정보가 담긴 폼
+     * @return 응답 상태와 데이터를 포함한 Map 객체
+     */
     @PostMapping("/task/create")
     public ResponseEntity<Map<String, Object>> addTask(@ModelAttribute TaskCreateForm task) {
         TaskDto newTask = taskService.addTask(task);
@@ -54,7 +65,15 @@ public class TaskController {
         return ResponseEntity.ok(response);
     }
 
-    // 과제 상세페이지 이동
+    /**
+     * 해당 과제의 상세 페이지로 이동합니다.
+     *
+     * @param taskId 해당 과제의 ID
+     * @param group 해당 과제가 등록된 그룹
+     * @param user 현재 로그인한 유저
+     * @param model 뷰에 전달할 데이터 객체
+     * @return 반환할 뷰 경로
+     */
     @GetMapping("/{groupId}/{taskId}/task-detail")
     public String taskDetail(@PathVariable Long taskId,
                              @SessionAttribute("group") GroupDto group,

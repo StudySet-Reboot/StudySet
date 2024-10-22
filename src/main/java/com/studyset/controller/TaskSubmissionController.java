@@ -36,7 +36,15 @@ public class TaskSubmissionController {
     private final UserService userService;
     private final CommentService commentService;
 
-    // 과제 제출 or 수정 페이지 이동
+    /**
+     * 과제 제출/수정 페이지로 이동합니다.
+     *
+     * @param taskId 제출할 과제의 ID
+     * @param user 현재 로그인한 유저
+     * @param group 해당 과제가 등록된 그룹
+     * @param model 뷰에 전달할 데이터 객체
+     * @return 반환할 뷰 경로
+     */
     @GetMapping("/{groupId}/tasks/{taskId}/submit-modify")
     public String taskSubmit(@PathVariable Long taskId,
                              @SessionAttribute("user") User user,
@@ -60,7 +68,14 @@ public class TaskSubmissionController {
                 "/thyme/task/userTaskSubmit" : "/thyme/task/modifyUserTaskSubmit";
     }
 
-    // 과제 제출
+    /**
+     * 과제를 제출합니다.
+     *
+     * @param taskSubmit 제출물 정보가 담긴 폼
+     * @param group 해당 과제가 등록된 그룹
+     * @param file 제출 시 첨부된 파일
+     * @return 특정 뷰로 반환
+     */
     @PostMapping("/task/submit")
     public RedirectView submitTask(@ModelAttribute TaskSubmissionForm taskSubmit,
                                    @SessionAttribute("group") GroupDto group,
@@ -76,7 +91,16 @@ public class TaskSubmissionController {
         return new RedirectView(redirectUrl);
     }
 
-    // 유저별 과제페이지 이동(=과제 조회)
+    /**
+     * 과제 페이지로 이동하여 그룹원이 제출한 과제를 조회합니다.
+     *
+     * @param taskId 제출할 과제의 ID
+     * @param userId 선택한 그룹원의 ID
+     * @param user 현재 로그인한 유저
+     * @param group 해당 과제가 등록된 그룹
+     * @param model 뷰에 전달할 데이터 객체
+     * @return 반환할 뷰 경로
+     */
     @GetMapping("/{groupId}/tasks/{taskId}/{userId}/usertask")
     public String userTask(@PathVariable Long taskId, @PathVariable Long userId,
                            @SessionAttribute("user") User user,
@@ -100,12 +124,15 @@ public class TaskSubmissionController {
         return "/thyme/task/userTask";
     }
 
-    // 파일 다운로드
+    /**
+     * 제출된 파일을 다운로드 합니다.
+     *
+     * @param taskSubmissionId 제출물 ID
+     * @return 응답 상태와 데이터를 포함한 Map 객체
+     */
     @GetMapping("/download/{taskSubmissionId}")
     public ResponseEntity<?> downloadFile(@PathVariable Long taskSubmissionId) {
-        // taskSubmissionId로 TaskSubmission 조회
         TaskSubmissionDto taskSubmissionDto = taskSubmissionService.findTaskSubmission(taskSubmissionId);
         return taskSubmissionService.downloadFile(taskSubmissionDto.getFilePath());
-
     }
 }
