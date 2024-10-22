@@ -19,6 +19,14 @@ public class PaymentController {
 
     private final PaymentService paymentService;
 
+    /**
+     * 그룹의 회비 사용 내역 페이지로 이동합니다.
+     *
+     * @param groupId  그룹 아이디
+     * @param model    회비 사용 내역을 담은 model
+     * @param pageable pagination information
+     * @return 그룹 회비 사용 내역 페이지
+     */
     @GetMapping
     public String getPaymentPage(@PathVariable Long groupId,
                                  Model model,
@@ -29,6 +37,12 @@ public class PaymentController {
         return "thyme/dues/payment";
     }
 
+    /**
+     * 그룹의 회비 사용 내역을 추가하고 회비 사용 납부 페이지로 이동합니다.
+     *
+     * @param groupId  그룹 아이디
+     * @return 그룹 회비 납부 페이지
+     */
     @PostMapping
     public String addPayment(@PathVariable Long groupId,
                              @ModelAttribute PaymentForm paymentForm){
