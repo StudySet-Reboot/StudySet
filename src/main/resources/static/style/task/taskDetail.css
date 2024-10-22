@@ -154,6 +154,10 @@ body {
     transform: scale(1.05);
 }
 
+.submit-button.hidden {
+    visibility: hidden;
+}
+
 /*스크롤 스타일*/
 .frame2::-webkit-scrollbar {
     width: 7px;
