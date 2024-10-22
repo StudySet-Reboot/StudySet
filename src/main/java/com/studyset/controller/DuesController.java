@@ -27,6 +27,14 @@ public class DuesController {
     private final DuesService duesService;
     private final JoinService joinService;
 
+    /**
+     * 그룹의 회비 납부 내역 페이지로 이동합니다.
+     *
+     * @param groupId  그룹 아이디
+     * @param model    회비 납부 내역을 담은 model
+     * @param pageable pagination information
+     * @return 그룹 회비 납부 페이지
+     */
     @GetMapping("/groups/{groupId}/dues")
     public String getDeusPage(@PathVariable Long groupId, Model model,
                               @PageableDefault(size = 20) Pageable pageable) {
@@ -38,6 +46,13 @@ public class DuesController {
         return "thyme/dues/dues";
     }
 
+    /**
+     * 회비 납부 내역 생성 후 회비 납부 페이지로 이동합니다.
+     *
+     * @param groupId  그룹 아이디
+     * @param duesForm 회비 납부 내역 정보를 담은 Form 객체
+     * @return 그룹 회비 납부 페이지
+     */
     @PostMapping("/groups/{groupId}/dues")
     public String addDues(@PathVariable Long groupId,
                           @ModelAttribute DuesForm duesForm){

@@ -3,7 +3,6 @@ package com.studyset.api.controller;
 import com.studyset.dto.task.TaskDto;
 import com.studyset.service.TaskService;
 import com.studyset.web.form.TaskEditForm;
-import com.studyset.web.form.TaskSubmissionEditForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +19,12 @@ public class TaskRestController {
 
     private final TaskService taskService;
 
+    /**
+     * 특정 그룹의 과제를 수정합니다.
+     *
+     * @param taskEditForm    과제 수정 Form 객체
+     * @return 과제 수정 후 200 (Ok) 상태 응답
+     */
     @PutMapping("/task/modifyTask")
     public ResponseEntity<TaskDto> modifyTask(@ModelAttribute TaskEditForm taskEditForm) {
         log.info("과제 수정: {}", taskEditForm.getId());
