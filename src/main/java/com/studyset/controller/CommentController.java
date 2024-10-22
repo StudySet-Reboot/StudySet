@@ -23,8 +23,13 @@ public class CommentController {
     private final CommentService commentService;
     private final UserRepository userRepository;
 
-    // 댓글 작성
-    @PostMapping("/userTask/addComment")
+    /**
+     * 댓글을 작성합니다.
+     *
+     * @param comment 댓글 정보가 담긴 폼
+     * @return 응답 상태와 데이터를 포함한 Map 객체
+     */
+    @PostMapping("/usertask/add-comment")
     public ResponseEntity<Map<String, Object>> addComment(@RequestBody CommentForm comment) {
         CommentDto newComment = commentService.addComment(comment);
         // 새로운 유저의 이름을 포함해 응답
@@ -36,8 +41,13 @@ public class CommentController {
         return ResponseEntity.ok(response);
     }
 
-    // 댓글 삭제
-    @DeleteMapping("/userTask/{commentId}")
+    /**
+     * 댓글을 삭제합니다.
+     *
+     * @param commentId 삭제할 댓글의 id
+     * @return 상태 코드 반환
+     */
+    @DeleteMapping("/usertask/{commentId}")
     public ResponseEntity<Void> deleteComment(@PathVariable Long commentId) {
         log.info("Deleting comment: {}", commentId);
         commentService.deleteComment(commentId);

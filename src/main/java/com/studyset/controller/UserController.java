@@ -20,7 +20,14 @@ public class UserController {
 
     private final JoinService joinService;
 
-    // 유저 메인 페이지 및 그룹 조회
+    /**
+     * 메인 페이지로 이동하여 유저의 그룹을 조회합니다.
+     *
+     * @param request http 요청의 세션 정보
+     * @param pageable 페이징 처리
+     * @param model 뷰에 전달할 데이터 객체
+     * @return 반환할 뷰 경로
+     */
     @GetMapping("/users/main")
     public String userMain(HttpServletRequest request,
                            @PageableDefault(page = 0, size = 10) Pageable pageable,
@@ -30,7 +37,6 @@ public class UserController {
             return "redirect:/login";
         }
 
-        // 그룹 정보 조회 및 추가
         Page<GroupDto> groups = joinService.getUserGroupList(user, pageable);
         model.addAttribute("groups", groups.getContent());
         model.addAttribute("currentPage", groups.getNumber());

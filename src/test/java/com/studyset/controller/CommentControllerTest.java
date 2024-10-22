@@ -83,7 +83,7 @@ public class CommentControllerTest {
 
         given(commentService.addComment(form)).willReturn(mockCommentDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/groups/userTask/addComment")
+        mockMvc.perform(MockMvcRequestBuilders.post("/groups/usertask/add-comment")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(form)))
                 .andExpect(status().isOk())
@@ -95,7 +95,7 @@ public class CommentControllerTest {
     public void deleteComment() throws Exception {
         Long commentId = 1L;
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/groups/userTask/{commentId}", commentId))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/groups/usertask/{commentId}", commentId))
                 .andExpect(status().isNoContent());
 
         verify(commentService, times(1)).deleteComment(commentId);

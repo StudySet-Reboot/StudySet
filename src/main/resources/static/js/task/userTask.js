@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 댓글을 서버에 전송
         try {
-            const response = await fetch('/groups/userTask/addComment', {
+            const response = await fetch('/groups/usertask/add-comment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // 서버로 DELETE 요청 전송
             if (commentId) {
-                fetch(`/groups/userTask/${commentId}`, {
+                fetch(`/groups/usertask/${commentId}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
