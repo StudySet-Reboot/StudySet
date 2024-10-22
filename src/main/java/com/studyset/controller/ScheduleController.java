@@ -24,9 +24,13 @@ public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
-    //스캐줄 캘린더 page
+    /**
+     * 그룹의 스캐줄을 조회합니다.
+     *
+     * @return 그룹 캘린더 페이지
+     */
     @GetMapping("/groups/{groupId}/schedules")
-    public String showSchedule(Model model){
+    public String showSchedule(){
         return "/thyme/schedule/calendar";
     }
 

@@ -26,7 +26,13 @@ public class TaskSubmissionRestController {
     private final TaskSubmissionService taskSubmissionService;
     private final Path fileStorageLocation = Paths.get("uploads").toAbsolutePath().normalize();
 
-    // 과제 수정
+    /**
+     * 제출한 과제를 수정합니다.
+     *
+     * @param taskSubmissionEditForm 수정한 과제 정보를 담은 TaskSubmissionEditForm 객체
+     * @param file    (선택) 과제에 첨부할 파일
+     * @return 그룹의 스캐줄 조정표 목록을 포함한 OK 응답
+     */
     @PutMapping("/submission/modifySubmission")
     public ResponseEntity<TaskSubmissionDto> modifyTask(@ModelAttribute TaskSubmissionEditForm taskSubmissionEditForm,
                                                         @RequestParam(value = "file", required = false) MultipartFile file) {
@@ -45,7 +51,12 @@ public class TaskSubmissionRestController {
         return ResponseEntity.ok(taskSubmissionDto);
     }
 
-    // 파일 제출
+    /**
+     * 과제에 첨부한 파일을 저장합니다.
+     *
+     * @param file  저장할 파일
+     * @return 저장된 파일 이름
+     */
     public String saveFile(MultipartFile file) {
         if (file.isEmpty()) { return null; }
 
@@ -69,7 +80,13 @@ public class TaskSubmissionRestController {
         }
     }
 
-    // 과제 삭제
+    /**
+     * 제출한 과제를 삭제합니다.
+     *
+     * @param taskId 삭제할 Task ID
+     * @param userId    과제를 제출한 User ID
+     * @return 삭제 후 204(No Content) 응답
+     */
     @DeleteMapping("/submission/{taskId}/{userId}/deleteSubmission")
     public ResponseEntity<Void> deleteTask(@PathVariable Long taskId, @PathVariable Long userId) {
         log.info("Deleting task: {} user: {}", taskId, userId);
