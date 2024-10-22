@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+// TODO: URI 명명 규칙에 따라 수정 필요
+// 현재 URI가 RESTful 규칙을 따르지 않고 있습니다.
+// 예: /groups/{groupId}/tasks/{taskId}로 리팩토링 필요
 @RestController
 @RequestMapping("/groups")
 @RequiredArgsConstructor

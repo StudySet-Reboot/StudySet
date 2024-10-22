@@ -17,6 +17,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
+// TODO: URI 명명 규칙에 따라 수정 필요
+// 현재 URI가 RESTful 규칙을 따르지 않고 있습니다.
+// 예: /groups/{groupId}/tasks/{taskId}/submissions/{submissionId} 등으로 리팩토링 필요
+
 @RestController
 @RequestMapping("/groups")
 @RequiredArgsConstructor
