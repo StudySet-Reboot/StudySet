@@ -25,7 +25,13 @@ public class TimeSlotController {
     private final TimeSlotService timeSlotService;
     private final JoinService joinService;
 
-    //스캐줄 조정 Main Page
+    /**
+     * 그룹의 스캐줄 조정 페이지로 이동합니다.
+     *
+     * @param groupId  그룹 아이디
+     * @param model   그룹의 토탈 스캐줄 조정표 정보를 담은 model
+     * @return 그룹의 스캐줄 조정 페이지
+     */
     @GetMapping("/groups/{groupId}/timetables/view")
     public String showAdjustPage(@PathVariable Long groupId, Model model) {
         LocalDate today = LocalDate.now();
@@ -44,14 +50,34 @@ public class TimeSlotController {
         return "/thyme/schedule/timetable";
     }
 
+    /**
+     * 사용자가 스캐줄 조정표를 작성합니다.
+     *
+     * @param groupId  그룹 아이디
+     * @param user   로그인한 유저
+     * @param timeAdjustRequest   User의 시간표 조정 요청 객체
+     * @return 그룹의 스캐줄 조정 페이지
+     */
     @PostMapping("/groups/{groupId}/timetables")
-    public String submitTimeTable(@PathVariable Long groupId, @SessionAttribute User user, @RequestBody TimeAdjustRequest timeAdjustRequest){
+    public String submitTimeTable(@PathVariable Long groupId,
+                                  @SessionAttribute User user,
+                                  @RequestBody TimeAdjustRequest timeAdjustRequest){
         timeSlotService.addTimeSlots(user, groupId, timeAdjustRequest);
         return "redirect:/groups/"+groupId+"/timetables";
     }
 
+    /**
+     * 사용자가 스캐줄 조정표를 작성합니다.
+     *
+     * @param groupId  그룹 아이디
+     * @param user   로그인한 유저
+     * @param model   User의 해당 그룹 스캐줄 조정표 정보를 담은 model
+     * @return 그룹의 스캐줄 조정 페이지
+     */
     @GetMapping("/groups/{groupId}/schedules/adjust")
-    public String getUserTable(@PathVariable Long groupId, @SessionAttribute User user, Model model) {
+    public String getUserTable(@PathVariable Long groupId,
+                               @SessionAttribute User user,
+                               Model model) {
         LocalDate today = LocalDate.now();
         int month = today.getMonthValue();
         WeekFields weekFields = WeekFields.of(Locale.getDefault());
