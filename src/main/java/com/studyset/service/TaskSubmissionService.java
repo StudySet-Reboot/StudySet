@@ -122,7 +122,7 @@ public class TaskSubmissionService {
         // 과제 기한 검증
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new TaskNotExist());
-        if (task.getEndTime().isBefore(LocalDate.now())) {
+        if (task.getEndTime().isBefore(LocalDate.now()) && !task.getEndTime().isEqual(LocalDate.now())) {
             throw new TaskDeadlineException();
         }
         return task;
