@@ -18,7 +18,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/groups")
+@RequestMapping("/groups/{groupId}")
 @RequiredArgsConstructor
 @Slf4j
 public class TaskSubmissionRestController {
@@ -33,7 +33,7 @@ public class TaskSubmissionRestController {
      * @param file    (선택) 과제에 첨부할 파일
      * @return 그룹의 스캐줄 조정표 목록을 포함한 OK 응답
      */
-    @PutMapping("/{groupId}/submission/{submissionId}/modification")
+    @PutMapping("/submission/{submissionId}/modification")
     public ResponseEntity<TaskSubmissionDto> modifyTask(@PathVariable Long groupId,
                                                         @PathVariable Long submissionId,
                                                         @ModelAttribute TaskSubmissionEditForm taskSubmissionEditForm,
@@ -89,7 +89,7 @@ public class TaskSubmissionRestController {
      * @param userId    과제를 제출한 User ID
      * @return 삭제 후 204(No Content) 응답
      */
-    @DeleteMapping("/{groupId}/submission/{taskId}/user/{userId}/removal")
+    @DeleteMapping("/submission/{taskId}/user/{userId}/removal")
     public ResponseEntity<Void> deleteTask(@PathVariable Long groupId,
                                            @PathVariable Long taskId,
                                            @PathVariable Long userId) {
