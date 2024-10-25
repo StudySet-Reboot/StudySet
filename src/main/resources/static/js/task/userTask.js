@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         method: 'DELETE'
                     }).then(response => {
                         displayErrorToast("과제를 삭제하였습니다.")
-                        setTimeout(()=> window.location.href = `/groups/${groupId}/${taskId}/taskDetail`,
+                        setTimeout(()=> window.location.href = `/groups/${groupId}/${taskId}/task-detail`,
                             1000);
                     }).catch(error => displayErrorToast(error));
                 }
