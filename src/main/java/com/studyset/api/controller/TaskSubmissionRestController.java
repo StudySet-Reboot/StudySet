@@ -17,10 +17,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
-// TODO: URI 명명 규칙에 따라 수정 필요
-// 현재 URI가 RESTful 규칙을 따르지 않고 있습니다.
-// 예: /groups/{groupId}/tasks/{taskId}/submissions/{submissionId} 등으로 리팩토링 필요
-
 @RestController
 @RequestMapping("/groups")
 @RequiredArgsConstructor
@@ -37,8 +33,10 @@ public class TaskSubmissionRestController {
      * @param file    (선택) 과제에 첨부할 파일
      * @return 그룹의 스캐줄 조정표 목록을 포함한 OK 응답
      */
-    @PutMapping("/submission/modifySubmission")
-    public ResponseEntity<TaskSubmissionDto> modifyTask(@ModelAttribute TaskSubmissionEditForm taskSubmissionEditForm,
+    @PutMapping("/{groupId}/submission/{submissionId}/modification")
+    public ResponseEntity<TaskSubmissionDto> modifyTask(@PathVariable Long groupId,
+                                                        @PathVariable Long submissionId,
+                                                        @ModelAttribute TaskSubmissionEditForm taskSubmissionEditForm,
                                                         @RequestParam(value = "file", required = false) MultipartFile file) {
         log.info("제출물 수정: {}", taskSubmissionEditForm.getTaskId());
 
@@ -91,9 +89,11 @@ public class TaskSubmissionRestController {
      * @param userId    과제를 제출한 User ID
      * @return 삭제 후 204(No Content) 응답
      */
-    @DeleteMapping("/submission/{taskId}/{userId}/deleteSubmission")
-    public ResponseEntity<Void> deleteTask(@PathVariable Long taskId, @PathVariable Long userId) {
-        log.info("Deleting task: {} user: {}", taskId, userId);
+    @DeleteMapping("/{groupId}/submission/{taskId}/user/{userId}/removal")
+    public ResponseEntity<Void> deleteTask(@PathVariable Long groupId,
+                                           @PathVariable Long taskId,
+                                           @PathVariable Long userId) {
+        log.info("Deleting group: {} task: {} user: {}", groupId, taskId, userId);
         taskSubmissionService.deleteTask(taskId, userId);
         return ResponseEntity.noContent().build();
     }

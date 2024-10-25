@@ -10,6 +10,10 @@
     <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css}"/>
 </head>
 <body>
+<script>
+    var groupId = [[${group.id}]];
+    var submission_id = [[${task.id}]];
+</script>
 <!-- header 삽입 -->
 <div th:replace="thyme/group/groupHeader :: groupHeader (group=${group})"></div>
 
