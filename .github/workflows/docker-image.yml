@@ -20,11 +20,13 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Gradle
-        run: ./gradlew build --no-daemon
+        uses: gradle/gradle-build-action@v2.4.2
+        with:
+          arguments: build
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/your-image-name:${{ github.sha }} .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/studyset:latest .
         env:
           DB_URL: ${{ secrets.DB_URL }}
           DB_PWD: ${{ secrets.DB_PWD }}
