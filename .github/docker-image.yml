@@ -1,4 +1,4 @@
-name: PROD CI/CD
+name: Docker Image CI
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '17'
-          distribution: 'adopt'
+          distribution: 'temurin'
 
       - name: Build with Gradle
         run: ./gradlew build --no-daemon
@@ -36,4 +36,4 @@ jobs:
 
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/your-image-name:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/studyset:latest
