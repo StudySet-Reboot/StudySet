@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             showConfirm(function(result) {
                 if (result) {
-                    fetch(`/groups/${groupId}/submission/${taskId}/user/${userId}/removal`, {
+                    fetch(`/groups/${groupId}/submission/${submission_id}`, {
                         method: 'DELETE'
                     }).then(response => {
                         displayErrorToast("과제를 삭제하였습니다.")
