@@ -1,1 +1,20 @@
-#운영 설정은 추후 세부적으로 추가
+spring:
+  datasource:
+    url: ${DB_URL}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: ${DB_PWD}
+  thymeleaf:
+    cache: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      properties:
+        hibernate.id.new_generator_mappings: false
+      ddl-auto: none
+    show-sql: false

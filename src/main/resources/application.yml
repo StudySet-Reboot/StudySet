@@ -1,5 +1,17 @@
 spring:
   application:
     name: StudySet
+
   profiles:
-    active: local #기본 프로필
+    active: prod # 기본 프로필
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope: profile, email
+            redirect-uri: "{baseUrl}/login/oauth2/code/google"
+            client-name: Google

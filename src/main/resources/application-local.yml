@@ -18,15 +18,3 @@ spring:
           hibernate.id.new_generator_mappings: false
       ddl-auto: validate
     show-sql: true
-
-
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: ${GOOGLE_CLIENT_ID}
-            client-secret: ${GOOGLE_CLIENT_SECRET}
-            scope: profile, email
-            redirect-uri: "{baseUrl}/login/oauth2/code/google"
-            client-name: Google
