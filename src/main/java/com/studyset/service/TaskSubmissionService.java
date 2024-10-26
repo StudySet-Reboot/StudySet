@@ -4,6 +4,7 @@ import com.studyset.domain.Task;
 import com.studyset.domain.TaskSubmission;
 import com.studyset.domain.User;
 import com.studyset.dto.task.TaskSubmissionDto;
+import com.studyset.exception.ForbiddenAccess;
 import com.studyset.exception.TaskDeadlineException;
 import com.studyset.exception.TaskNotExist;
 import com.studyset.exception.UserNotExist;
@@ -38,6 +39,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static com.studyset.exception.response.ErrorCode.UNAUTHORIZED_SUBMISSION_ACCESS;
 
 @Service
 @RequiredArgsConstructor
@@ -76,39 +79,53 @@ public class TaskSubmissionService {
     /**
      * 과제를 수정합니다.
      *
+     * @param taskSubmissionId 과제 제출 내역 Id
      * @param taskSubmissionEditForm 과제 제출 수정 form 객체
+     * @param file 새롭게 첨부한 파일
+     * @param userId 로그인한 user Id
      * @return 수정된 과제 제출의 DTO
      */
     @Transactional
-    public TaskSubmissionDto editTask(TaskSubmissionEditForm taskSubmissionEditForm) {
-        // 기존 제출물 조회
-        TaskSubmission existingSubmission = taskSubmissionRepository.findByTaskIdAndUserId(taskSubmissionEditForm.getTaskId(), taskSubmissionEditForm.getUserId());
+    public TaskSubmissionDto editTaskSubmission(Long taskSubmissionId,
+                                                TaskSubmissionEditForm taskSubmissionEditForm,
+                                                MultipartFile file,
+                                                Long userId) {
+        TaskSubmission existingSubmission = taskSubmissionRepository.findById(taskSubmissionId)
+                .orElseThrow(TaskNotExist::new);
+        Task task = existingSubmission.getTask();
 
-        if (existingSubmission != null) {
-            checkTaskDate(taskSubmissionEditForm.getTaskId() );
-            // 기존 제출물 업데이트
-            existingSubmission.setContents(taskSubmissionEditForm.getContent());
-            if (taskSubmissionEditForm.getFilePath() != null) {
-                existingSubmission.setFilePath(taskSubmissionEditForm.getFilePath());
-            }
-            taskSubmissionRepository.save(existingSubmission);
+        checkTaskDate(task.getId());
+        if(!userId.equals(existingSubmission.getUser().getId())){
+            throw new ForbiddenAccess(UNAUTHORIZED_SUBMISSION_ACCESS);
         }
+
+        if (file != null && !file.isEmpty()) {
+            String filePath = saveFile(file);
+            existingSubmission.setFilePath(filePath);
+        }
+        existingSubmission.setContents(taskSubmissionEditForm.getContent());
+
+        taskSubmissionRepository.save(existingSubmission);
+
         return existingSubmission.toDto();
     }
 
     /**
-     * 과제를 삭제합니다.
+     * 과제 제출물을 삭제합니다.
      *
-     * @param taskId 과제 ID
+     * @param submissionId 과제 ID
      * @param userId 사용자 ID
      */
     @Transactional
-    public void deleteTask(Long taskId, Long userId) {
-        checkTaskDate(taskId);
-        TaskSubmission existingSubmission = taskSubmissionRepository.findByTaskIdAndUserId(taskId, userId);
-        Long taskSubmissionId = existingSubmission.toDto().getId();
-        commentRepository.deleteBySubmissionId(taskSubmissionId);
-        taskSubmissionRepository.deleteById(taskSubmissionId);
+    public void deleteTask(Long submissionId, Long userId) {
+        TaskSubmission taskSubmission = taskSubmissionRepository.findById(submissionId)
+                        .orElseThrow(TaskNotExist::new);
+        checkTaskDate(taskSubmission.getTask().getId());
+        if(!userId.equals(taskSubmission.getUser().getId())){
+            throw new ForbiddenAccess(UNAUTHORIZED_SUBMISSION_ACCESS);
+        }
+        commentRepository.deleteBySubmissionId(submissionId);
+        taskSubmissionRepository.deleteById(submissionId);
     }
 
     /**
@@ -231,4 +248,6 @@ public class TaskSubmissionService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File reading error");
         }
     }
+
+
 }
