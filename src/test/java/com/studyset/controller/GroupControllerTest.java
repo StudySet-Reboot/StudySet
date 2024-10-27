@@ -84,6 +84,10 @@ class GroupControllerTest {
     public void testCreateDuplicateGroup() throws Exception {
         //given
         GroupCreateForm groupCreateForm = new GroupCreateForm();
+        groupCreateForm.setGroupName("Group Name");
+        groupCreateForm.setDescription("description");
+        groupCreateForm.setCode("111111");
+
         User user = createUser();
         MockHttpSession session = new MockHttpSession();
         session.setAttribute("user", user);

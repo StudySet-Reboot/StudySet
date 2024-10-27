@@ -120,7 +120,7 @@ class ScheduleRestControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(jsonPath("$.message").value("해당 그룹이 존재하지 않습니다"));
+                .andExpect(jsonPath("$.message").value("해당 그룹이 존재하지 않습니다."));
     }
 
     @Test
