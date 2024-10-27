@@ -1,9 +1,6 @@
 package com.studyset.exception.hanlder;
 
-import com.studyset.exception.AlreadyJoin;
-import com.studyset.exception.DuplicateGroup;
-import com.studyset.exception.GroupNotExist;
-import com.studyset.exception.InvalidEndDate;
+import com.studyset.exception.*;
 import com.studyset.exception.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,42 +14,13 @@ import org.springframework.web.bind.annotation.*;
 public class RestExceptionHandler {
 
     @ResponseBody
-    @ExceptionHandler(GroupNotExist.class)
-    public ResponseEntity<ErrorResponse> notExistGroupRequest(GroupNotExist e){
+    @ExceptionHandler(BaseException.class)
+    public ResponseEntity<ErrorResponse> handleGlobalException(BaseException e) {
         log.error("Error:: " + e.getMessage());
         ErrorResponse body = ErrorResponse.of(e);
+
         return ResponseEntity.status(e.statusCode())
                 .body(body);
-    }
-
-    @ResponseBody
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(AlreadyJoin.class)
-    public ResponseEntity<ErrorResponse> alreadyJoinGroup(AlreadyJoin e){
-        log.error("Error:: " + e.getMessage());
-        ErrorResponse body = ErrorResponse.of(e);
-        return ResponseEntity.status(e.statusCode())
-                .body(body);
-    }
-
-    @ResponseBody
-    @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler(DuplicateGroup.class)
-    public ResponseEntity<ErrorResponse> alreadyExistGroup(DuplicateGroup e){
-        log.error("Error:: " + e.getMessage());
-        ErrorResponse body = ErrorResponse.of(e);
-        return ResponseEntity.status(e.statusCode())
-                .body(body);
-    }
-
-    @ResponseBody
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(InvalidEndDate.class)
-    public ResponseEntity<ErrorResponse> invalidRequestHandler(InvalidEndDate e) {
-        log.error("Error:: " + e.getMessage());
-        ErrorResponse response = ErrorResponse.of(e);
-        return ResponseEntity.status(e.statusCode())
-                .body(response);
     }
 
     @ResponseBody
