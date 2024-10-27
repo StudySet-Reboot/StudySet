@@ -4,21 +4,23 @@ import com.studyset.domain.Group;
 import com.studyset.domain.User;
 import com.studyset.domain.UserJoinGroup;
 import com.studyset.domain.enumerate.GroupCategory;
-import com.studyset.dto.group.GroupDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-
+import org.springframework.test.context.ActiveProfiles;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
 import static org.junit.jupiter.api.Assertions.*;
+
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ActiveProfiles("local")
 class UserJoinGroupRepositoryTest {
 
     @Autowired
@@ -34,6 +36,7 @@ class UserJoinGroupRepositoryTest {
                         .groupName("study" + i +" group")
                         .category(GroupCategory.PROGRAMMING)
                         .description(i + "번째 그룹입니다")
+                        .code("00000"+i)
                         .build())
                 .collect(Collectors.toList());
     }
