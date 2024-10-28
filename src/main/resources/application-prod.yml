@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: ${DB_URL}
+    url: ${TEST_DB_URL}
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: ${DB_PWD}
+    password: ${TEST_DB_PASSWORD}
   thymeleaf:
     cache: true
   servlet:

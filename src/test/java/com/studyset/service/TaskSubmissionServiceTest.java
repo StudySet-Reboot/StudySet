@@ -68,23 +68,26 @@ class TaskSubmissionServiceTest {
     @Test
     @DisplayName("과제 제출에 성공")
     void addTaskSubmit_ShouldAddTaskSubmission() {
-        // TODO: Fix Test Failure
-        /*//given
+        //given
         TaskSubmissionForm form = new TaskSubmissionForm();
         form.setTaskId(1L);
         form.setUserId(1L);
 
         when(taskRepository.findById(1L)).thenReturn(Optional.of(task));
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-        when(taskSubmissionRepository.save(any(TaskSubmission.class))).thenReturn(taskSubmission);
+        when(taskSubmissionRepository.save(any(TaskSubmission.class))).thenAnswer(invocation -> {
+            TaskSubmission saved = invocation.getArgument(0);
+            ReflectionTestUtils.setField(saved, "updatedDate", LocalDateTime.now());
+            return saved;
+        });
 
         //when
         TaskSubmissionDto result = taskSubmissionService.addTaskSubmit(form);
+
         //then
         assertNotNull(result);
-        verify(taskSubmissionRepository, times(1)).save(any(TaskSubmission.class));*/
+        verify(taskSubmissionRepository, times(1)).save(any(TaskSubmission.class));
     }
-
 
     @Test
     @DisplayName("마감일이 지난 과제물은 제출 불가")
