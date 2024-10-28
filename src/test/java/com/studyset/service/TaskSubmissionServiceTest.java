@@ -5,7 +5,6 @@ import com.studyset.domain.TaskSubmission;
 import com.studyset.domain.User;
 import com.studyset.dto.task.TaskSubmissionDto;
 import com.studyset.exception.TaskDeadlineException;
-import com.studyset.repository.CommentRepository;
 import com.studyset.repository.TaskRepository;
 import com.studyset.repository.TaskSubmissionRepository;
 import com.studyset.repository.UserRepository;
@@ -36,8 +35,6 @@ class TaskSubmissionServiceTest {
     @Mock private UserRepository userRepository;
 
     @Mock private TaskSubmissionRepository taskSubmissionRepository;
-
-    @Mock private CommentRepository commentRepository;
 
     @Mock private MultipartFile file;
 
