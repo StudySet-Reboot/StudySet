@@ -3,16 +3,13 @@ package com.studyset.domain;
 import com.studyset.domain.enumerate.GroupCategory;
 import com.studyset.dto.group.GroupDto;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Value;
+import lombok.*;
 import org.hibernate.annotations.processing.Pattern;
 
 @Entity
 @Table(name = "study_group", uniqueConstraints = @UniqueConstraint(name = "name_code_unique", columnNames = {"groupName", "code"}))
 @NoArgsConstructor
-@Getter
+@Setter @Getter
 public class Group extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
