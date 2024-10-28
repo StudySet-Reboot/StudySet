@@ -2,8 +2,10 @@ package com.studyset.domain;
 
 import com.studyset.dto.task.TaskSubmissionDto;
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.mapping.Join;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @NoArgsConstructor
