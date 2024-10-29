@@ -2,8 +2,10 @@ package com.studyset.dto.task;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class CommentDto {
     private Long id;
     private Long user_id;
