@@ -35,7 +35,6 @@ class UserControllerTest {
     private JoinService joinService;
 
     private MockMvc mockMvc;
-
     private User user;
 
     @BeforeEach
