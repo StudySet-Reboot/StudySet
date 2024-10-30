@@ -1,10 +1,12 @@
 package com.studyset.service;
 
+import com.studyset.domain.Comment;
 import com.studyset.domain.Task;
 import com.studyset.domain.TaskSubmission;
 import com.studyset.domain.User;
 import com.studyset.dto.task.TaskSubmissionDto;
 import com.studyset.exception.TaskDeadlineException;
+import com.studyset.repository.CommentRepository;
 import com.studyset.repository.TaskRepository;
 import com.studyset.repository.TaskSubmissionRepository;
 import com.studyset.repository.UserRepository;
@@ -29,16 +31,19 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TaskSubmissionServiceTest {
+    @InjectMocks
+    private TaskSubmissionService taskSubmissionService;
 
-    @Mock private TaskRepository taskRepository;
-
-    @Mock private UserRepository userRepository;
-
-    @Mock private TaskSubmissionRepository taskSubmissionRepository;
-
-    @Mock private MultipartFile file;
-
-    @InjectMocks private TaskSubmissionService taskSubmissionService;
+    @Mock
+    private TaskRepository taskRepository;
+    @Mock
+    private UserRepository userRepository;
+    @Mock
+    private TaskSubmissionRepository taskSubmissionRepository;
+    @Mock
+    private CommentRepository commentRepository;
+    @Mock
+    private MultipartFile file;
 
     private Task task;
     private User user;
@@ -122,10 +127,18 @@ class TaskSubmissionServiceTest {
     @Test
     @DisplayName("과제 제출 내역 삭제 성공")
     void deleteTask_ShouldDeleteTaskSubmission() {
+        //given
+        Comment comment = new Comment();
+        comment.setUser(user);
+        comment.setTaskSubmission(taskSubmission);
+        comment.setContents("댓글");
+
+        //when
         when(taskSubmissionRepository.findById(1L)).thenReturn(Optional.of(taskSubmission));
         when(taskRepository.findById(1L)).thenReturn(Optional.of(task));
         taskSubmissionService.deleteTask(1L, 1L);
 
+        //then
         verify(taskSubmissionRepository, times(1)).deleteById(1L);
     }
 
