@@ -7,8 +7,7 @@
 이번 개선 프로젝트를 통해 이러한 구식 기술을 더 현대적인 기술로 대체하고자 하였으며, 이를 위해 Spring Boot를 활용하여 시스템을 재구성하였습니다.
 
 
-* 서비스 접속 링크: http://ec2-54-180-243-54.ap-northeast-2.compute.amazonaws.com:8080/
-
+* 서비스 접속 링크: https://studyset.shop
 <br>
 
 ## Tech Stack 
