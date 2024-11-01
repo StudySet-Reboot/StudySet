@@ -47,7 +47,7 @@ public class TimeSlotController {
         List<UserDto> userDtoList = joinService.getUserByGroupId(groupId);
         model.addAttribute("userList", userDtoList);
 
-        return "/thyme/schedule/timetable";
+        return "thyme/schedule/timetable";
     }
 
     /**
@@ -89,7 +89,7 @@ public class TimeSlotController {
         int[][] availableTime = timeSlotService.getAvailableTime(user.getId(), groupId);
         model.addAttribute("times", availableTime);
 
-        return "/thyme/schedule/adjustTable";
+        return "thyme/schedule/adjustTable";
     }
 
 }

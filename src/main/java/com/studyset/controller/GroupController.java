@@ -50,7 +50,7 @@ public class GroupController {
         model.addAttribute("group", groupDto);
         GroupDashboard groupDashboard = groupService.getGroupDashboard(groupId);
         model.addAttribute("groupDashboard", groupDashboard);
-        return "/thyme/group/groupMain";
+        return "thyme/group/groupMain";
     }
 
     /**
@@ -102,7 +102,7 @@ public class GroupController {
         model.addAttribute("currentPage", pageable.getPageNumber());
         model.addAttribute("keyword", keyword);
 
-        return "/thyme/user/userMain";
+        return "thyme/user/userMain";
     }
 
     /**
