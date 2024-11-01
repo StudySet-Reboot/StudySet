@@ -33,10 +33,10 @@ public class SecurityConfig {
                 // 기본 로그인 X
                 .formLogin(formLogin ->
                         formLogin
-                                .loginPage("/login") // 사용자 정의 로그인 페이지 설정
-                                .permitAll() // 로그인 페이지에 모든 사용자가 접근 가능
-                                .defaultSuccessUrl("/users/main") // 로그인 성공 후 리디렉션 URL 설정
-                                .failureUrl("/login?error") // 로그인 실패 시 리디렉션 URL 설정
+                                .loginPage("/login")
+                                .permitAll()
+                                .defaultSuccessUrl("/users/main")
+                                .failureUrl("/login?error")
                 )
                 // 상태 비저장 세션 관리 정책 설정
                 .sessionManagement(sessionManagement ->
@@ -45,14 +45,14 @@ public class SecurityConfig {
                 // 요청 인가 처리 설정
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/login").permitAll() // 로그인 페이지는 공용으로 설정
-                                .requestMatchers("/", "/h2-console/**", "/style/**", "/js/**", "/images/**").permitAll() // 정적 자원에 대한 접근 허용
-                                .anyRequest().authenticated() // 나머지 요청은 인증 필요
+                                .requestMatchers("/login").permitAll()
+                                .requestMatchers("/", "/h2-console/**", "/style/**", "/js/**", "/images/**").permitAll()
+                                .anyRequest().authenticated()
                 )
                 // OAuth2 로그인 설정
                 .oauth2Login(oauth2Login ->
                         oauth2Login
-                                .loginPage("/login") // 사용자 정의 로그인 페이지 설정
+                                .loginPage("/login")
                                 .successHandler(new MyAuthenticationSuccessHandler())
                                 .userInfoEndpoint(userInfoEndpoint ->
                                         userInfoEndpoint.userService(oAuthService)
@@ -61,10 +61,10 @@ public class SecurityConfig {
                 // 로그아웃 설정
                 .logout(logout ->
                         logout
-                                .logoutUrl("/logout") // 로그아웃 요청 URL
-                                .logoutSuccessUrl("/login") // 로그아웃 성공 후 리디렉션 URL
-                                .invalidateHttpSession(true) // 세션 무효화
-                                .deleteCookies("JSESSIONID") // 쿠키 삭제
+                                .logoutUrl("/logout")
+                                .logoutSuccessUrl("/login")
+                                .invalidateHttpSession(true)
+                                .deleteCookies("JSESSIONID")
                 );
         return http.build();
     }
