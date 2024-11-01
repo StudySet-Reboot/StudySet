@@ -65,7 +65,7 @@ public class TaskSubmissionController {
 
         // 과제 제출 페이지에 들어오기 전, 과제를 이미 제출했는 지 검증 -> 이미 제출했으면 수정 페이지로 이동
         return taskSubmissionDto == null ?
-                "/thyme/task/userTaskSubmit" : "/thyme/task/modifyUserTaskSubmit";
+                "thyme/task/userTaskSubmit" : "thyme/task/modifyUserTaskSubmit";
     }
 
     /**
@@ -121,7 +121,7 @@ public class TaskSubmissionController {
         model.addAttribute("usersMap", usersMap);   // 댓글 작성자 리스트
         model.addAttribute("user", user);   // 현재 로그인한 유저
         model.addAttribute("group", group);
-        return "/thyme/task/userTask";
+        return "thyme/task/userTask";
     }
 
     /**

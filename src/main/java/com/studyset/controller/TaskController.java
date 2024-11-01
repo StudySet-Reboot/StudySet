@@ -47,7 +47,7 @@ public class TaskController {
         model.addAttribute("group", group);
         model.addAttribute("taskList", taskList);
 
-        return "/thyme/task/taskMain";
+        return "thyme/task/taskMain";
     }
 
     /**
@@ -97,6 +97,6 @@ public class TaskController {
         model.addAttribute("loginUser", user);
         model.addAttribute("task", task);
         model.addAttribute("taskSubmissionMap", userSubmissionMap);
-        return "/thyme/task/taskDetail";
+        return "thyme/task/taskDetail";
     }
 }

@@ -31,7 +31,7 @@ public class ScheduleController {
      */
     @GetMapping("/groups/{groupId}/schedules")
     public String showSchedule(){
-        return "/thyme/schedule/calendar";
+        return "thyme/schedule/calendar";
     }
 
 }
