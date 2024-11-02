@@ -80,7 +80,7 @@ class TaskControllerTest {
         mockMvc.perform(get("/groups/1/task")
                         .sessionAttr("group", group))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/thyme/task/taskMain"))
+                .andExpect(view().name("thyme/task/taskMain"))
                 .andExpect(model().attributeExists("group"))
                 .andExpect(model().attributeExists("taskList"));
     }
