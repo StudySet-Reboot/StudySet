@@ -55,22 +55,6 @@ public class TimeSlotController {
      *
      * @param groupId  그룹 아이디
      * @param user   로그인한 유저
-     * @param timeAdjustRequest   User의 시간표 조정 요청 객체
-     * @return 그룹의 스캐줄 조정 페이지
-     */
-    @PostMapping("/groups/{groupId}/timetables")
-    public String submitTimeTable(@PathVariable Long groupId,
-                                  @SessionAttribute User user,
-                                  @RequestBody TimeAdjustRequest timeAdjustRequest){
-        timeSlotService.addTimeSlots(user, groupId, timeAdjustRequest);
-        return "redirect:/groups/"+groupId+"/timetables";
-    }
-
-    /**
-     * 사용자가 스캐줄 조정표를 작성합니다.
-     *
-     * @param groupId  그룹 아이디
-     * @param user   로그인한 유저
      * @param model   User의 해당 그룹 스캐줄 조정표 정보를 담은 model
      * @return 그룹의 스캐줄 조정 페이지
      */
