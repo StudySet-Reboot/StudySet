@@ -181,7 +181,7 @@ class GroupControllerTest {
         String viewName = groupController.searchList(user, keyword, pageable, model);
 
         // Then
-        assertEquals("/thyme/user/userMain", viewName);
+        assertEquals("thyme/user/userMain", viewName);
         verify(model, times(1)).addAttribute("groups", searchResults.getContent());
         verify(model, times(1)).addAttribute("totalPages", searchResults.getTotalPages());
         verify(model, times(1)).addAttribute("currentPage", pageable.getPageNumber());
