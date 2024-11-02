@@ -1,3 +1,4 @@
+import {displayErrorToast, displayToast } from '../common/toast.js';
 $(document).ready(function() {
     const groupId = $('#groupId').val();
     $('#adjust-calendar-btn').click(function() {
@@ -8,7 +9,9 @@ $(document).ready(function() {
         window.location.href = '/groups/' + groupId + '/schedules/adjust';
     })
 
-
+    $('#submit-chart-btn').click(function() {
+        addChart();
+    });
 });
 
 function addChart() {
@@ -27,6 +30,10 @@ function addChart() {
     });
 
     var stringJson = JSON.stringify(timelist);
+    const protocol = window.location.protocol;
+    const port = window.location.port ? `:${window.location.port}` : '';
+    const fullUrl = `${window.location.protocol}//${window.location.hostname}${port}/groups/${groupId}/timetables/view`;
+
     fetch(`/groups/${groupId}/timetables`, {
         method: 'POST',
         headers: {
@@ -35,9 +42,10 @@ function addChart() {
         body: stringJson
     }).then(response => {
         if (response.ok) {
-            window.location.href = `/groups/${groupId}/timetables/view`;
+            displayToast("제출에 성공하였습니다!");
+            setTimeout(() => window.location.href = fullUrl, 1000);
         } else {
-            console.error('Failed to submit time table');
+            displayErrorToast('Failed to submit time table');
         }
     });
 }
@@ -74,14 +82,14 @@ function fetchUserSchedule(groupId, userId) {
     fetch(url)
         .then((response) => {
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`HTTP error, status: ${response.status}`);
             }
             return response.json();
         })
         .then((availableTimes) => {
             renderTable(availableTimes);
         })
-        .catch(error => console.error('Error fetching user schedule:', error));
+        .catch(error => displayErrorToast(`Error fetching user schedule: ${error}`));
 }
 
 
