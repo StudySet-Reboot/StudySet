@@ -122,7 +122,7 @@ class TaskControllerTest {
                         .sessionAttr("group", group)
                         .sessionAttr("user", user))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/thyme/task/taskDetail"))
+                .andExpect(view().name("thyme/task/taskDetail"))
                 .andExpect(model().attributeExists("group"))
                 .andExpect(model().attributeExists("userList"))
                 .andExpect(model().attributeExists("task"))

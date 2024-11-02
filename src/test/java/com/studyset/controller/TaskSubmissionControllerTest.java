@@ -116,7 +116,7 @@ class TaskSubmissionControllerTest {
                 .andExpect(model().attribute("taskDto", taskDto))
                 .andExpect(model().attribute("user", user))
                 .andExpect(model().attribute("group", group))
-                .andExpect(view().name("/thyme/task/userTaskSubmit"));
+                .andExpect(view().name("thyme/task/userTaskSubmit"));
     }
 
     @Test
@@ -135,7 +135,7 @@ class TaskSubmissionControllerTest {
                 .andExpect(model().attribute("taskDto", taskDto))
                 .andExpect(model().attribute("user", user))
                 .andExpect(model().attribute("group", group))
-                .andExpect(view().name("/thyme/task/modifyUserTaskSubmit"));
+                .andExpect(view().name("thyme/task/modifyUserTaskSubmit"));
     }
 
     @Test
@@ -156,7 +156,7 @@ class TaskSubmissionControllerTest {
                 .andExpect(model().attribute("taskDto", taskDto))
                 .andExpect(model().attribute("commentList", commentList))
                 .andExpect(model().attribute("usersMap", usersMap))
-                .andExpect(view().name("/thyme/task/userTask"));
+                .andExpect(view().name("thyme/task/userTask"));
     }
 
     @Test
