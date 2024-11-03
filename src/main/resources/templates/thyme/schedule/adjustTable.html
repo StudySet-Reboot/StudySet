@@ -2,12 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"
+  />
   <title>StudySet-스캐줄 조정표</title>
   <link rel="shortcut icon" th:href="@{/favicon_io/apple-touch-icon.png}" type="image/png">
   <link rel="stylesheet" th:href="@{/style/header.css}">
   <link rel="stylesheet" th:href="@{/style/group/groupMain.css}">
   <link rel="stylesheet" th:href="@{/style/group/calendar.css}">
-  <script th:src="@{/js/schedule/timetable.js}" defer></script>
+  <link rel="stylesheet" th:href="@{/style/common/toast.css}">
+  <script type="module" th:src="@{/js/schedule/timetable.js}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
@@ -53,7 +56,7 @@
   </div>
   <div class="time-table-side">
     <form name="add-time" th:action="@{/groups/{groupId}/timetables(groupId=${session.group.id})}" method="POST">
-      <button type="button" class="selected-btn" onclick="addChart()">제출하기</button>
+      <button type="button" class="selected-btn" id="submit-chart-btn">제출하기</button>
       <input type="hidden" name="timeList">
     </form>
     <!-- member list -->
@@ -65,7 +68,8 @@
     </div>
   </div>
 </div>
-
+<div id="toast" class="toast"/>
+<div id="error-toast" class="error-toast"/>
 <input type="hidden" id="groupId" name="groupId" th:value="${session.group.id}" />
 </body>
 </html>
