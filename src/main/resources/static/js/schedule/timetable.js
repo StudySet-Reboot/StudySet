@@ -9,9 +9,31 @@ $(document).ready(function() {
         window.location.href = '/groups/' + groupId + '/schedules/adjust';
     });
 
-    // 사용자 선택 이벤트 바인딩
+    $('#submit-chart-btn').click(function () {
+        addChart();
+    })
+
     $('input[name="selectedUser"]').change(function() {
         selectUser();
+    });
+
+    $(function() {
+        var isMouseDown = false;
+        $("#time-table td").mousedown(function() {
+            isMouseDown = true;
+            $(this).toggleClass("highlighted");
+            return false;
+        }).mouseover(function() {
+            if (isMouseDown) {
+                $(this).toggleClass("highlighted");
+            }
+        }).bind("selectstart", function() {
+            return false; // prevent text selection in IE
+        });
+
+        $(document).mouseup(function() {
+            isMouseDown = false;
+        });
     });
 });
 
@@ -47,25 +69,6 @@ function addChart() {
     });
 }
 
-// 마우스 클릭 및 드래그를 통한 시간 선택
-$(function() {
-    var isMouseDown = false;
-    $("#time-table td").mousedown(function() {
-        isMouseDown = true;
-        $(this).toggleClass("highlighted");
-        return false;
-    }).mouseover(function() {
-        if (isMouseDown) {
-            $(this).toggleClass("highlighted");
-        }
-    }).bind("selectstart", function() {
-        return false; // prevent text selection in IE
-    });
-
-    $(document).mouseup(function() {
-        isMouseDown = false;
-    });
-});
 
 // 사용자 선택 처리 함수
 function selectUser() {
