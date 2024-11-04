@@ -203,16 +203,23 @@ public class TaskSubmissionService {
                 Files.createDirectories(fileStorageLocation);
             }
 
-            String originalFilename = file.getOriginalFilename();
-            // 중복된 파일 덮어쓰기 방지
-            String fileName = UUID.randomUUID().toString() + "_" + StringUtils.cleanPath(originalFilename);
+            String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
+            String fileName = originalFilename;
             Path targetLocation = fileStorageLocation.resolve(fileName);
-            // 실질적인 파일명만 저장 (경로X)
-            String fileNameOnly = targetLocation.getFileName().toString();
+
+            // 중복된 파일명에 숫자 인덱스 추가
+            int counter = 1;
+            while (Files.exists(targetLocation)) {
+                String nameWithoutExtension = originalFilename.substring(0, originalFilename.lastIndexOf('.'));
+                String extension = originalFilename.substring(originalFilename.lastIndexOf('.'));
+                fileName = nameWithoutExtension + "_" + counter + extension;
+                targetLocation = fileStorageLocation.resolve(fileName);
+                counter++;
+            }
 
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
-            return fileNameOnly;
+            return fileName;
         } catch (IOException ex) {
             throw new RuntimeException("파일을 저장할 수 없습니다. 다시 시도해 주세요!", ex);
         }
